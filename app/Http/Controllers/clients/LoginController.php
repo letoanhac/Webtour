@@ -4,20 +4,16 @@ namespace App\Http\Controllers\clients;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\clients\Home;
-class HomeController extends Controller
+
+class LoginController extends Controller
 {
-    private $homeTours;
-    public function __construct() {
-        $this->homeTours = new Home();
-    }
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        $title = 'Trang chủ';
-        $tours = $this->homeTours->getHomeTour();
-
-        //dd($tours);
-        return view('clients.home', compact('title','tours'));
+        $title = 'Đăng nhập';
+        return view('clients.logIn', compact('title'));
     }
 
     /**

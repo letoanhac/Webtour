@@ -145,5 +145,8 @@
   </footer>
 
   <script src="{{ asset('clients/js/main.js') }}"></script>
+  <script src="{{ asset('clients/js/custom-js.js') }}"></script>
+ <script src="{{ asset('clients/js/jquery.datetimepicker.full.min.js') }}"></script>
+ 
 </body>
 </html>
