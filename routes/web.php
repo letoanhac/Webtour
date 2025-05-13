@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TourController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/tour-detail', function () {//chi tiết tour
-    return view('User.Tour_Detail');
-})->name('tourdetail');
+
+Route::get('/tour/{id}', [TourController::class, 'show'])->name('tour.show');
+
+
 Route::get('/Chat', function () {//chatbox
     return view('User.Chat');
 });
@@ -31,7 +33,10 @@ Route::get('/Payment', function () {//thanh toán
 Route::get('/Review', function () {//Đánh giá
     return view('User.Review');
 })->name('review');
-Route::get('/home', function () {//Đánh giá
+Route::get('/home', function () {//home
     return view('User.home');
 })->name('home');
+Route::get('/tour-list', function () {//Đánh giá
+    return view('User.Tour_List');
+})->name('tourlist');
 

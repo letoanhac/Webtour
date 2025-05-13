@@ -17,7 +17,7 @@
     }
     .tour-detail {
       background: #fff;
-      max-width: 960px;
+      max-width: 1360px;
       margin: auto;
       padding: 30px;
       border-radius: 12px;
@@ -67,43 +67,78 @@
       background: linear-gradient(135deg, #e67e00, #e65100);
       transform: translateY(-2px);
     }
-    @media (max-width: 600px) {
-      .button-group {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-      }
-      .button-group button {
-        width: 100%;
-      }
+    .main-image {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 0.5s;
+    }
+    .thumbnails {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+    }
+    .thumbnails img {
+      height: 80px;
+      border-radius: 6px;
+      cursor: pointer;
+      opacity: 0.7;
+      border: 2px solid transparent;
+      transition: opacity 0.3s, border 0.3s;
+    }
+    .thumbnails img.active, .thumbnails img:hover {
+      opacity: 1;
+      border-color: #ff9800;
     }
   </style>
 </head>
 <body>
 
 <div class="tour-detail">
-  <h1>Chi tiết Tour: Việt Nam</h1>
-  <p><span class="highlight">Mã tour:</span> Tour1</p>
-  <p><span class="highlight">Tiêu đề tour:</span> Tour Vịnh hạ sờ long 5N4Đ</p>
-  <p><span class="highlight">Mô tả:</span> Khám phá văn hóa Đông Nam Á, tham quan nhiều địa điểm nổi tiếng.</p>
-  <img class="tour-image" src="https://disantrangan.vn/wp-content/uploads/2022/06/hinh_anh_dep_du_lich_5.jpg" alt="Ảnh tour">
-  <p><span class="highlight">Số lượng:</span> 1 khách</p>
-  <p><span class="highlight">Giá người lớn:</span> 1 VND</p>
-  <p><span class="highlight">Giá trẻ em:</span> 1 VND</p>
-  <p><span class="highlight">Thời lượng:</span> 5 ngày 4 đêm</p>
-  <p><span class="highlight">Điểm đến:</span> VHL</p>
-  <p><span class="highlight">Tình trạng:</span> Còn chỗ</p>
-  <p><span class="highlight">Lịch trình:</span> SG - HN -VHL - SG</p>
+  <h1>{{ $tour->title }}</h1>
+  <p><span class="highlight">Mã tour:</span> {{ $tour->tourID }}</p>
+  <p><span class="highlight">Tiêu đề tour:</span> {{ $tour->title }}</p>
+  <p><span class="highlight">Mô tả:</span> {{ $tour->description }}</p>  
+  <div class="main-image">
+    <img id="mainImg" src="{{ $images->isNotEmpty() ? $images[0]->imageURL : 'default-image.jpg' }}" alt="Ảnh chính">
+  </div>
+  <div class="thumbnails">
+    @foreach ($images as $image)
+      <img src="{{ $image->imageURL }}" onclick="changeImage(this)" class="{{ $loop->first ? 'active' : '' }}">
+    @endforeach
+  </div>
+
+  <p><span class="highlight">Số lượng:</span> {{ $tour->quantity }} khách</p>
+  <p><span class="highlight">Giá người lớn:</span> {{ number_format($tour->priceAdult) }} VND</p>
+  <p><span class="highlight">Giá trẻ em:</span> {{ number_format($tour->priceChild) }} VND</p>
+  <p><span class="highlight">Thời lượng:</span> {{ $tour->duration }}</p>
+  <p><span class="highlight">Điểm đến:</span> {{ $tour->destination }}</p>
+  <p><span class="highlight">Tình trạng:</span> {{ $tour->availability ? 'Còn chỗ' : 'Hết chỗ' }}</p>
+  <p><span class="highlight">Lịch trình:</span> {{ $tour->itinerary }}</p>
 
   <div class="button-group">
     <a href="{{ route('booking') }}">
       <button>Đặt Tour</button>
     </a>
-    <a href="{{ route('review') }}">
-      <button>Xem Review</button>
-    </a>
   </div>
 </div>
+
+<script>
+  function changeImage(el) {
+    const mainImg = document.getElementById('mainImg');
+    mainImg.src = el.src;
+    document.querySelectorAll('.thumbnails img').forEach(img => img.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
 
 </body>
 </html>

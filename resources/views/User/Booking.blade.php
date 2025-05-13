@@ -92,7 +92,9 @@
 <body>
 
 <div class="booking-container">
-  <h2>Đặt Tour Du Lịch</h2>
+  <h2>Đặt Tour Du Lịch:  </h2>
+  <h3>Xin chào khách hàng: </h3>
+  <h3>Số điện thoại đặt hàng của quý khách là:</h3>
   <form action="/submit-booking" method="POST">
     
     <div class="item-row">
@@ -134,7 +136,7 @@
 
     <div class="total-price" id="totalPriceDisplay">Tổng giá tour: 0 đ</div>
     <input type="hidden" name="totalPrice" id="totalPrice" value="0">
-
+    
     <button type="submit" class="submit-btn">Đặt Tour</button>
   </form>
 </div>
