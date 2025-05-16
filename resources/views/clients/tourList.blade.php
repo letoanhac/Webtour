@@ -298,7 +298,8 @@
           </div>
 
           <div class="tourList">
-            <div class="tourItem">
+            @foreach ($tours as $tour)
+              <div class="tourItem">
               <a href="#">
                 <div class="warpTour">
                   <span class="v-ribbon">
@@ -307,7 +308,7 @@
                   <div class="tourItemLeft">
                     <picture>
                       <img
-                        src="{{ asset('clients/img/ivivu-kinh-thanh-hue-246x232.jpg') }}"
+                        src="{{ asset('clients/img/gallery-tours/'.$tour->images[0]) }}"
                         alt=""
                       />
                     </picture>
@@ -315,8 +316,7 @@
                   <div class="tourItemContent">
                     <div class="tourItemContentLeft">
                       <h2 class="tourItemName">
-                        Tour Nhật Bản 6N5Đ: Tokyo - Fuji - Nagoya - Kyoto -
-                        Osaka Mùa Hè
+                        {{$tour -> title}}
                       </h2>
                       <span class="score-container__inner">
                         <span class="score">9.7</span>
@@ -329,17 +329,17 @@
                     <div class="tourItemContentPrice">
                       <span class="tourItemDateTime">
                         <i class="fa-regular fa-calendar"></i>
-                        27-05-2025
+                        {{ $tour -> startDate }}
                       </span>
                     </div>
                     <div class="tourNote">
                       <div class="tourTime">
                         <i class="fa-regular fa-clock"></i>
-                        6 ngày 5 đêm
+                        {{ $tour -> time }}
                       </div>
                       <div class="wrapItemPrice">
                         <span class="tourItemPrice">
-                          32.900.000
+                          {{ number_format($tour->priceAdult, 0, ',','.') }}
                           <span class="tourItemCurrency">đ</span>
                         </span>
                         <div class="tourViewDetail">
@@ -353,6 +353,7 @@
                 </div>
               </a>
             </div>
+            @endforeach
           </div>
          
         </div>

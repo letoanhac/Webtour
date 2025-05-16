@@ -6,10 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ivivu - {{ $title }}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+
     <link rel="stylesheet" href="{{ asset('clients/css/style.css') }}" />
     <link rel="stylesheet" href="{{ asset('clients/css/jquery.datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('clients/css/custom-css.css') }}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 
 
 </head>
@@ -48,12 +50,21 @@
                                         <div class="img-wrapper" id="userDropdown">
                                             <img src="https://www.ivivu.com/du-lich/content/img/avatars/avatar-default-white.svg"
                                                 alt="User Avatar" />
-                                            <i style="color: #fff" class="fa-solid fa-chevron-down fa-beat chevron-icon"></i>
+                                            <i style="color: #fff"
+                                                class="fa-solid fa-chevron-down fa-beat chevron-icon"></i>
                                         </div>
                                         <ul class="dropdown-menu" id="dropdownMenu">
-                                            <li><a href="">Đăng nhập</a></li>
-                                            <li><a href="">Thông tin cá nhân</a></li>
+                                            @if (session()->has('username'))
+                                                <li>
+                                                    {{ session()->get('username') }}
+                                                </li>
+                                                <li><a href="">Thông tin cá nhân</a></li>
+                                                <li><a href="{{ route('logout') }}">Đăng Xuất</a></li>
+                                            @else
+                                                <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                            @endif
                                         </ul>
+
                                     </div>
                                 </li>
                             </div>
