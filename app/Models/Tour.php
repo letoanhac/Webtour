@@ -11,6 +11,8 @@ class Tour extends Model
     protected $table = 'tour';
 
     protected $primaryKey = 'tourID';
+    
+    public $timestamps = false;
 
     protected $fillable = [
         'tourID',
@@ -24,4 +26,8 @@ class Tour extends Model
         'availability',
         'itinerary'
     ];
+    public function images()
+    {
+        return $this->hasMany(\App\Models\Image::class, 'tourID', 'tourID');
+    }
 }

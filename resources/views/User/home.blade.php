@@ -423,7 +423,6 @@
               <div class="row item-m">
                 <div class="card">
                     <div class="cardItem">
-                      <a href="{{ route('tourdetail') }}">
                         <div class="cardItemContainer">
                           <div class="cardItemImage">
                             <div class="ribbonContainerOuter">

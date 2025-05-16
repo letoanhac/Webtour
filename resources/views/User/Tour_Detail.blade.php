@@ -11,13 +11,14 @@
     }
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f2f5;
+      background-image: url('https://media.hanamtv.vn/upload/image/201708/medium/49848_Du-Lich_2.jpg');
+      background-size: cover;
       margin: 0;
       padding: 20px;
     }
     .tour-detail {
       background: #fff;
-      max-width: 1360px;
+      max-width: 2260px;
       margin: auto;
       padding: 30px;
       border-radius: 12px;
@@ -98,6 +99,9 @@
       opacity: 1;
       border-color: #ff9800;
     }
+    table {
+
+    }
   </style>
 </head>
 <body>
@@ -125,11 +129,47 @@
   <p><span class="highlight">Lịch trình:</span> {{ $tour->itinerary }}</p>
 
   <div class="button-group">
-    <a href="{{ route('booking') }}">
+    <a href="{{ route('booking.index', ['tourID' => $tour->tourID]) }}">
       <button>Đặt Tour</button>
     </a>
   </div>
 </div>
+<footer style="background: #f9f9f9; padding: 30px; text-align: center;">
+    <h4>Đánh giá trải nghiệm của bạn</h4><br>
+    <form method="POST">
+        @csrf
+        <div style="margin-bottom: 10px;">
+            <select name="rating" required>
+                <option value="">-- Chọn số sao --</option>
+                <option value="5">5 sao - Tuyệt vời</option>
+                <option value="4">4 sao - Tốt</option>
+                <option value="3">3 sao - Bình thường</option>
+                <option value="2">2 sao - Chưa tốt</option>
+                <option value="1">1 sao - Tệ</option>
+            </select>
+        </div>
+        <textarea name="comment" rows="3" placeholder="Góp ý thêm..." style="width: 100%; padding: 8px;"></textarea>
+        <br><br>
+        <button type="submit" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 6px;">Gửi đánh giá</button>
+    </form>
+        <div>
+          <table style="max-width: 1800px;
+        margin: 50px auto;
+        padding: 30px;
+        border: 1px solid #eee;">
+            <tr>
+              <th>User</th>
+              <th>Số sao</th>
+              <th>Đánh giá</th>
+            </tr>
+            <tr>
+              <th>user1</th>
+              <th>5 sao</th>
+              <th>Tuyệt </th>
+            </tr>
+          </table>
+        </div>
+</footer>
 
 <script>
   function changeImage(el) {
