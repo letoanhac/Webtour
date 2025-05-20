@@ -1,29 +1,56 @@
+@include('User.blocks.header')
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
   <title>Đặt Tour</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f5f7fa;
+      background-image: url('https://media.hanamtv.vn/upload/image/201708/medium/49848_Du-Lich_2.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
       margin: 0;
       padding: 0;
     }
 
     .booking-container {
-      max-width: 500px;
+      max-width: 900px;
       margin: 50px auto;
       background-color: #fff3e0;
-      padding: 25px;
+      padding: 30px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     h2 {
-      margin-bottom: 15px;
+      text-align: center;
       color: #0d47a1;
+    }
+
+    .info-section {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .info-box {
+      flex: 1;
+      min-width: 250px;
+      background-color: #fff;
+      padding: 15px 20px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+    }
+
+    .info-box strong {
+      display: block;
+      margin-bottom: 5px;
+      color: #ff5722;
     }
 
     .item-row {
@@ -63,11 +90,13 @@
     }
 
     input[type="date"],
-    textarea {
+    textarea,
+    select {
       width: 100%;
       padding: 10px;
       border-radius: 6px;
       border: 1px solid #ccc;
+      font-size: 16px;
     }
 
     .total-price {
@@ -93,12 +122,50 @@
 
 <div class="booking-container">
   <h2>Đặt Tour Du Lịch</h2>
-  <form action="/submit-booking" method="POST">
-    
+
+  {{-- Khối thông tin khách hàng & tour --}}
+  <div class="info-section">
+    <div class="info-box">
+      <strong>👤 Khách hàng:</strong>
+      {{ $user->username }}
+    </div>
+    <div class="info-box">
+      <strong>📞 Số điện thoại:</strong>
+      {{ $user->phoneNumber }}
+    </div>
+    <div class="info-box">
+      <strong>🧭 Tên Tour:</strong>
+      {{ $tour->title }}
+      <br>
+      <strong>📍 Địa điểm:</strong>
+      {{ $tour->destination }}
+    </div>
+  </div>
+
+  {{-- Giá tour --}}
+  <div class="info-section" style="margin-top: 20px;">
+    <div class="info-box">
+      <strong>👨‍🦱 Giá người lớn:</strong>
+      {{ number_format($tour->priceAdult, 0, ',', '.') }} đ
+    </div>
+    <div class="info-box">
+      <strong>👶 Giá trẻ em:</strong>
+      {{ number_format($tour->priceChild, 0, ',', '.') }} đ
+    </div>
+  </div>
+
+  @if(session('success'))
+    <div style="color: green; margin-top: 20px;">{{ session('success') }}</div>
+  @endif
+
+  {{-- Form đặt tour --}}
+  <form action="{{ route('booking.submit') }}" method="POST">
+    @csrf
+    <input type="hidden" name="tourID" value="{{ $tour->tourID }}">
+
     <div class="item-row">
       <div>
-        <strong>Người lớn</strong> <span style="color: #ff9800;">x 10.990.000</span><br>
-        <small>&gt; 10 tuổi</small>
+        <strong>Người lớn</strong> <span style="color: #ff9800;">x {{ number_format($tour->priceAdult, 0, ',', '.') }}</span>
       </div>
       <div class="qty-control">
         <button type="button" onclick="changeQty('adult', -1)">−</button>
@@ -108,11 +175,9 @@
       </div>
     </div>
 
-    <!-- Trẻ em -->
     <div class="item-row">
       <div>
-        <strong>Trẻ em</strong><br>
-        <small>2 - 10 tuổi</small>
+        <strong>Trẻ em</strong> <span style="color: #ff9800;">x {{ number_format($tour->priceChild, 0, ',', '.') }}</span>
       </div>
       <div class="qty-control">
         <button type="button" onclick="changeQty('child', -1)">−</button>
@@ -132,6 +197,16 @@
       <textarea name="specialRequests" id="specialRequests" rows="3" placeholder="Ghi chú thêm nếu có..."></textarea>
     </div>
 
+    <div class="form-group">
+      <label for="paymentMethod">Phương thức thanh toán:</label>
+      <select name="paymentMethod" id="paymentMethod" required>
+        <option value="Tiền mặt">💵 Tiền mặt</option>
+        <option value="Chuyển khoản">🏦 Chuyển khoản</option>
+        <option value="Thẻ tín dụng">💳 Thẻ tín dụng</option>
+        <option value="Momo">📱 Momo</option>
+      </select>
+    </div>
+
     <div class="total-price" id="totalPriceDisplay">Tổng giá tour: 0 đ</div>
     <input type="hidden" name="totalPrice" id="totalPrice" value="0">
 
@@ -140,14 +215,13 @@
 </div>
 
 <script>
-  const adultPrice = 10990000;
-  const childPrice = 7000000;
+  const adultPrice = {{ $tour->priceAdult }};
+  const childPrice = {{ $tour->priceChild }};
 
   function changeQty(type, delta) {
     const qtySpan = document.getElementById(`qty-${type}`);
     const input = document.getElementById(`input-${type}`);
-    let current = parseInt(qtySpan.textContent);
-    current = isNaN(current) ? 0 : current;
+    let current = parseInt(qtySpan.textContent) || 0;
     current += delta;
     if (current < 0) current = 0;
     qtySpan.textContent = current;
@@ -159,11 +233,11 @@
     const adultQty = parseInt(document.getElementById("input-adult").value) || 0;
     const childQty = parseInt(document.getElementById("input-child").value) || 0;
     const total = adultQty * adultPrice + childQty * childPrice;
-
-    document.getElementById("totalPriceDisplay").textContent = `Tổng giá tour: ${total.toLocaleString()} đ`;
+    document.getElementById("totalPriceDisplay").textContent = `Tổng giá tour: ${total.toLocaleString('vi-VN')} đ`;
     document.getElementById("totalPrice").value = total;
   }
 </script>
 
 </body>
 </html>
+@include('User.blocks.footer')
