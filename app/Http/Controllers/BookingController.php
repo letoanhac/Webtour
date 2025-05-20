@@ -6,7 +6,7 @@ use App\Models\Booking;
 use App\Models\User;
 use App\Models\Checkout;
 use App\Models\Invoice;
-
+use Illuminate\Support\Facades\DB;;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -43,7 +43,13 @@ class BookingController extends Controller
         $booking->paymentStatus = 'Chờ xác nhận từ admin';
         $booking->specialRequests = $request->specialRequests;
         $booking->save();
-        
+        \App\Models\History::create([
+            'bookingID' => $booking->bookingID,
+            'userID' => $booking->userID,
+            'tourID' => $booking->tourID,
+            'actionType' => 'Đặt tour',
+            'timestamp' => now(),
+        ]);
         $checkout = new Checkout();
         $checkout->bookingID = $booking->bookingID;
         $checkout->paymentMethod = $request->paymentMethod;
@@ -71,5 +77,34 @@ class BookingController extends Controller
             default:
                 return back()->with('error', 'Phương thức thanh toán không hợp lệ');
         }
+    }
+    public function manage()
+    {
+        $bookings = DB::table('booking')
+            ->join('checkout', 'booking.bookingID', '=', 'checkout.bookingID')
+            ->select('booking.*', 'checkout.checkoutID', 'checkout.paymentMethod', 'checkout.paymentDate', 'checkout.paymentStatus as checkoutStatus', 'checkout.transactionID')
+            ->get()
+            ->map(function ($item) {
+                $item->paymentStatus = $item->paymentStatus ?? $item->checkoutStatus;
+                return $item;
+            });
+
+        return view('Admin.BookingManage', compact('bookings'));
+    }
+
+    public function updateStatus(Request $request, $bookingID)
+    {
+        $newStatus = $request->paymentStatus;
+        $booking = Booking::findOrFail($bookingID);
+        $booking->paymentStatus = $newStatus;
+        $booking->save();
+
+        $checkout = Checkout::where('bookingID', $bookingID)->first();
+        if ($checkout) {
+            $checkout->paymentStatus = $newStatus;
+            $checkout->save();
+        }
+
+        return redirect()->back()->with('success', 'Cập nhật trạng thái thanh toán thành công!');
     }
 }

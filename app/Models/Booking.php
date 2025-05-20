@@ -19,6 +19,10 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class, 'userID');
     }
-}
+    public function checkout()
+    {
+        return $this->hasOne(Checkout::class, 'bookingID', 'bookingID');
+    }
+    }
 
 ?>

@@ -4,21 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model
+class Itinerary extends Model
 {
-    protected $primaryKey = 'imageID'; 
-
-    public $incrementing = false;
-
-    protected $keyType = 'string';
-
+    protected $table = 'itinerary';
+    protected $primaryKey = 'itineraryID';
     public $timestamps = false;
 
     protected $fillable = [
-        'tourID', 
-        'imageURL', 
-        'description', 
-        'uploadDate'
+        'itineraryID',
+        'tourID',
+        'day',
+        'title',
+        'description',
+        'information'
     ];
     public function tour()
     {

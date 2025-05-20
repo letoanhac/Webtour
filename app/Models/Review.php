@@ -17,4 +17,12 @@ class Review extends Model
         'comment',
         'timestamp'
     ];
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'userID','userID');
+    }
+    public function tour()
+    {
+        return $this->belongsTo(Tour::class, 'tourID','tourID');
+    }
 }

@@ -21,7 +21,6 @@
       max-width: 2260px;
       margin: auto;
       padding: 30px;
-      border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0,0,0,0.08);
       line-height: 1.6;
     }
@@ -78,7 +77,7 @@
     .main-image img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      background: cover;
       transition: opacity 0.5s;
     }
     .thumbnails {
@@ -108,9 +107,6 @@
 
 <div class="tour-detail">
   <h1>{{ $tour->title }}</h1>
-  <p><span class="highlight">Mã tour:</span> {{ $tour->tourID }}</p>
-  <p><span class="highlight">Tiêu đề tour:</span> {{ $tour->title }}</p>
-  <p><span class="highlight">Mô tả:</span> {{ $tour->description }}</p>  
   <div class="main-image">
     <img id="mainImg" src="{{ $images->isNotEmpty() ? $images[0]->imageURL : 'default-image.jpg' }}" alt="Ảnh chính">
   </div>
@@ -119,58 +115,30 @@
       <img src="{{ $image->imageURL }}" onclick="changeImage(this)" class="{{ $loop->first ? 'active' : '' }}">
     @endforeach
   </div>
-
+  <p><span class="highlight">Mã tour:</span> {{ $tour->tourID }}</p>
+  <p><span class="highlight">Tiêu đề tour:</span> {{ $tour->title }}</p>
+  <p><span class="highlight">Mô tả:</span> {{ $tour->description }}</p>  
   <p><span class="highlight">Số lượng:</span> {{ $tour->quantity }} khách</p>
   <p><span class="highlight">Giá người lớn:</span> {{ number_format($tour->priceAdult) }} VND</p>
   <p><span class="highlight">Giá trẻ em:</span> {{ number_format($tour->priceChild) }} VND</p>
   <p><span class="highlight">Thời lượng:</span> {{ $tour->duration }}</p>
   <p><span class="highlight">Điểm đến:</span> {{ $tour->destination }}</p>
   <p><span class="highlight">Tình trạng:</span> {{ $tour->availability ? 'Còn chỗ' : 'Hết chỗ' }}</p>
-  <p><span class="highlight">Lịch trình:</span> {{ $tour->itinerary }}</p>
-
+  <div class="Itinerary">
+    <h1>Dưới đây là lịch trình của tour: {{ $tour->title }}</h1>
+    @include('User.blocks.itinerary')
+  </div>
+  <div>
+    <br>
+    @include('User.Review')
+    <br>
+  </div>
   <div class="button-group">
     <a href="{{ route('booking.index', ['tourID' => $tour->tourID]) }}">
       <button>Đặt Tour</button>
     </a>
   </div>
 </div>
-<footer style="background: #f9f9f9; padding: 30px; text-align: center;">
-    <h4>Đánh giá trải nghiệm của bạn</h4><br>
-    <form method="POST">
-        @csrf
-        <div style="margin-bottom: 10px;">
-            <select name="rating" required>
-                <option value="">-- Chọn số sao --</option>
-                <option value="5">5 sao - Tuyệt vời</option>
-                <option value="4">4 sao - Tốt</option>
-                <option value="3">3 sao - Bình thường</option>
-                <option value="2">2 sao - Chưa tốt</option>
-                <option value="1">1 sao - Tệ</option>
-            </select>
-        </div>
-        <textarea name="comment" rows="3" placeholder="Góp ý thêm..." style="width: 100%; padding: 8px;"></textarea>
-        <br><br>
-        <button type="submit" style="padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 6px;">Gửi đánh giá</button>
-    </form>
-        <div>
-          <table style="max-width: 1800px;
-        margin: 50px auto;
-        padding: 30px;
-        border: 1px solid #eee;">
-            <tr>
-              <th>User</th>
-              <th>Số sao</th>
-              <th>Đánh giá</th>
-            </tr>
-            <tr>
-              <th>user1</th>
-              <th>5 sao</th>
-              <th>Tuyệt </th>
-            </tr>
-          </table>
-        </div>
-</footer>
-
 <script>
   function changeImage(el) {
     const mainImg = document.getElementById('mainImg');

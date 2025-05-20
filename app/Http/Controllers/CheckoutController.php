@@ -30,7 +30,26 @@ class CheckoutController extends Controller
         $booking = Booking::findOrFail($bookingID);
         return view('payment.momo', compact('booking'));
     }
+    public function show($checkoutID)
+    {
+        $checkout = Checkout::with('booking')->find($checkoutID);
 
+        if (!$checkout) {
+            return redirect()->route('admin.booking.manage')->with('error', 'Không tìm thấy đơn thanh toán.');
+        }
+        switch ($checkout->paymentMethod) {
+            case 'Tiền mặt':
+                return redirect()->route('checkout.cash', ['bookingID' => $checkout->bookingID]);
+            case 'Chuyển khoản':
+                return redirect()->route('checkout.bank', ['bookingID' => $checkout->bookingID]);
+            case 'Thẻ tín dụng':
+                return redirect()->route('checkout.credit', ['bookingID' => $checkout->bookingID]);
+            case 'Momo':
+                return redirect()->route('checkout.momo', ['bookingID' => $checkout->bookingID]);
+            default:
+                return back()->with('error', 'Phương thức thanh toán không hợp lệ.');
+        }
+    }
     public function process(Request $request, $bookingID)
     {
         $booking = Booking::findOrFail($bookingID);

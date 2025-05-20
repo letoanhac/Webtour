@@ -18,8 +18,7 @@ class InvoiceController extends Controller
         $invoice->details = 'Hóa đơn cho booking ID: ' . $bookingID;
         $invoice->save();
 
-        return redirect()->route('invoice.view', ['bookingID' => $bookingID])
-                         ->with('success', 'Hóa đơn đã được tạo thành công.');
+        return redirect()->route('invoice.view', ['bookingID' => $bookingID])->with('success', 'Hóa đơn đã được tạo thành công.');
     }
 
     public function viewInvoice($bookingID)

@@ -17,4 +17,8 @@ class Checkout extends Model
         'paymentStatus',
         'transactionID'
     ];
+    public function booking()
+    {
+        return $this->belongsTo(Booking::class, 'bookingID', 'bookingID');
+    }
 }

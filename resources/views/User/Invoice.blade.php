@@ -131,6 +131,7 @@
     @endif
 
     <p><strong>Trạng thái thanh toán:</strong> {{ $booking->paymentStatus }}</p>
+    <a style="color:green;" href="{{ route('checkout.show',$booking->checkout->checkoutID)}}">Tới trang chọn phương thức thanh toán </a>
 
     <button class="btn-print" onclick="window.print()">In hóa đơn</button>
 </div>
