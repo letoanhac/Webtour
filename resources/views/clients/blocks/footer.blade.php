@@ -144,6 +144,7 @@
     </div>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script src="{{ asset('clients/js/main.js') }}"></script>
   <script src="{{ asset('clients/js/custom-js.js') }}"></script>
  <script src="{{ asset('clients/js/jquery.datetimepicker.full.min.js') }}"></script>

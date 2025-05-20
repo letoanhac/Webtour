@@ -70,3 +70,47 @@
 .dropdown-menu li:hover a {
     color: white;
 }
+
+
+
+.clear_filter {
+    color: #fff;
+    background-color: #63ab45;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+}
+
+.clear_filter:hover {
+    background-color: black;
+}
+
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+  display: none;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.hident-content {
+    display: none;
+}
+
+#card_change_password {
+    display: none;
+}

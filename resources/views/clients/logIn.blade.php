@@ -77,6 +77,7 @@
 </div>
 
 <div class="signup" style="display: none;">
+    
     <div class="container">
         <div class="sis__container">
             <div class="auth-login__spacing-container">
@@ -86,6 +87,7 @@
                         <i class="fa-solid fa-arrow-left"></i>
                     </span>
                 </div>
+                <div class="loader"></div>
                 <form class="sis__content-wrapper" id="register-form" action="{{ route('register') }}" method="POST">
                     <!-- Changed to block-level elements with proper styling -->
                     <div id="error" class="alert alert-danger"

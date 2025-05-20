@@ -4,19 +4,22 @@ namespace App\Http\Controllers\clients;
 
 use App\Http\Controllers\Controller;
 use App\Models\clients\Login;
+use App\Models\clients\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
-
 class LoginController extends Controller
 {
     private $login;
 
+    private $user;
+
     public function __construct()
     {
         $this->login = new Login();
+        $this->user = new User();
     }
 
     public function index()
@@ -73,7 +76,7 @@ class LoginController extends Controller
         if ($user) {
             $this->login->activateUserAccount($token);
 
-            return redirect('/login')->with('message', 'Tài khoản của bạn đã được kích hoạt!');
+            return redirect('/login')->with('message', 'Tài khoản của bạn đã được kích hoạt!')->with('success', 'Tài khoản của bạn đã được kích hoạt!');
         } else {
             return redirect('/login')->with('error', 'Mã kích hoạt không hợp lệ!');
         }
@@ -91,10 +94,13 @@ class LoginController extends Controller
         ];
 
 
-        $user =  $this->login->login($data_login);
-
-        if ($user != null) {
+        $user_login =  $this->login->login($data_login);
+        $userId = $this->user->getUserId($username);
+        $user = $this->user->getUser($userId);
+        toastr()->success("Đăng nhập thành công!", ["Thông báo"]);
+        if ($user_login != null) {
             $request->session()->put('username', $username);
+             $request->session()->put('avatar', $user->avatar);
             return response()->json([
                 'success' => true,
                 'message' => 'Đăng nhập thành công!',
@@ -110,6 +116,7 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $request->session()->forget('username');
-        return redirect()->route('home');
+
+        return redirect()->route('home')->with('success', 'Đăng xuất thành công!');
     }
 }

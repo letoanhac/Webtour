@@ -1,362 +1,181 @@
-@include("clients.blocks.header")
+@include('clients.blocks.header')
 
-    <div class="category-search mt-30">
-      @include('clients.blocks.search')
-    </div>
+<div class="category-search mt-30">
+    @include('clients.blocks.search')
+</div>
 
-    <div class="container">
-      <div class="content-header">
+<div class="container">
+    <div class="content-header">
         <ul>
-          <li>
-            <a href="#"><i class="fa-solid fa-house"></i>Trang chủ</a>
-          </li>
-          <li><a href="#">Danh sách Tours</a></li>
+            <li>
+                <a href="#"><i class="fa-solid fa-house"></i>Trang chủ</a>
+            </li>
+            <li><a href="#">Danh sách Tours</a></li>
         </ul>
-      </div>
-      <div class="tour-list-page">
+    </div>
+    <div class="tour-list-page">
         <div class="tour-list-sidebar">
-          <div class="shop-sidebar">
-            <div class="price-filter-container">
-              <h2 class="filter-title">Tìm kiếm theo giá tiền</h2>
+            <div class="shop-sidebar">
+                <div style="display: flex;justify-content: end;">
+                    <button class="clear_filter" name="btn_clear">
+                        Clear
+                    </button>
 
-              <div class="slider-container">
-                <div class="slider-track"></div>
-                <div class="slider-range"></div>
-                <input
-                  type="range"
-                  min="0"
-                  max="1000"
-                  value="100"
-                  class="slider"
-                  id="min-price"
-                />
-                <input
-                  type="range"
-                  min="0"
-                  max="1000"
-                  value="750"
-                  class="slider"
-                  id="max-price"
-                />
-              </div>
+                </div>
+                <div class="widget widget-filter">
+                    <h6 class="widget-title">Lọc theo giá</h6>
+                    <div class="price-filter-wrap">
+                        <div class="price-slider-range"></div>
+                        <div class="price1">
+                            <span>Giá </span>
+                            <input type="text" id="price1" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget widget-activity">
+                    <h6 class="widget-title" style="margin-top: 20px">Điểm đến</h6>
+                    <ul class="radio-filter">
+                        <li>
+                            <input class="form-check-input" type="radio" name="domain" id="id_mien_bac"
+                                value="b" />
+                            <label for="mien_bac">Miền Bắc <span>{{ $domainsCount['mien_bac'] }}</span></label>
+                        </li>
+                        <li>
+                            <input class="form-check-input" type="radio" name="domain" id="id_mien_trung"
+                                value="t" />
+                            <label for="id_mien_trung">Miền Trung <span>{{ $domainsCount['mien_trung'] }}</span></label>
+                        </li>
+                        <li>
+                            <input class="form-check-input" type="radio" name="domain" id="id_mien_nam"
+                                value="n" />
+                            <label for="id_mien_nam">Miền Nam <span>{{ $domainsCount['mien_nam'] }}</span></label>
+                        </li>
+                    </ul>
+                </div>
+                <div class="widget widget-reviews">
+                    <h6 class="widget-title">By Reviews</h6>
+                    <ul class="radio-filter">
+                        <li>
+                            <input class="form-check-input" type="radio" value="5" name="filter_star"
+                                id="5star" />
+                            <label for="5star">
+                                <span class="ratting">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </span>
+                            </label>
+                        </li>
+                        <li>
+                            <input class="form-check-input" type="radio" value="4" name="filter_star"
+                                id="4star" />
+                            <label for="4star">
+                                <span class="ratting">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt white"></i>
+                                </span>
+                            </label>
+                        </li>
+                        <li>
+                            <input class="form-check-input" type="radio" value="3" name="filter_star"
+                                id="3star" />
+                            <label for="3star">
+                                <span class="ratting">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star white"></i>
+                                    <i class="fas fa-star-half-alt white"></i>
+                                </span>
+                            </label>
+                        </li>
+                        <li>
+                            <input class="form-check-input" type="radio" value="2" name="filter_star"
+                                id="2star" />
+                            <label for="2star">
+                                <span class="ratting">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star white"></i>
+                                    <i class="fas fa-star white"></i>
+                                    <i class="fas fa-star-half-alt white"></i>
+                                </span>
+                            </label>
+                        </li>
+                        <li>
+                            <input class="form-check-input" type="radio" value="1" name="filter_star"
+                                id="1star" />
+                            <label for="1star">
+                                <span class="ratting">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star white"></i>
+                                    <i class="fas fa-star white"></i>
+                                    <i class="fas fa-star white"></i>
+                                    <i class="fas fa-star-half-alt white"></i>
+                                </span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
 
-              <div class="price-display">
-                <span>Price </span>
-                <span id="price-value">$100 - $750</span>
-              </div>
+                <div class="widget widget-duration">
+                    <h6 class="widget-title">Thời gian</h6>
+                    <ul class="radio-filter">
+                        <li>
+                            <input class="form-check-input" type="radio" name="duration" id="3ngay2dem"
+                                value="3n2d" />
+                            <label for="3ngay2dem">3 ngày 2 đêm</label>
+                        </li>
+                        <li>
+                            <input class="form-check-input" type="radio" name="duration" id="4ngay3dem"
+                                value="4n3d" />
+                            <label for="4ngay3dem">4 ngày 3 đêm</label>
+                        </li>
+                        <li>
+                            <input class="form-check-input" type="radio" name="duration" id="5ngay4dem"
+                                value="5n4d" />
+                            <label for="5ngay4dem">5 ngày 4 đêm</label>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="widget widget-activity">
-              <h6 class="widget-title">By Activities</h6>
-              <ul class="radio-filter">
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    checked=""
-                    name="ByActivities"
-                    id="activity1"
-                  />
-                  <label for="activity1">Sea Beach <span>18</span></label>
-                </li>
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="ByActivities"
-                    id="activity2"
-                  />
-                  <label for="activity2">Car Parking <span>29</span></label>
-                </li>
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="ByActivities"
-                    id="activity3"
-                  />
-                  <label for="activity3">Laundry Service <span>23</span></label>
-                </li>
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="ByActivities"
-                    id="activity4"
-                  />
-                  <label for="activity4">Outdoor Seating <span>25</span></label>
-                </li>
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="ByActivities"
-                    id="activity5"
-                  />
-                  <label for="activity5">Reservations <span>26</span></label>
-                </li>
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="ByActivities"
-                    id="activity6"
-                  />
-                  <label for="activity6">Smoking Allowed <span>28</span></label>
-                </li>
-              </ul>
-            </div>
-            <div class="widget widget-reviews">
-              <h6 class="widget-title">By Reviews</h6>
-              <ul class="radio-filter">
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    checked=""
-                    name="ByReviews"
-                    id="review1"
-                  />
-                  <label for="review1">
-                    <span class="ratting">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                    </span>
-                  </label>
-                </li>
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="ByReviews"
-                    id="review2"
-                  />
-                  <label for="review2">
-                    <span class="ratting">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star-half-alt white"></i>
-                    </span>
-                  </label>
-                </li>
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="ByReviews"
-                    id="review3"
-                  />
-                  <label for="review3">
-                    <span class="ratting">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star white"></i>
-                      <i class="fas fa-star-half-alt white"></i>
-                    </span>
-                  </label>
-                </li>
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="ByReviews"
-                    id="review4"
-                  />
-                  <label for="review4">
-                    <span class="ratting">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star white"></i>
-                      <i class="fas fa-star white"></i>
-                      <i class="fas fa-star-half-alt white"></i>
-                    </span>
-                  </label>
-                </li>
-                <li>
-                  <input
-                    class="form-check-input"
-                    type="radio"
-                    name="ByReviews"
-                    id="review5"
-                  />
-                  <label for="review5">
-                    <span class="ratting">
-                      <i class="fas fa-star"></i>
-                      <i class="fas fa-star white"></i>
-                      <i class="fas fa-star white"></i>
-                      <i class="fas fa-star white"></i>
-                      <i class="fas fa-star-half-alt white"></i>
-                    </span>
-                  </label>
-                </li>
-              </ul>
-            </div>
-          </div>
         </div>
         <div class="tour-list-content">
-          <div class="page-title">
-            <h1>Tour Du Lịch Miền Trung</h1>
-          </div>
-          <div class="tourListContainerHeader">
-            <div class="tour-title">
-              <b class="title-result">Tổng cộng 20 Tour</b>
-              <div class="dropdown">
-                <!-- Input checkbox ẩn để toggle dropdown -->
-                <input
-                  type="checkbox"
-                  id="dropdown-toggle"
-                  class="dropdown-label"
-                />
-
-                <!-- Radio buttons ẩn để chọn option -->
-                <input
-                  type="radio"
-                  name="sort-option"
-                  id="option1"
-                  class="option-input"
-                  checked
-                />
-                <input
-                  type="radio"
-                  name="sort-option"
-                  id="option2"
-                  class="option-input"
-                />
-                <input
-                  type="radio"
-                  name="sort-option"
-                  id="option3"
-                  class="option-input"
-                />
-                <input
-                  type="radio"
-                  name="sort-option"
-                  id="option4"
-                  class="option-input"
-                />
-                <input
-                  type="radio"
-                  name="sort-option"
-                  id="option5"
-                  class="option-input"
-                />
-                <input
-                  type="radio"
-                  name="sort-option"
-                  id="option6"
-                  class="option-input"
-                />
-                <input
-                  type="radio"
-                  name="sort-option"
-                  id="option7"
-                  class="option-input"
-                />
-
-                <!-- Button dropdown -->
-                <label for="dropdown-toggle" class="dropdown-btn">
-                  <span
-                    >Sắp xếp theo:
-                    <strong class="selected-text" style="color: #00b6f3"
-                      >IVIVU Đề Xuất</strong
-                    ></span
-                  >
-                  <span class="dropdown-icon">▼</span>
-                </label>
-
-                <!-- Dropdown content -->
-                <div class="dropdown-content">
-                  <label for="option1" class="option-label"
-                    >IVIVU Đề Xuất</label
-                  >
-                  <label for="option2" class="option-label"
-                    >Ưu đãi tốt nhất</label
-                  >
-                  <label for="option3" class="option-label"
-                    >Đánh giá cao nhất</label
-                  >
-                  <label for="option4" class="option-label"
-                    >Thời lượng tour</label
-                  >
-                  <label for="option5" class="option-label"
-                    >Ngày khởi hành</label
-                  >
-                  <label for="option6" class="option-label"
-                    >Giá thấp đến cao</label
-                  >
-                  <label for="option7" class="option-label"
-                    >Giá cao đến thấp</label
-                  >
-                </div>
-              </div>
+            <div class="page-title">
+                <h1>Tour Du Lịch Miền Trung</h1>
             </div>
-          </div>
-
-          <div class="tourList">
-            @foreach ($tours as $tour)
-              <div class="tourItem">
-              <a href="#">
-                <div class="warpTour">
-                  <span class="v-ribbon">
-                    <span>Nhóm 4 giảm 3 triệu</span>
-                  </span>
-                  <div class="tourItemLeft">
-                    <picture>
-                      <img
-                        src="{{ asset('clients/img/gallery-tours/'.$tour->images[0]) }}"
-                        alt=""
-                      />
-                    </picture>
-                  </div>
-                  <div class="tourItemContent">
-                    <div class="tourItemContentLeft">
-                      <h2 class="tourItemName">
-                        {{$tour -> title}}
-                      </h2>
-                      <span class="score-container__inner">
-                        <span class="score">9.7</span>
-                        <span class="scorw-description" style="padding: 0 4px"
-                          >Tuyệt vời</span
-                        >
-                        <span>| 7 đánh giá</span>
-                      </span>
-                    </div>
-                    <div class="tourItemContentPrice">
-                      <span class="tourItemDateTime">
-                        <i class="fa-regular fa-calendar"></i>
-                        {{ $tour -> startDate }}
-                      </span>
-                    </div>
-                    <div class="tourNote">
-                      <div class="tourTime">
-                        <i class="fa-regular fa-clock"></i>
-                        {{ $tour -> time }}
-                      </div>
-                      <div class="wrapItemPrice">
-                        <span class="tourItemPrice">
-                          {{ number_format($tour->priceAdult, 0, ',','.') }}
-                          <span class="tourItemCurrency">đ</span>
-                        </span>
-                        <div class="tourViewDetail">
-                          <button class="btn">
-                            Xem tour<i class="fa-solid fa-chevron-right"></i>
-                          </button>
+            <div class="tourListContainerHeader">
+                <div class="tour-title">
+                    <b class="title-result">Tổng cộng 20 Tour</b>
+                   <div style="display:flex;align-items:center">
+                       <div class="sort-text " style="width:100%">
+                            Sắp xếp theo
                         </div>
-                      </div>
-                    </div>
-                  </div>
+                        <select id="sorting_tours" style="width:auto;padding:8px; margin-left: 8px">
+                            <option value="default" selected="">Sắp xếp theo</option>
+                            <option value="new">Mới nhất</option>
+                            <option value="old">Cũ nhất</option>
+                            <option value="hight-to-low">Cao đến thấp</option>
+                            <option value="low-to-high">Thấp đến cao</option>
+                        </select>
+                   </div>
                 </div>
-              </a>
             </div>
-            @endforeach
-          </div>
-         
+
+            <div class="loader"></div>
+            <div class="tourList" id="tours-container">
+                @include('clients.partials.filter-tour')
+            </div>
+
         </div>
-      </div>
     </div>
-   @include("clients.blocks.footer")
+</div>
+@include('clients.blocks.footer')
+<script>
+    var filterToursUrl = "{{ route('filter-tours') }}"
+</script>

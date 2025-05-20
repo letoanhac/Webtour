@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="{{ asset('clients/css/jquery.datetimepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('clients/css/custom-css.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 
 
@@ -48,17 +51,28 @@
                                 <li class="user-login drop-down">
                                     <div>
                                         <div class="img-wrapper" id="userDropdown">
-                                            <img src="https://www.ivivu.com/du-lich/content/img/avatars/avatar-default-white.svg"
-                                                alt="User Avatar" />
-                                            <i style="color: #fff"
-                                                class="fa-solid fa-chevron-down fa-beat chevron-icon"></i>
+                                            @if (session()->has('avatar'))
+                                                @php
+                                                    $avatar = session()->get('avatar', 'user_avatar.jpg');
+                                                @endphp
+                                                <img id="avatarPreview" class="img-account-profile rounded-circle mb-2"
+                                                    src="{{ asset('admin/assets/img/user-profile/' . $avatar) }}"
+                                                    style="width:40px; height: 40px;">
+                                                    <i style="color: #fff"
+                                                    class="fa-solid fa-chevron-down fa-beat chevron-icon"></i>
+                                            @else
+                                                <img id="avatarPreview" class="img-account-profile rounded-circle mb-2"
+                                                    src="https://www.ivivu.com/du-lich/content/img/avatars/avatar-default-white.svg" alt="Avatar mặc định">
+                                                <i style="color: #fff"
+                                                    class="fa-solid fa-chevron-down fa-beat chevron-icon"></i>
+                                            @endif
                                         </div>
                                         <ul class="dropdown-menu" id="dropdownMenu">
                                             @if (session()->has('username'))
                                                 <li>
                                                     {{ session()->get('username') }}
                                                 </li>
-                                                <li><a href="">Thông tin cá nhân</a></li>
+                                                <li><a href="{{ route('user-profile') }}">Thông tin cá nhân</a></li>
                                                 <li><a href="{{ route('logout') }}">Đăng Xuất</a></li>
                                             @else
                                                 <li><a href="{{ route('login') }}">Đăng nhập</a></li>
