@@ -477,4 +477,37 @@ $(document).ready(function () {
             });
         }
     });
+
+    //search
+
+    $('#search_form').on('submit', function(event) {
+        // Lấy giá trị các trường cần kiểm tra
+        var destination = $('#destination').val();
+        var startDate = $('#start_date').val();
+        var endDate = $('#end_date').val();
+
+        if (destination === "") {
+            event.preventDefault();
+            toastr.error('Vui lòng chọn điểm đến.');
+            return;
+        }
+
+        // Chuyển đổi định dạng ngày từ DD/MM/YYYY sang YYYY-MM-DD
+        function convertDateFormat(date) {
+            var parts = date.split('/');
+            return parts[2] + '-' + parts[1] + '-' + parts[0];
+        }
+
+        if (startDate && endDate) {
+            var startDateFormatted = new Date(convertDateFormat(startDate));
+            var endDateFormatted = new Date(convertDateFormat(endDate));
+
+            // Kiểm tra nếu "start_date" lớn hơn "end_date"
+            if (startDateFormatted > endDateFormatted) {
+                event.preventDefault();
+                toastr.error('Ngày khởi hành không thể lớn hơn ngày kết thúc.');
+                return;
+            }
+        }
+    });
 });

@@ -61,4 +61,35 @@ class Tours extends Model
         }
         return $tours;
     }
+
+    public function searchTours($data)
+    {
+        $tours = DB::table($this->table);
+
+
+        // Thêm điều kiện cho destination với LIKE
+        if (!empty($data['destination'])) {
+            $tours->where('destination', 'LIKE', '%' . $data['destination'] . '%');
+        }
+
+        // Thêm điều kiện cho startDate và endDate nếu cần so sánh
+        if (!empty($data['startDate'])) {
+            $tours->whereDate('startDate', '>=', $data['startDate']);
+        }
+        if (!empty($data['endDate'])) {
+            $tours->whereDate('endDate', '<=', $data['endDate']);
+        }
+
+    
+        $tours = $tours->where('availability', 1);
+        $tours = $tours->limit(12)->get();
+
+        foreach ($tours as $tour) {
+            // Lấy danh sách hình ảnh thuộc về tour
+            $tour->images = DB::table('images')
+                ->where('tourID', $tour->tourID)
+                ->pluck('imageUrl');
+        }
+        return $tours;
+    }
 }

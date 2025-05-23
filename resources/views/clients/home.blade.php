@@ -28,14 +28,16 @@
                                                     <div class="ribbonContainerOuter">
                                                         <div class="ribbonContainerInner">
                                                             <div class="v-ribbon">
-                                                                <span >{{ $tour->description }}</span>
+                                                                <span>{{ $tour->description }}</span>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <figure>
                                                         <picture>
-                                                            <img src="{{ asset('clients/img/gallery-tours/'.$tour->images[0]) }}"
-                                                                alt="" />
+                                                            @if (!empty($tour->images) && isset($tour->images[0]))
+                                                                <img src="{{ asset($tour->images[0]) }}"
+                                                                    alt="" />
+                                                            @endif
                                                         </picture>
                                                     </figure>
                                                 </div>
@@ -58,7 +60,7 @@
                                                         </div>
                                                         <div class="cardItemPrice">
                                                             <span class="price">
-                                                                <span>{{ number_format($tour->priceAdult, 0, ',','.') }}</span>
+                                                                <span>{{ number_format($tour->priceAdult, 0, ',', '.') }}</span>
                                                                 <small style="font-size: 20px; padding-left: 8px">đ
                                                                 </small>
                                                             </span>

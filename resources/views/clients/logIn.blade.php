@@ -58,7 +58,7 @@
                         <span class="als__divider-text">Hoặc</span>
                     </div>
                     <div class="als__social-method-wrapper">
-                        <a class="als__social-method-button" style="color: #333">
+                        <a href="{{ route('auth.facebook') }}" class="als__social-method-button" style="color: #333">
                             <span class=""><img width="22px" height="22px"
                                     src="{{ asset('clients/img/2023_Facebook_icon.svg.png') }}" alt=""></span>
                             <span class="als__social-method-text">Facebook</span>

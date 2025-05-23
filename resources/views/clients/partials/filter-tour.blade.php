@@ -7,7 +7,7 @@
                  </span>
                  <div class="tourItemLeft">
                      <picture>
-                         <img src="{{ asset('clients/img/gallery-tours/' . $tour->images[0]) }}" alt="" />
+                         <img src="{{ asset( $tour->images[0]) }}" alt="" />
                      </picture>
                  </div>
                  <div class="tourItemContent">

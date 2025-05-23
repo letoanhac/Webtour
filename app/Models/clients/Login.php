@@ -62,4 +62,9 @@ class Login extends Model
 
         return $check;
     }
+
+    public function checkUserExistFacebook($facebook_id)
+    {
+        return DB::table('user')->where('facebook_id', $facebook_id)->first();
+    }
 }

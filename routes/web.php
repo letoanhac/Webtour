@@ -1,11 +1,13 @@
 <?php
 
+use App\Http\Controllers\clients\FacebookController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\clients\HomeController;
 use App\Http\Controllers\clients\InformationController;
 use App\Http\Controllers\clients\TourListController;
 use App\Http\Controllers\clients\LoginController;
 use App\Http\Controllers\clients\LoginGoogleController;
+use App\Http\Controllers\clients\SearchController;
 
 // Route::get('/', function () {
 //     return view('home');
@@ -36,6 +38,13 @@ Route::post('/user-profile', [InformationController::class, 'update'])-> name('u
 Route::post('/change_password', [InformationController::class, 'changePassword'])-> name('change_password');
 Route::post('/change-avatar-profile', [InformationController::class, 'changeAvatar'])-> name('change-avatar');
 
+Route::controller(FacebookController::class)->group(function(){
+    Route::get('auth/facebook', 'redirectToFacebook')->name('auth.facebook');
+    Route::get('auth/facebook/callback', 'handleFacebookCallback');
+});
 
+
+//Search
+Route::get('/search', [SearchController::class, 'index'])-> name('search');
 
 
