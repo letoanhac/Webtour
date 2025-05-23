@@ -70,6 +70,7 @@
                     <th>Ghi chú</th>
                     <th>Tình trạng thanh toán</th>
                     <th>Hóa đơn</th>
+                    <th>Đánh giá</th>
                 </tr>
             </thead>
             <tbody>
@@ -83,7 +84,7 @@
                         @php $displayedBookings[] = $bookingID; @endphp
                         <tr>
                             <td>{{ $stt++ }}</td>
-                            <td>{{ $bookingID }}</td>
+                            <td>{{ 'BKID-'.$bookingID }}</td>
                             <td>{{ $booking->tour->title ?? 'N/A' }}</td>
                             <td>{{ isset($booking->bookingDate) ? \Carbon\Carbon::parse($booking->bookingDate)->format('d/m/Y') : 'N/A' }}</td>
                             <td>{{ $booking->numAdults ?? 'N/A' }}</td>
@@ -96,6 +97,9 @@
                             <td>{{ $booking->paymentStatus ?? 'N/A' }}</td>
                             <td>
                                 <a href="{{ route('invoice.view', ['bookingID' => $bookingID]) }}">Xem hóa đơn</a>
+                            </td>
+                            <td>
+                                <a href="{{ route('reviews.create', ['tourID' => $booking->tour->tourID ?? 0]) }}">Gửi đánh giá</a>
                             </td>
                         </tr>
                     @endif

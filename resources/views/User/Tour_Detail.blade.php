@@ -9,13 +9,6 @@
     * {
       box-sizing: border-box;
     }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-image: url('https://media.hanamtv.vn/upload/image/201708/medium/49848_Du-Lich_2.jpg');
-      background-size: cover;
-      margin: 0;
-      padding: 20px;
-    }
     .tour-detail {
       background: #fff;
       max-width: 2260px;
@@ -34,8 +27,11 @@
       color: #333;
     }
     .highlight {
-      font-weight: 600;
-      color: #2d3748;
+      font-weight: 700;
+      color:rgb(0, 94, 255);
+    }
+    p {
+      font-size: 20px;
     }
     .tour-image {
       display: block;
@@ -70,7 +66,7 @@
     .main-image {
       position: relative;
       width: 100%;
-      height: 500px;
+      height: 700px;
       border-radius: 10px;
       overflow: hidden;
     }
@@ -107,28 +103,28 @@
 
 <div class="tour-detail">
   <h1>{{ $tour->title }}</h1>
-  <div class="main-image">
-    <img id="mainImg" src="{{ $images->isNotEmpty() ? $images[0]->imageURL : 'default-image.jpg' }}" alt="Ảnh chính">
-  </div>
-  <div class="thumbnails">
-    @foreach ($images as $image)
-      <img src="{{ $image->imageURL }}" onclick="changeImage(this)" class="{{ $loop->first ? 'active' : '' }}">
-    @endforeach
-  </div>
-  <p><span class="highlight">Mã tour:</span> {{ $tour->tourID }}</p>
-  <p><span class="highlight">Tiêu đề tour:</span> {{ $tour->title }}</p>
-  <p><span class="highlight">Mô tả:</span> {{ $tour->description }}</p>  
-  <p><span class="highlight">Số lượng:</span> {{ $tour->quantity }} khách</p>
-  <p><span class="highlight">Giá người lớn:</span> {{ number_format($tour->priceAdult) }} VND</p>
-  <p><span class="highlight">Giá trẻ em:</span> {{ number_format($tour->priceChild) }} VND</p>
-  <p><span class="highlight">Thời lượng:</span> {{ $tour->duration }}</p>
-  <p><span class="highlight">Điểm đến:</span> {{ $tour->destination }}</p>
-  <p><span class="highlight">Tình trạng:</span> {{ $tour->availability ? 'Còn chỗ' : 'Hết chỗ' }}</p>
-  <div class="Itinerary">
-    <h1>Dưới đây là lịch trình của tour: {{ $tour->title }}</h1>
-    @include('User.blocks.itinerary')
-  </div>
-  <div>
+      <div class="main-image">
+        <img id="mainImg" src="{{ $images->isNotEmpty() ? $images[0]->imageURL : 'default-image.jpg' }}" alt="Ảnh chính">
+      </div>
+      <div class="thumbnails">
+      @foreach ($images as $image)
+        <img src="{{ $image->imageURL }}" onclick="changeImage(this)" class="{{ $loop->first ? 'active' : '' }}">
+      @endforeach
+      </div>
+      <p><span class="highlight">Mã tour:</span> {{ 'CTVTOAN-'.$tour->tourID }}</p>
+      <p><span class="highlight">Tiêu đề tour:</span> {{ $tour->title }}</p>
+      <p><span class="highlight">Mô tả:</span> {{ $tour->description }}</p>  
+      <p><span class="highlight">Số lượng:</span> {{ $tour->quantity }} khách</p>
+      <p><span class="highlight">Giá người lớn:</span> {{ number_format($tour->priceAdult) }} VND</p>
+      <p><span class="highlight">Giá trẻ em:</span> {{ number_format($tour->priceChild) }} VND</p>
+      <p><span class="highlight">Thời lượng:</span> {{ $tour->duration }}</p>
+      <p><span class="highlight">Điểm đến:</span> {{ $tour->destination }}</p>
+      <p><span class="highlight">Tình trạng:</span> {{ $tour->availability ? 'Còn chỗ' : 'Hết chỗ' }}</p>
+      <div class="Itinerary">
+      <h1>Dưới đây là lịch trình của tour: {{ $tour->title }}</h1>
+      @include('User.blocks.itinerary')
+    </div>
+    <div>
     <br>
     @include('User.Review')
     <br>

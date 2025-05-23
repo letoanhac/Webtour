@@ -2,61 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Login;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    private $login;
-
-    public function __construct()
-    {
-        $this->login = new Login();
-    }
-
     public function index()
     {
         $title = 'Đăng nhập';
         return view('User.login', compact('title'));
     }
 
+    // Đăng ký
     public function register(Request $request)
     {
-        $username_regis = $request->username_regis;
-        $email = $request->email;
-        $password_regis = $request->password_regis;
+        $request->validate([
+            'username_regis' => 'required|unique:user,username',
+            'email' => 'required|email|unique:user,email',
+            'password_regis' => 'required|min:6|confirmed', // nhớ đặt thêm input password_confirmation
+        ]);
 
-        $checkAccountExist = $this->login->checkUserExist($username_regis, $email);
-        if ($checkAccountExist) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Người dùng và email đã tồn tại'
-            ]);
-        }
         $activation_token = Str::random(60);
-        $dataInsert = [
-            'username' => $username_regis,
-            'email' => $email,
-            'password' => md5($password_regis),
-            'activation_token' => $activation_token
-        ];
 
-        $this->login->registerAcount($dataInsert);
+        $user = User::create([
+            'username' => $request->username_regis,
+            'email' => $request->email,
+            'password' => Hash::make($request->password_regis),
+            'activation_token' => $activation_token,
+            'isActive' => false,
+            'createDate' => now(),
+        ]);
 
+        // Gửi email kích hoạt
+        $this->sendActivationEmail($user->email, $activation_token);
 
-        //Gửi email kích hoạt
-        $this->sendActivationEmail($email, $activation_token);
         return response()->json([
             'success' => true,
             'message' => 'Đăng ký thành công! Vui lòng kiểm tra email để kích hoạt.'
         ]);
     }
 
+    // Gửi email kích hoạt
     public function sendActivationEmail($email, $token)
     {
         $activation_link = route('activate.account', ['token' => $token]);
@@ -67,11 +57,15 @@ class LoginController extends Controller
         });
     }
 
+    // Kích hoạt tài khoản
     public function activateAccount($token)
     {
-        $user = $this->login->getUserByToken($token);
+        $user = User::where('activation_token', $token)->first();
+
         if ($user) {
-            $this->login->activateUserAccount($token);
+            $user->isActive = true;
+            $user->activation_token = null;
+            $user->save();
 
             return redirect('/login')->with('message', 'Tài khoản của bạn đã được kích hoạt!');
         } else {
@@ -79,37 +73,50 @@ class LoginController extends Controller
         }
     }
 
-    //Xử lý người dùng đăng nhập
+    // Đăng nhập
     public function login(Request $request)
     {
-        $username = $request->username;
-        $password = $request->password;
+        $request->validate([
+            'username' => 'required',
+            'password' => 'required',
+        ]);
 
-        $data_login = [
-            'username' => $username,
-            'password' => md5($password)
+        // Chỉ đăng nhập nếu tài khoản đã kích hoạt
+        $credentials = [
+            'username' => $request->username,
+            'password' => $request->password,
+            'isActive' => true,
         ];
 
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate(); // bảo mật session
 
-        $user =  $this->login->login($data_login);
+            // Lấy user hiện tại
+            $user = Auth::user();
 
-        if ($user != null) {
-            $request->session()->put('username', $username);
+            // Lưu session nếu bạn muốn
+            $request->session()->put('userID', $user->userID);
+            $request->session()->put('username', $user->username);
+
             return response()->json([
                 'success' => true,
                 'message' => 'Đăng nhập thành công!',
             ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Thông tin tài khoản không chính xác!',
-            ]);
         }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Thông tin tài khoản không chính xác hoặc chưa kích hoạt!',
+        ]);
     }
 
+    // Đăng xuất
     public function logout(Request $request)
     {
-        $request->session()->forget('username');
-        return redirect()->route('home');
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('home.index');
     }
 }

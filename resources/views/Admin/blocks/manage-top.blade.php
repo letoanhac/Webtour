@@ -1,46 +1,55 @@
-<div class="admin-user-menu">
-    <div class="user-icon">
-        <i class="fas fa-user-circle"></i>
+<div class="admin-header">
+    <div class="admin-user-menu">
+        <div class="user-icon">
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <ul class="user-dropdown">
+            <li><a href="{{ route('admin.admins.index') }}">Quản lý tài khoản quản trị viên</a></li>  
+            <li><a href="{{ route('admin.logout') }}">Đăng xuất</a></li>
+        </ul>
     </div>
-    <ul class="user-dropdown">
-        <li><a href="">Thêm quản trị viên</a></li>
-        <li><a href="">Quản lý tài khoản</a></li>
-        <li><a href="">Đăng xuất</a></li>
-    </ul>
 </div>
-
 <style>
+.admin-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f1f5f9;
+    position: relative;
+    z-index: 10;
+}
+
 .admin-user-menu {
     position: relative;
     display: inline-block;
-    float: right;
-    margin-bottom: 20px;
     cursor: pointer;
 }
 
 .admin-user-menu .user-icon {
-    font-size: 28px;
+    font-size: 30px;
     color: #1e40af;
-    padding: 6px 10px;
+    padding: 6px;
     border-radius: 50%;
     transition: background-color 0.3s ease;
 }
 
 .admin-user-menu:hover .user-icon {
-    background-color: #cbd5e1;
+    background-color: #e2e8f0;
 }
 
 .admin-user-menu .user-dropdown {
     display: none;
     position: absolute;
     right: 0;
-    background: white;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    top: 40px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
-    padding: 10px 0;
+    padding: 8px 0;
     list-style: none;
-    min-width: 180px;
-    z-index: 1000;
+    min-width: 200px;
+    transition: all 0.2s ease;
 }
 
 .admin-user-menu:hover .user-dropdown {
@@ -48,23 +57,22 @@
 }
 
 .admin-user-menu .user-dropdown li {
-    padding: 8px 20px;
-    white-space: nowrap;
-}
-
-.admin-user-menu .user-dropdown li a {
-    color: #334155;
-    text-decoration: none;
-    font-weight: 600;
-    display: block;
+    padding: 10px 20px;
     transition: background-color 0.2s ease;
 }
 
 .admin-user-menu .user-dropdown li:hover {
-    background-color: #e2e8f0;
+    background-color: #f1f5f9;
+}
+
+.admin-user-menu .user-dropdown li a {
+    color: #1e293b;
+    text-decoration: none;
+    font-weight: 500;
+    display: block;
 }
 
 .admin-user-menu .user-dropdown li a:hover {
-    color: #1e40af;
+    color: #1d4ed8;
 }
 </style>

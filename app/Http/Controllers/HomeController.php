@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\clients;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Tour;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,7 +13,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('User.home');
+        $tours = Tour::all();
+        return view('User.home', compact('tours'));
     }
 
     /**

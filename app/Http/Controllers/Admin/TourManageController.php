@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Tour;
 use App\Models\Image;
+use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class TourManageController extends Controller
 {
@@ -17,15 +19,20 @@ class TourManageController extends Controller
 
     public function store(Request $request)
     {
-        Tour::create($request->all());
+        $data = $request->all();
+        $data['availability'] = $request->quantity;
+        Tour::create($data);
         return redirect()->route('admin.tour.index')->with('success', 'Đã thêm tour mới!');
     }
-
     public function update(Request $request, $id)
     {
         $tour = Tour::findOrFail($id);
-        $tour->update($request->all());
-        
+        $data = $request->all();
+        $paidBookings = Booking::where('tourID', $id)
+            ->where('paymentStatus', 'Đã thanh toán')
+            ->count();
+        $data['availability'] = max(0, $request->quantity - $paidBookings);
+        $tour->update($data);
         return redirect()->route('admin.tour.index')->with('success', 'Đã cập nhật tour!');
     }
 

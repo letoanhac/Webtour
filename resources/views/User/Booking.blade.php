@@ -122,34 +122,34 @@
 
 <div class="booking-container">
   <h2>Đặt Tour Du Lịch</h2>
-
-  {{-- Khối thông tin khách hàng & tour --}}
   <div class="info-section">
     <div class="info-box">
-      <strong>👤 Khách hàng:</strong>
-      {{ $user->username }}
+      <strong>Khách hàng:</strong>
+      {{ $user->fullName }}
     </div>
     <div class="info-box">
-      <strong>📞 Số điện thoại:</strong>
-      {{ $user->phoneNumber }}
+      <strong>Số điện thoại:</strong>
+      {{ $user->phoneNumber??'Khách hàng chưa đăng ký số điện thoại' }}
     </div>
     <div class="info-box">
-      <strong>🧭 Tên Tour:</strong>
+      <strong>Email khách hàng:</strong>
+      {{ $user->email }}
+    </div>
+    <div class="info-box">
+      <strong>Tên Tour:</strong>
       {{ $tour->title }}
       <br>
-      <strong>📍 Địa điểm:</strong>
+      <strong>Địa điểm:</strong>
       {{ $tour->destination }}
     </div>
   </div>
-
-  {{-- Giá tour --}}
   <div class="info-section" style="margin-top: 20px;">
     <div class="info-box">
-      <strong>👨‍🦱 Giá người lớn:</strong>
+      <strong>Giá người lớn:</strong>
       {{ number_format($tour->priceAdult, 0, ',', '.') }} đ
     </div>
     <div class="info-box">
-      <strong>👶 Giá trẻ em:</strong>
+      <strong>Giá trẻ em:</strong>
       {{ number_format($tour->priceChild, 0, ',', '.') }} đ
     </div>
   </div>

@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+
 
 class User extends Authenticatable
 {
@@ -26,13 +27,12 @@ class User extends Authenticatable
         'isActive',
         'createDate',
         'updateDate',
-        'activation_token',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
-        'activation_token', // nếu không muốn serialize token
+        'activation_token',
     ];
 
     protected function casts(): array
@@ -44,5 +44,26 @@ class User extends Authenticatable
             'createDate' => 'datetime',
             'updateDate' => 'datetime',
         ];
+    }
+    public function getUserId($username) {
+        return DB::table($this->table)
+        ->select('userID')
+        ->where('username', $username)
+        ->value('userID');
+    }
+    public function getUser($id) {
+        $users = DB::table($this->table)
+        ->where('userID', $id)
+        ->first();
+        return $users;
+    }
+
+     public function updateUser($id, $data)
+    {
+        $update = DB::table($this->table)
+            ->where('userID', $id)
+            ->update($data);
+
+        return $update;
     }
 }

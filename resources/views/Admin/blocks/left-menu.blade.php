@@ -1,5 +1,3 @@
-<!-- resources/views/Admin/left-menu.blade.php -->
-
 <style>
     .admin-sidebar {
         width: 250px;
@@ -83,7 +81,7 @@
             </a>
         </li>
         <li>
-            <a href="">
+            <a href="{{ route('admin.report') }}">
                 Theo dõi báo cáo và thống kê
             </a>
         </li>

@@ -161,3 +161,27 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const loginForm = document.querySelector(".login");
+        const signupForm = document.querySelector(".signup");
+
+        document.getElementById("sign-up").addEventListener("click", function () {
+            loginForm.style.display = "none";
+            signupForm.style.display = "block";
+        });
+
+        document.getElementById("login").addEventListener("click", function () {
+            signupForm.style.display = "none";
+            loginForm.style.display = "block";
+        });
+
+        // Cho các icon quay lại (mũi tên ←)
+        document.querySelectorAll(".alh__header-back").forEach(el => {
+            el.addEventListener("click", function () {
+                signupForm.style.display = "none";
+                loginForm.style.display = "block";
+            });
+        });
+    });
+</script>

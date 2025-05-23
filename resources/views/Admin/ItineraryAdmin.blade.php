@@ -110,7 +110,7 @@
                                 <th>Ngày</th>
                                 <th>Tiêu đề</th>
                                 <th>Mô tả</th>
-                                <th>Thông tin</th>
+                                <th>Lưu ý</th>
                                 <th style="width: 150px;">Hành động</th>
                             </tr>
                         </thead>

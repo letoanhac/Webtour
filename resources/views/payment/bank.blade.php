@@ -98,6 +98,5 @@
         <p><strong>Hướng Dẫn Thanh Toán:</strong></p>
         <p>Sử dụng ứng dụng ATM để quét mã QR và hoàn tất giao dịch. Hoàn tất giao dịch vui lòng chờ admin xác nhận </p>
     </div>
-
     <a href="{{ route('invoice.view', ['bookingID' => $booking->bookingID]) }}" class="btn-invoice">Xem Hóa Đơn</a>
 </div>

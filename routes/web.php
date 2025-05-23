@@ -8,15 +8,14 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ItineraryController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\TourManageController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\HistoryController;
-
-
-// Trang chủ
-Route::get('/', function () {
-    return view('welcome');
-});
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\InformationController;
 
 // Chi tiết tour
 Route::get('/tour/{id}', [TourController::class, 'show'])->name('tour.show');
@@ -25,29 +24,28 @@ Route::get('/tour/{id}', [TourController::class, 'show'])->name('tour.show');
 Route::get('/Booking/{tourID}', [BookingController::class, 'index'])->name('booking.index');
 
 // Các trang tĩnh khác
-Route::get('/Chat', function () {
-    return view('User.Chat');
-})->name('chat');
+//Route::get('/Chat', function () {
+ //   return view('User.Chat');
+//})->name('chat');
 
-Route::get('/Payment', function () {
-    return view('User.Payment');
-})->name('payment');
+//Route::get('/Payment', function () {
+//    return view('User.Payment');
+//})->name('payment');
 
 Route::get('/reviews/index', [ReviewController::class, 'index'])->name('reviews.index');
 Route::post('/reviews/store', [ReviewController::class, 'store'])->name('reviews.store');
+Route::get('/reviews/create/{tourID}', [ReviewController::class, 'create'])->name('reviews.create');
 
-Route::get('/home',[TourController::class,'index'])->name('home.index');
-
-// Route xử lý đăng ký, đăng nhập,đăng xuất, danh sách tour
-Route::get('/', [HomeController::class, 'index'])-> name('home');
 Route::get('/list', [TourListController::class, 'index'])-> name('tourList');
-Route::get('/login', [LoginController::class, 'index'])-> name('login');
-Route::post('/register', [LoginController::class, 'register'])-> name('register');
-Route::post('/login', [LoginController::class, 'login'])-> name('user-login');
-Route::get('/logout', [LoginController::class, 'logout'])-> name('logout');
-Route::get('activate-account/{token}', [LoginController::class, 'activateAccount'])->name('activate.account');
-Route::get('auth/google', [LoginGoogleController::class,'redirectToGoogle'])->name('login-google');
-Route::get('auth/google/callback', [LoginGoogleController::class,'handleGoogleCallback']);
+Route::get('/',[TourController::class,'index'])->name('home.index');
+
+Route::get('/login', [AuthController::class, 'showLogin'])->name('showlogin');//login ng dùng
+Route::post('/login', [AuthController::class, 'login'])->name('user-login');
+
+Route::get('/register', [AuthController::class, 'showRegister'])->name('register');//dky người dùng
+Route::post('/register', [AuthController::class, 'register'])->name('user-register');
+
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 //Route lịch sử
 Route::get('/history', [HistoryController::class, 'index'])->name('history.index');
 Route::get('/history/latest', [HistoryController::class, 'getLatestBooking']);
@@ -95,3 +93,21 @@ Route::prefix('admin')->group(function () {
     Route::get('/booking-manage', [BookingController::class, 'manage'])->name('admin.booking.manage');
     Route::put('/booking/update-status/{bookingID}', [BookingController::class, 'updateStatus'])->name('admin.booking.updateStatus');
 });
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('admins', [AdminController::class, 'index'])->name('admins.index');
+    Route::post('admins', [AdminController::class, 'store'])->name('admins.store');
+    Route::put('admins/{id}', [AdminController::class, 'update'])->name('admins.update');
+    Route::delete('admins/{id}', [AdminController::class, 'destroy'])->name('admins.destroy');
+    Route::get('login', [AdminController::class, 'showLogin'])->name('login.form');
+    Route::post('login', [AdminController::class, 'login'])->name('login');
+    Route::get('logout', [AdminController::class, 'logout'])->name('logout');
+});
+Route::get('/user-profile', [InformationController::class, 'index'])-> name('user-profile');
+Route::post('/user-profile', [InformationController::class, 'update'])-> name('update-user-profile');
+Route::post('/change_password', [InformationController::class, 'changePassword'])-> name('change_password');
+Route::post('/change-avatar-profile', [InformationController::class, 'changeAvatar'])-> name('change-avatar');
+
+Route::get('/admin-report', [ReportController::class, 'index'])-> name('admin.report');
+
+

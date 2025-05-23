@@ -106,7 +106,7 @@
                             <th>Phương thức thanh toán</th>
                             <th>Ngày thanh toán</th>
                             <th>Trạng thái thanh toán</th>
-                            <th>Mã giao dịch</th>
+                            <th>Mã tour</th>
                             <th>Ngày đặt</th>
                             <th>Số người lớn</th>
                             <th>Số trẻ em</th>
@@ -118,8 +118,8 @@
                     <tbody>
                         @foreach($bookings as $item)
                             <tr>
-                                <td>{{ $item->checkoutID }}</td>
-                                <td>{{ $item->bookingID }}</td>
+                                <td>{{'CE-'.$item->checkoutID }}</td>
+                                <td>{{'BKID-'.$item->bookingID }}</td>
                                 <td>{{ $item->paymentMethod }}</td>
                                 <td>{{ $item->paymentDate }}</td>
                                 <td>
@@ -131,7 +131,7 @@
                                         <span class="badge bg-secondary">{{ $item->paymentStatus }}</span>
                                     @endif
                                 </td>
-                                <td>{{ $item->transactionID }}</td>
+                                <td>{{ 'CTVTOAN-'.$item->tourID }}</td>
                                 <td>{{ $item->bookingDate }}</td>
                                 <td>{{ $item->numAdults }}</td>
                                 <td>{{ $item->numChildren }}</td>

@@ -114,7 +114,7 @@
                                 <th>Giá TE</th>
                                 <th>Thời gian</th>
                                 <th>Điểm đến</th>
-                                <th>Trạng thái</th>
+                                <th>Chỗ trống</th>
                                 <th>Lịch trình</th>
                                 <th>Ảnh</th>
                                 <th>Hành động</th>
@@ -132,7 +132,7 @@
                                         <td><input name="priceChild" type="number" class="form-control" value="{{ $tour->priceChild }}"></td>
                                         <td><input name="duration" class="form-control" value="{{ $tour->duration }}"></td>
                                         <td><input name="destination" class="form-control" value="{{ $tour->destination }}"></td>
-                                        <td><input name="availability" class="form-control" value="{{ $tour->availability }}"></td>
+                                        <td>{{ $tour->availability }}</td>
                                         <td>
                                             <a style="background-color: white;" href="{{ route('admin.tour.itineraries.index', $tour->tourID) }}" class="btn btn-info btn-sm" title="Quản lý ảnh">
                                                 <i class="fas fa-route"></i>
@@ -149,8 +149,6 @@
                                     </form>
                                 </tr>
                             @endforeach
-
-                            <!-- Form thêm mới -->
                             <tr>
                                 <form action="{{ route('admin.tour.store') }}" method="POST">
                                     @csrf
@@ -161,7 +159,7 @@
                                     <td><input name="priceChild" type="number" class="form-control" placeholder="Giá TE" required></td>
                                     <td><input name="duration" class="form-control" placeholder="Thời gian" required></td>
                                     <td><input name="destination" class="form-control" placeholder="Điểm đến" required></td>
-                                    <td><input name="availability" class="form-control" placeholder="Tình trạng" required></td>
+                                    <td>____</td>
                                     <td>____</td>
                                     <td>____</td>
                                     <td>
