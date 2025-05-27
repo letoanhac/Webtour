@@ -43,6 +43,9 @@ class LoginGoogleController extends Controller
             Log::info('User đăng nhập qua Google thành công', ['google_id' => $user->id, 'email' => $user->email]);
             
             $request->session()->put('username', $finduser->username);
+            $request->session()->put('userID', $finduser->userID);
+            $request->session()->put('avatar', $finduser->avatar);
+
             return redirect()->intended('/');
         } else {
             // Kiểm tra xem email đã tồn tại chưa

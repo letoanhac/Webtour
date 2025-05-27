@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ivivu - {{ $title }}</title>
+    <title>Ivivu </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 
     <link rel="stylesheet" href="{{ asset('clients/css/style.css') }}" />
@@ -32,12 +32,11 @@
                         <div class="navbar-collapse">
                             <ul>
                                 <li><a class="{{ Route::is('home') ? 'active-1' : '' }}"
-                                        href="{{ route('home') }}">Home</a></li>
+                                        href="{{ route('home') }}">Trang chủ</a></li>
                                 <li><a class="{{ Route::is('tourList') ? 'active-1' : '' }}"
-                                        href="{{ route('tourList') }}">Tours</a></li>
-                                <li><a href="#">Vé Máy Bay</a></li>
-                                <li><a href="#">Vé vui chơi</a></li>
-                                <li><a href="#">Vé Tàu</a></li>
+                                        href="{{ route('tourList') }}">Danh sách tour</a></li>
+                                <li><a class="{{ Route::is('history.index') ? 'active-1' : '' }}"
+                                        href="{{ route('history.index') }}">Lịch sử đặt tour</a></li>
                                 <li>
                                     <a href="#"><i class="fa-solid fa-ellipsis"></i></a>
                                 </li>
@@ -50,36 +49,38 @@
                             <div class="menu-sidebar">
                                 <li class="user-login drop-down">
                                     <div>
+
                                         <div class="img-wrapper" id="userDropdown">
-                                            @if (session()->has('avatar'))
-                                                @php
-                                                    $avatar = session()->get('avatar', 'user_avatar.jpg');
-                                                @endphp
+                                            @php
+                                                $avatar = session('avatar');
+                                                $isLoggedIn = session()->has('username');
+                                            @endphp
+                                            @if ($isLoggedIn)
                                                 <img id="avatarPreview" class="img-account-profile rounded-circle mb-2"
                                                     src="{{ asset('admin/assets/img/user-profile/' . $avatar) }}"
-                                                    style="width:40px; height: 40px;">
-                                                    <i style="color: #fff"
-                                                    class="fa-solid fa-chevron-down fa-beat chevron-icon"></i>
+                                                    alt="Avatar người dùng"
+                                                    style="width: 40px; height: 40px;">
                                             @else
+                                                <!-- User chưa đăng nhập hoặc không có avatar -->
                                                 <img id="avatarPreview" class="img-account-profile rounded-circle mb-2"
-                                                    src="https://www.ivivu.com/du-lich/content/img/avatars/avatar-default-white.svg" alt="Avatar mặc định">
-                                                <i style="color: #fff"
-                                                    class="fa-solid fa-chevron-down fa-beat chevron-icon"></i>
+                                                    src="https://www.ivivu.com/du-lich/content/img/avatars/avatar-default-white.svg"
+                                                    alt="Avatar mặc định"
+                                                    style="width: 40px; height: 40px;">
                                             @endif
+
+                                            <i style="color: #fff" class="fa-solid fa-chevron-down fa-beat chevron-icon"></i>
                                         </div>
+
                                         <ul class="dropdown-menu" id="dropdownMenu">
                                             @if (session()->has('username'))
-                                                <li>
-                                                    {{ session()->get('username') }}
-                                                </li>
+                                                <li>{{ session()->get('username') }}</li>
                                                 <li><a href="{{ route('user-profile') }}">Thông tin cá nhân</a></li>
                                                 <li><a href="{{ route('logout') }}">Đăng Xuất</a></li>
                                             @else
                                                 <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                                <li><a href="{{ route('admin.login') }}">Đăng nhập cho admin</a></li>
                                             @endif
                                         </ul>
-
-                                    </div>
                                 </li>
                             </div>
 
@@ -102,3 +103,34 @@
             </div>
         </div>
     </header>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const userDropdown = document.getElementById('userDropdown');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+
+            userDropdown.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const isVisible = dropdownMenu.style.display === 'block';
+                dropdownMenu.style.display = isVisible ? 'none' : 'block';
+                // Accessibility toggle
+                const expanded = this.getAttribute('aria-expanded') === 'true';
+                this.setAttribute('aria-expanded', !expanded);
+            });
+
+            // Click outside dropdown: hide it
+            document.addEventListener('click', function (event) {
+                if (!userDropdown.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                    dropdownMenu.style.display = 'none';
+                    userDropdown.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // Optional: hide dropdown on Escape key
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'Escape') {
+                    dropdownMenu.style.display = 'none';
+                    userDropdown.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+    </script>

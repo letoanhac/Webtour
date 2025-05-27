@@ -1,13 +1,16 @@
  @foreach ($tours as $tour)
      <div class="tourItem">
-         <a href="#">
+         <a href="{{ route('tour.show', ['id' => $tour->tourID]) }}">
              <div class="warpTour">
                  <span class="v-ribbon">
                      <span>Nhóm 4 giảm 3 triệu</span>
                  </span>
                  <div class="tourItemLeft">
                      <picture>
-                         <img src="{{ asset( $tour->images[0]) }}" alt="" />
+                         @if (!empty($tour->images) && isset($tour->images[0]))
+                            <img src="{{ asset($tour->images[0]) }}"
+                                alt="" />
+                        @endif
                      </picture>
                  </div>
                  <div class="tourItemContent">

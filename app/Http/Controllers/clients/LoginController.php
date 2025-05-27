@@ -83,40 +83,48 @@ class LoginController extends Controller
     }
 
     //Xử lý người dùng đăng nhập
-    public function login(Request $request)
-    {
-        $username = $request->username;
-        $password = $request->password;
+    //Xử lý người dùng đăng nhập
+public function login(Request $request)
+{
+    $username = $request->username;
+    $password = $request->password;
 
-        $data_login = [
-            'username' => $username,
-            'password' => md5($password)
-        ];
+    $data_login = [
+        'username' => $username,
+        'password' => md5($password)
+    ];
 
-
-        $user_login =  $this->login->login($data_login);
+    $user_login = $this->login->login($data_login);
+    
+    if ($user_login != null) {
         $userId = $this->user->getUserId($username);
         $user = $this->user->getUser($userId);
+        
+        // Lưu cả username và userID vào session
+        $request->session()->put('username', $username);
+        $request->session()->put('userID', $userId); // Thêm dòng này
+        $request->session()->put('avatar', $user->avatar);
+        
         toastr()->success("Đăng nhập thành công!", ["Thông báo"]);
-        if ($user_login != null) {
-            $request->session()->put('username', $username);
-             $request->session()->put('avatar', $user->avatar);
-            return response()->json([
-                'success' => true,
-                'message' => 'Đăng nhập thành công!',
-            ]);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Thông tin tài khoản không chính xác!',
-            ]);
-        }
+        
+        return response()->json([
+            'success' => true,
+            'message' => 'Đăng nhập thành công!',
+        ]);
+    } else {
+        return response()->json([
+            'success' => false,
+            'message' => 'Thông tin tài khoản không chính xác!',
+        ]);
     }
+}
 
-    public function logout(Request $request)
-    {
-        $request->session()->forget('username');
-
-        return redirect()->route('home')->with('success', 'Đăng xuất thành công!');
-    }
+public function logout(Request $request)
+{
+    $request->session()->forget('username');
+    $request->session()->forget('userID'); // Thêm dòng này để xóa userID khi logout
+    $request->session()->forget('avatar');
+    $request->session()->flush();
+    return redirect()->route('home')->with('success', 'Đăng xuất thành công!');
+}
 }

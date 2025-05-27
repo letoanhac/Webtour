@@ -345,7 +345,6 @@ textarea,
 .cardItemImage {
   position: relative;
 }
-
 .ribbonContainerOuter {
   position: absolute;
   top: 0px;
@@ -390,9 +389,9 @@ textarea,
 }
 
 .cardItem .cardItemContainer .cardItemImage figure img {
-  object-fit: cover;
-  max-width: 100%;
-  min-height: 224px;
+  width: 100%;
+  background-size: cover;
+  height: 250px;
   transition: 0.5s ease-in-out;
 }
 

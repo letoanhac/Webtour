@@ -21,7 +21,7 @@
                         @foreach ($tours as $tour)
                             <div class="card">
                                 <div class="cardItem">
-                                    <a href="#">
+                                    <a href="{{ route('tour.show', ['id' => $tour->tourID]) }}">
                                         <div class="cardItemContainer">
                                             <div>
                                                 <div class="cardItemImage">
