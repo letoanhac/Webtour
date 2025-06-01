@@ -7,6 +7,8 @@ use App\Models\clients\Tours;
 use Illuminate\Http\Request;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class SearchController extends Controller
 {
@@ -16,6 +18,7 @@ class SearchController extends Controller
     {
         $this->tours = new Tours();
     }
+    
     public function index(Request $request)
     {
         $title = 'Tìm kiếm';
@@ -41,18 +44,20 @@ class SearchController extends Controller
         $destination = $request->input('destination');
         $startDate = $request->input('start_date');
         $endDate = $request->input('end_date');
+        $keyword = $request->input('keyword'); 
 
         // Chuyển đổi định dạng ngày tháng
         $formattedStartDate = $startDate ? Carbon::createFromFormat('d/m/Y', $startDate)->format('Y-m-d') : null;
         $formattedEndDate = $endDate ? Carbon::createFromFormat('d/m/Y', $endDate)->format('Y-m-d') : null;
 
         // Chuyển đổi giá trị sang tên chi tiết nếu có trong mảng
-        $destinationName = $destinationMap[$destination];
+        $destinationName = isset($destinationMap[$destination]) ? $destinationMap[$destination] : $destination;
 
         $dataSearch = [
             'destination' => $destinationName,
             'startDate' => $formattedStartDate,
             'endDate' => $formattedEndDate,
+            'keyword' => $keyword, 
         ];
 
         $tours = $this->tours->searchTours($dataSearch);

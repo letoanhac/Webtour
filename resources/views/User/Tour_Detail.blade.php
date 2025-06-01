@@ -94,12 +94,18 @@
       opacity: 1;
       border-color: #ff9800;
     }
-    table {
-
+    .a-expired {
+      color: black;
+      font-size: 20px;
+    }
+    .a-expired:hover {
+      color: green;
+      font-size: 21px;
     }
   </style>
 </head>
 <body>
+@include('User.blocks.progress-bar')
 
 <div class="tour-detail">
   <h1>{{ $tour->title }}</h1>
@@ -138,19 +144,23 @@
       <p><span class="highlight">Điểm đến cụ thể:</span> {{ $tour->destination }}</p>
       <p><span class="highlight">Số chỗ đặt tour còn lại: </span> {{ $tour->quantityleft}}</p>
       <div class="Itinerary">
-      <h1>Dưới đây là lịch trình của tour: {{ $tour->title }}</h1>
-      @include('User.blocks.itinerary')
-    </div>
+        <h1>Dưới đây là lịch trình của tour: {{ $tour->title }}</h1>
+        @include('User.blocks.itinerary')
+      </div>
     <div>
     <br>
     @include('User.Review')
     <br>
   </div>
+  @if($tour->availability == 1)
   <div class="button-group">
-    <a href="{{ route('booking.index', ['tourID' => $tour->tourID]) }}">
-      <button>Đặt Tour</button>
-    </a>
+    <a href="{{ route('booking.index', ['tourID' => $tour->tourID]) }}" onclick="showOverlayThenGo(this.href); return false;">
+    <button>Đặt Tour</button>
+  </a>
   </div>
+  @else
+  <p style="text-align: center;">Tour đã hết hạn hoặc chưa mở bán! Vui lòng chọn <a class="a-expired" href="{{ route('tourList') }}">Tour Khác</a></p>
+  @endif
 </div>
 <script>
   function changeImage(el) {

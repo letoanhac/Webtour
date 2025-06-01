@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Image;
 use App\Models\Itinerary;
 use App\Models\Review;
+use Carbon\Carbon;
 
 class TourController extends Controller
 {
@@ -16,6 +17,9 @@ class TourController extends Controller
         if (!$tour) {
             return redirect()->route('tour.index')->with('error', 'Tour not found!');
         }
+        $now = Carbon::now();
+        $tour->availability = ($now->between($tour->startDate, $tour->endDate)) ? 1 : 0;
+        $tour->save();
         $images = Image::where('tourID', $id)->get();
         $reviews = Review::where('tourID', $id)->with('user')->orderBy('timestamp', 'desc')->get();
         $itineraries = Itinerary::where('tourID', $id)->orderBy('day', 'asc')->get();
@@ -23,7 +27,6 @@ class TourController extends Controller
     }
     public function index()
     {
-
         return view('clients.home', compact('tours'));
     }
 }

@@ -19,7 +19,7 @@ class CheckoutController extends Controller
             abort(403, 'Bạn không có quyền truy cập.');
         }
 
-        return view('payment.cash', compact('booking'));
+        return view('payment.cash', compact('booking'))->with('alert','Mời bạn thanh toán lại');
     }
     public function qr($bookingID)
     {
@@ -33,7 +33,7 @@ class CheckoutController extends Controller
             abort(403, 'Bạn không có quyền truy cập.');
         }
 
-        return view('payment.bank', compact('booking'));
+        return view('payment.bank', compact('booking'))->with('alert','Mời bạn thanh toán lại');
     }
     public function credit($bookingID)
     {
@@ -47,7 +47,7 @@ class CheckoutController extends Controller
             abort(403, 'Bạn không có quyền truy cập.');
         }
 
-        return view('payment.credit', compact('booking'));
+        return redirect()->route('vnpay.payment',['bookingID'=>$booking->bookingID])->with('alert','Mời bạn thanh toán lại');
     }
     public function momo($bookingID)
     {
@@ -61,7 +61,7 @@ class CheckoutController extends Controller
             abort(403, 'Bạn không có quyền truy cập.');
         }
 
-        return view('payment.momo', compact('booking'));
+        return view('payment.momo', compact('booking'))->with('alert','Mời bạn thanh toán lại');
     }
     public function show($checkoutID)
     {
@@ -76,7 +76,7 @@ class CheckoutController extends Controller
                 return redirect()->route('checkout.cash', ['bookingID' => $checkout->bookingID]);
             case 'Chuyển khoản':
                 return redirect()->route('checkout.bank', ['bookingID' => $checkout->bookingID]);
-            case 'Thẻ tín dụng':
+            case 'vnpay':
                 return redirect()->route('checkout.credit', ['bookingID' => $checkout->bookingID]);
             case 'Momo':
                 return redirect()->route('checkout.momo', ['bookingID' => $checkout->bookingID]);

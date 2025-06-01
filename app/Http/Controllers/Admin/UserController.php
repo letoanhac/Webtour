@@ -56,6 +56,10 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
+        if ($user->bookings()->count() > 0) {
+            return redirect()->back()->with('error', 'Không thể xóa người dùng vì đã từng đặt tour.')
+            ->with('alert','Admin có hành vi xóa dữ liệu nhằm tránh thuế!!!');
+        }
         $user->delete();
 
         return redirect()->route('admin.usermanage.user.index')->with('success', 'Xoá người dùng thành công!');

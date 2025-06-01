@@ -9,7 +9,9 @@ class Booking extends Model
     protected $table = 'booking';
     protected $primaryKey = 'bookingID';
     public $timestamps = false;
-
+    public $fillable = [
+        'paymentStatus'
+    ];
     public function tour()
     {
         return $this->belongsTo(Tour::class, 'tourID');

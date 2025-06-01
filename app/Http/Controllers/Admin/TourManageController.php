@@ -35,7 +35,6 @@ class TourManageController extends Controller
         $tour->update($data);
         return redirect()->route('admin.tour.index')->with('success', 'Đã cập nhật tour!');
     }
-
     public function destroy($id)
     {
         $tour = Tour::findOrFail($id);
@@ -51,7 +50,7 @@ class TourManageController extends Controller
             'description' => $request->description,
             'uploadDate' => now()
         ]);
-        return redirect()->route('admin.tour.index')->with('success', 'Đã thêm ảnh cho tour!');
+        return redirect()->back()->with('success', 'Đã thêm ảnh cho tour!');
     }
 
     public function updateImage(Request $request, $id)
@@ -61,13 +60,13 @@ class TourManageController extends Controller
             'imageURL' => $request->imageURL,
             'description' => $request->description
         ]);
-        return redirect()->route('admin.tour.index')->with('success', 'Đã cập nhật ảnh!');
+        return redirect()->back()->with('success', 'Đã cập nhật ảnh!');
     }
 
     public function deleteImage($id)
     {
         Image::destroy($id);
-        return redirect()->route('admin.tour.index')->with('success', 'Đã xoá ảnh!');
+        return redirect()->back()->with('success', 'Đã xoá ảnh!');
     }
     public function manageImage($tourID)
     {

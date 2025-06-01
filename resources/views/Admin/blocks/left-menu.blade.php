@@ -1,10 +1,10 @@
 <style>
     .admin-sidebar {
-        width: 250px;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-        box-shadow: 3px 0 10px rgba(0,0,0,0.1);
-        border-radius: 0 15px 15px 0;
+        width: 200px;
+        height: 750px;
+        background: linear-gradient(135deg,rgb(65, 124, 183),rgb(128, 90, 90));
+        box-shadow: 3px 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 30px;
         padding: 30px 20px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         user-select: none;
@@ -61,7 +61,6 @@
         transform: translateX(8px);
     }
 </style>
-
 <div class="admin-sidebar">
     <h4>Trang quản trị</h4>
     <ul>
@@ -80,10 +79,10 @@
                 Quản lý người dùng
             </a>
         </li>
-        <li>
-            <a href="{{ route('admin.report') }}">
-                Theo dõi báo cáo và thống kê
-            </a>
-        </li>
     </ul>
+</div>
+<div>
+    <a href="{{ route('admin.report') }}">
+        <button style="border-radius: 20px;background-color: lightblue;">Quản lý báo cáo và thống kê</button>
+    </a>
 </div>

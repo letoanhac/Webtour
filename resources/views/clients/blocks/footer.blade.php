@@ -143,7 +143,7 @@
       </div>
     </div>
   </footer>
-
+<script lang="javascript">var __vnp = {code : 25098,key:'', secret : '6c5c16d254a6540294dd9de9b93b9ba1'};(function() {var ga = document.createElement('script');ga.type = 'text/javascript';ga.async=true; ga.defer=true;ga.src = '//core.vchat.vn/code/tracking.js?v=76556'; var s = document.getElementsByTagName('script');s[0].parentNode.insertBefore(ga, s[0]);})();</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   <script src="{{ asset('clients/js/main.js') }}"></script>
   <script src="{{ asset('clients/js/custom-js.js') }}"></script>

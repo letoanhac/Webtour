@@ -5,6 +5,8 @@
         </div>
         <ul class="user-dropdown">
             <li><a href="{{ route('admin.admins.index') }}">Quản lý tài khoản quản trị viên</a></li>  
+            <li><a href="{{ route('admin.report') }}">Quản lý báo cáo và thống kê</a></li>
+            <li><a href="{{ route('admin.tour.index') }}">Quản lý tour</a></li>
             <li><a href="{{ route('admin.logout') }}">Đăng xuất</a></li>
         </ul>
     </div>
@@ -12,10 +14,14 @@
 <style>
 .admin-header {
     display: flex;
+    border-radius:20px;
+    margin-top:-20px;
+    margin-left:10px;
+    margin-right: -10px;
     justify-content: flex-end;
     align-items: center;
-    padding: 10px 20px;
-    background-color: #f1f5f9;
+    padding: 20px 30px;
+    background: linear-gradient(135deg,rgb(65, 124, 183),rgb(128, 90, 90));
     position: relative;
     z-index: 10;
 }
@@ -29,7 +35,7 @@
 .admin-user-menu .user-icon {
     font-size: 30px;
     color: #1e40af;
-    padding: 6px;
+    padding: 10px;
     border-radius: 50%;
     transition: background-color 0.3s ease;
 }
@@ -43,7 +49,7 @@
     position: absolute;
     right: 0;
     top: 40px;
-    background-color: #ffffff;
+    background: linear-gradient(135deg,rgb(85, 255, 0),rgb(250, 0, 0));
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
     padding: 8px 0;

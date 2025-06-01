@@ -15,10 +15,10 @@
         <div class="container">
             <section class="content">
                 <div class="tourHomeContainer">
-                    <h2 class="title-group">Tour Ưu Đãi Tốt Nhất Hôm Nay</h2>
+                    <h2 class="title-group">Tour Du lịch Miền Nam</h2>
                     <span class="title-group-sub">Nhanh Tay Đặt Ngay.Để Mai Sẽ Lỡ</span>
                     <div class="row item-m">
-                        @foreach ($tours as $tour)
+                        @foreach ($toursN as $tour)
                             <div class="card">
                                 <div class="cardItem">
                                     <a href="{{ route('tour.show', ['id' => $tour->tourID]) }}">
@@ -47,15 +47,25 @@
                                                     </div>
                                                     <div class="cardItemTourDetailDiv">
                                                         <span class="score-container__inner">
-                                                            <div class="score">9.7</div>
-                                                            <div class="score-description">Tuyệt vời</div>
-                                                            <span> | 7 đánh giá</span>
+                                                            <span class="score-description"><b>Mở bán:</b>
+                                                                {{ \Carbon\Carbon::parse($tour->startDate)->format('d-m-Y') }}</span>
+                                                            <span class="score-description"><b>Kết thúc bán:</b>
+                                                                {{ \Carbon\Carbon::parse($tour->endDate)->format('d-m-Y') }}</span>
+                                                        </span>
+                                                        <span >
+                                                            <div class="tourTime" style="margin: 4px 0px 0px 15px;">
+                                                                <i class="fa-regular fa-clock"></i>
+                                                                {{ $tour->time }}
+                                                            </div>
                                                         </span>
                                                         <div class="cardItemDepartDiv">
                                                             <ul class="tourListPros">
-                                                                <li>Du Thuyền Kawaguko</li>
-                                                                <li>Chùa Vàng Kinkakuji</li>
-                                                                <li>Trải Nghiệm Mặc Đồ Yukata</li>
+                                                                @php
+                                                                    $destinations = explode('-', $tour->destination);
+                                                                @endphp
+                                                                @foreach ($destinations as $dest)
+                                                                    <li>{{ trim($dest) }}</li>
+                                                                @endforeach
                                                             </ul>
                                                         </div>
                                                         <div class="cardItemPrice">
@@ -78,7 +88,8 @@
                     </div>
 
                     <div class="text-center" style="display: block; text-align: center">
-                        <a href="#" class="btn-readmore">Xem thêm tours</a>
+                        <a href="{{ route('tours.by.domain', ['domain' => 'n']) }}" class="btn-readmore">Xem thêm
+                            tours</a>
                     </div>
                 </div>
             </section>
@@ -88,317 +99,80 @@
         <div class="container">
             <section class="content">
                 <div class="tourHomeContainer">
-                    <h2 class="title-group" style="color: #3f3b3b;">Tour Du Lịch Hè Nước Ngoài</h2>
+                    <h2 class="title-group" style="color: #3f3b3b;">Tour Du Lịch Miền Bắc</h2>
                     <span class="title-group-sub">Chơi Hè Thả Ga, Không Lo Về Giá</span>
                     <div class="row item-m">
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
+                        @foreach ($toursB as $tour)
+                            <div class="card">
+                                <div class="cardItem">
+                                    <a href="{{ route('tour.show', ['id' => $tour->tourID]) }}">
+                                        <div class="cardItemContainer">
+                                            <div>
+                                                <div class="cardItemImage">
+                                                    <div class="ribbonContainerOuter">
+                                                        <div class="ribbonContainerInner">
+                                                            <div class="v-ribbon">
+                                                                <span>{{ $tour->description }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <figure>
+                                                        <picture>
+                                                            @if (!empty($tour->images) && isset($tour->images[0]))
+                                                                <img src="{{ asset($tour->images[0]) }}"
+                                                                    alt="" />
+                                                            @endif
+                                                        </picture>
+                                                    </figure>
+                                                </div>
+                                                <div class="cardItemContent">
+                                                    <div class="cardItemTourNameDiv">
+                                                        <span class="cardItemTourName">{{ $tour->title }}</span>
+                                                    </div>
+                                                    <div class="cardItemTourDetailDiv">
+                                                        <span class="score-container__inner">
+                                                            <span class="score-description"><b>Mở bán:</b>
+                                                                {{ \Carbon\Carbon::parse($tour->startDate)->format('d-m-Y') }}</span>
+                                                            <span class="score-description"><b>Kết thúc bán:</b>
+                                                                {{ \Carbon\Carbon::parse($tour->endDate)->format('d-m-Y') }}</span>
+                                                        </span>
+                                                        <span >
+                                                            <div class="tourTime" style="margin: 4px 0px 0px 15px;">
+                                                                <i class="fa-regular fa-clock"></i>
+                                                                {{ $tour->time }}
+                                                            </div>
+                                                        </span>
+                                                        <div class="cardItemDepartDiv">
+                                                            <ul class="tourListPros">
+                                                                @php
+                                                                    $destinations = explode('-', $tour->destination);
+                                                                @endphp
+                                                                @foreach ($destinations as $dest)
+                                                                    <li>{{ trim($dest) }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                        <div class="cardItemPrice">
+                                                            <span class="price">
+                                                                <span>{{ number_format($tour->priceAdult, 0, ',', '.') }}</span>
+                                                                <small style="font-size: 20px; padding-left: 8px">đ
+                                                                </small>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}" alt="" />
-                                                </picture>
-                                            </figure>
                                         </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji - Nagoya
-                                                    - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}" alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji - Nagoya
-                                                    - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                        @endforeach
+
                     </div>
 
                     <div class="text-center" style="display: block; text-align: center">
-                        <a href="#" class="btn-readmore">Xem thêm tours</a>
+                        <a href="{{ route('tours.by.domain', ['domain' => 'b']) }}" class="btn-readmore">Xem thêm
+                            tours</a>
                     </div>
                 </div>
             </section>
@@ -408,700 +182,83 @@
         <div class="container">
             <section class="content">
                 <div class="tourHomeContainer">
-                    <h2 class="title-group" style="color: #3f3b3b">Tour Du Lịch Hè Trong Nước</h2>
+                    <h2 class="title-group" style="color: #3f3b3b">Tour Du Lịch Miền Trung</h2>
                     <span class="title-group-sub">Thỏa Sức Khám Phá, Giá Siêu Ưu Đãi</span>
                     <div class="row item-m">
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
+                        @foreach ($toursT as $tour)
+                            <div class="card">
+                                <div class="cardItem">
+                                    <a href="{{ route('tour.show', ['id' => $tour->tourID]) }}">
+                                        <div class="cardItemContainer">
+                                            <div>
+                                                <div class="cardItemImage">
+                                                    <div class="ribbonContainerOuter">
+                                                        <div class="ribbonContainerInner">
+                                                            <div class="v-ribbon">
+                                                                <span>{{ $tour->description }}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <figure>
+                                                        <picture>
+                                                            @if (!empty($tour->images) && isset($tour->images[0]))
+                                                                <img src="{{ asset($tour->images[0]) }}"
+                                                                    alt="" />
+                                                            @endif
+                                                        </picture>
+                                                    </figure>
+                                                </div>
+                                                <div class="cardItemContent">
+                                                    <div class="cardItemTourNameDiv">
+                                                        <span class="cardItemTourName">{{ $tour->title }}</span>
+                                                    </div>
+                                                    <div class="cardItemTourDetailDiv">
+                                                        <span class="score-container__inner">
+                                                            <span class="score-description"><b>Mở bán:</b>
+                                                                {{ \Carbon\Carbon::parse($tour->startDate)->format('d-m-Y') }}</span>
+                                                            <span class="score-description"><b>Kết thúc bán:</b>
+                                                                {{ \Carbon\Carbon::parse($tour->endDate)->format('d-m-Y') }}</span>
+                                                        </span>
+                                                        <span >
+                                                            <div class="tourTime" style="margin: 4px 0px 0px 15px;">
+                                                                <i class="fa-regular fa-clock"></i>
+                                                                {{ $tour->time }}
+                                                            </div>
+                                                        </span>
+                                                        <div class="cardItemDepartDiv">
+                                                            <ul class="tourListPros">
+                                                                @php
+                                                                    $destinations = explode('-', $tour->destination);
+                                                                @endphp
+                                                                @foreach ($destinations as $dest)
+                                                                    <li>{{ trim($dest) }}</li>
+                                                                @endforeach
+                                                            </ul>
+                                                        </div>
+                                                        <div class="cardItemPrice">
+                                                            <span class="price">
+                                                                <span>{{ number_format($tour->priceAdult, 0, ',', '.') }}</span>
+                                                                <small style="font-size: 20px; padding-left: 8px">đ
+                                                                </small>
+                                                            </span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
                                         </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
+                        @endforeach
+
 
                     </div>
 
                     <div class="text-center" style="display: block; text-align: center">
-                        <a href="#" class="btn-readmore">Xem thêm tours</a>
+                        <a href="{{ route('tours.by.domain', ['domain' => 't']) }}" class="btn-readmore">Xem thêm
+                            tours</a>
                     </div>
                 </div>
-            </section>
-        </div>
-    </li>
-    <li class="wrap-backgroup" style="background-color: #F2F7FA">
-        <div class="container">
-            <section class="content">
-                <div class="tourHomeContainer">
-                    <h2 class="title-group" style="color: #3f3b3b">Tour Du Lịch Âu - Úc - Mỹ</h2>
-                    <span class="title-group-sub">Trải Nghiệm Đẳng Cấp, Nâng Tầm Cuộc Sống</span>
-                    <div class="row item-m">
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="cardItem">
-                                <a href="#">
-                                    <div class="cardItemContainer">
-                                        <div class="cardItemImage">
-                                            <div class="ribbonContainerOuter">
-                                                <div class="ribbonContainerInner">
-                                                    <div class="v-ribbon">
-                                                        <span>Nhóm 4 giảm 3 triệu</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <figure>
-                                                <picture>
-                                                    <img src="{{ asset('clients/img/product1.jpg') }}"
-                                                        alt="" />
-                                                </picture>
-                                            </figure>
-                                        </div>
-                                        <div class="cardItemContent">
-                                            <div class="cardItemTourNameDiv">
-                                                <span class="cardItemTourName">Tour Nhật Bản 6N5Đ: Tokyo - Fuji -
-                                                    Nagoya - Kyoto
-                                                    - Osaka Mùa Hè</span>
-                                            </div>
-                                            <div class="cardItemTourDetailDiv">
-                                                <span class="score-container__inner">
-                                                    <div class="score">9.7</div>
-                                                    <div class="score-description">Tuyệt vời</div>
-                                                    <span> | 7 đánh giá</span>
-                                                </span>
-                                                <div class="cardItemDepartDiv">
-                                                    <ul class="tourListPros">
-                                                        <li>Du Thuyền Kawaguko</li>
-                                                        <li>Chùa Vàng Kinkakuji</li>
-                                                        <li>Trải Nghiệm Mặc Đồ Yukata</li>
-                                                    </ul>
-                                                </div>
-                                                <div class="cardItemPrice">
-                                                    <span class="price">
-                                                        32.900.000
-                                                        <small style="font-size: 20px; padding-left: 8px">đ
-                                                        </small>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="text-center" style="display: block; text-align: center">
-                        <a href="#" class="btn-readmore">Xem thêm tours</a>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </li>
-    <li class="wrap-backgroup" style="background-color: #FFF">
-        <div class="container">
-            <section class="content">
-                <div class="tourHomeContainer">
-                    <h2 class="title-group" style="color: rgb(63, 59, 59)">Tour Ưu Đãi Tốt Nhất Hôm Nay</h2>
-                    <span class="title-group-sub">Nhanh Tay Đặt Ngay.Để Mai Sẽ Lỡ</span>
-                    <div class="destinations-grid">
-                        <div class="destination-card featured-destination">
-                            <img src="{{ asset('clients/img/van-ly-truong-thanh-bia--360x480.jpg') }}"
-                                alt="Vạn Lý Trường Thành, Trung Quốc">
-                            <div class="destination-info">
-                                <h2>Trung Quốc</h2>
-                                <p>145 Tours</p>
-                            </div>
-                        </div>
-
-                        <div class="destination-card">
-                            <img src="{{ asset('clients/img/gardens-by-the-bay-singapore-ivv-360x225.jfif') }}"
-                                alt="Gardens by the Bay, Singapore">
-                            <div class="destination-info">
-                                <h2>Singapore</h2>
-                                <p>40 Tours</p>
-                            </div>
-                        </div>
-
-                        <div class="destination-card">
-                            <img src="{{ asset('clients/img/ivivu-chua-binh-minh-wat-arun-360x225.jpg') }}"
-                                alt="Wat Arun, Thái Lan">
-                            <div class="destination-info">
-                                <h2>Thái Lan</h2>
-                                <p>48 Tours</p>
-                            </div>
-                        </div>
-
-                        <div class="destination-card">
-                            <img src="{{ asset('clients/img/ivivu-thap-eiffel-1-360x225.jfif') }}"
-                                alt="Tháp Eiffel, Châu Âu">
-                            <div class="destination-info">
-                                <h2>Châu Âu</h2>
-                                <p>27 Tours</p>
-                            </div>
-                        </div>
-
-                        <div class="destination-card">
-                            <img src="{{ asset('clients/img/nui-phu-si-vv-360x225.jfif') }}"
-                                alt="Núi Phú Sĩ, Nhật Bản">
-                            <div class="destination-info">
-                                <h2>Nhật Bản</h2>
-                                <p>56 Tours</p>
-                            </div>
-                        </div>
-                    </div>
             </section>
         </div>
     </li>

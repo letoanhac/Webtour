@@ -98,7 +98,9 @@
             @include('Admin.blocks.manage-top')
             <div class="container-fluid">
                 <h2 class="text-center mb-4">Quản lý Tour</h2>
-
+                <a href="{{ route('admin.tour.index') }}">
+                    <button style="margin-bottom:30px;border-radius:20px;height:30px;width:180px;background: linear-gradient(135deg,rgb(195, 197, 200),rgb(89, 46, 110));">Quay lại</button>
+                </a>
                 @if (session('success'))
                     <div class="alert alert-success text-center">{{ session('success') }}</div>
                 @endif

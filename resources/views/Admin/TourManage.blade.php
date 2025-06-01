@@ -18,11 +18,10 @@
         }
         .sidebar {
             width: 250px;
-            background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+            background: linear-gradient(135deg,rgb(64, 79, 94),rgb(89, 46, 110));
             box-shadow: 3px 0 10px rgba(0,0,0,0.1);
             border-radius: 0 15px 15px 0;
             padding: 30px 20px;
-            user-select: none;
         }
         .sidebar h4 {
             color: #1e40af;
@@ -49,25 +48,15 @@
             font-size: 16px;
             padding: 12px 20px;
             border-radius: 12px;
-            box-shadow: inset 0 0 0 0 transparent;
-            transition: 
-                background-color 0.3s ease, 
-                color 0.3s ease,
-                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                transform 0.2s ease;
-            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
         .sidebar a:hover {
             background-color: #cbd5e1;
             color: #1e40af;
-            box-shadow: inset 5px 0 0 0 #1e40af;
-            transform: translateX(8px);
         }
         .sidebar a.active {
             background-color: #1e40af;
             color: #f8fafc;
-            box-shadow: inset 5px 0 0 0 #1e40af;
-            transform: translateX(8px);
         }
 
         .admin-content {
@@ -81,7 +70,7 @@
             vertical-align: middle !important;
         }
         .form-control {
-            min-width: 100px;
+            min-width: 120px;
         }
         .btn {
             padding: 4px 10px;
@@ -194,7 +183,7 @@
             </div>
         </main>
     </div>
-
+@include('Admin.blocks.overlay')
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
