@@ -11,7 +11,16 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
-{
+{   
+    public function show($bookingID)
+    {
+        $booking = Booking::with(['tour', 'user', 'checkout'])->findOrFail($bookingID);
+        $tour = $booking->tour;
+        $user = $booking->user;
+
+        return view('User.Booking', compact('booking', 'tour', 'user'));
+    }
+
     public function index($tourID)
     {
         $tour = Tour::findOrFail($tourID);
@@ -102,8 +111,8 @@ class BookingController extends Controller
                 return redirect()->route('checkout.cash', ['bookingID' => $booking->bookingID]);
             case 'Chuyển khoản':
                 return redirect()->route('checkout.bank', ['bookingID' => $booking->bookingID]);
-            case 'Thẻ tín dụng':
-                return redirect()->route('checkout.credit', ['bookingID' => $booking->bookingID]);
+            case 'vnpay':
+                return redirect()->route('vnpay.payment', ['bookingID' => $booking->bookingID]);
             case 'Momo':
                 return redirect()->route('checkout.momo', ['bookingID' => $booking->bookingID]);
             default:

@@ -44,10 +44,9 @@
         padding: 40px 0;
     }
 </style>
-
+@include('User.blocks.overlay')
 <div class="container mt-4">
     <h2>Lịch sử đặt tour của bạn</h2>
-
     @if($histories->count())
         @php
             $displayedBookings = [];

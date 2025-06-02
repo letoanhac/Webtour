@@ -19,6 +19,8 @@ use App\Http\Controllers\clients\LoginController;
 use App\Http\Controllers\clients\LoginGoogleController;
 use App\Http\Controllers\clients\SearchController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\VnpayController;
+
 
 // Route::get('/', function () {
 //     return view('home');
@@ -54,18 +56,15 @@ Route::controller(FacebookController::class)->group(function(){
     Route::get('auth/facebook/callback', 'handleFacebookCallback');
 });
 
-
 //Search
 Route::get('/search', [SearchController::class, 'index'])-> name('search');
-
-
+Route::get('/tours-mien-{domain}', [HomeController::class, 'showToursByDomain'])
+    ->where('domain', '[nbt]')
+    ->name('tours.by.domain');
 
 
 // Chi tiết tour
 Route::get('/tour/{id}', [TourController::class, 'show'])->name('tour.show');
-
-// Trang đặt tour (hiển thị form đặt tour)
-Route::get('/Booking/{tourID}', [BookingController::class, 'index'])->name('booking.index');
 
 
 Route::get('/reviews/index', [ReviewController::class, 'index'])->name('reviews.index');
@@ -78,6 +77,8 @@ Route::get('/history/latest', [HistoryController::class, 'getLatestBooking']);
 
 // Route xử lý đặt tour
 Route::post('/booking', [BookingController::class, 'submit'])->name('booking.submit');
+Route::get('/booking/{bookingID}', [BookingController::class, 'show'])->name('booking.show');
+Route::get('/Booking/{tourID}', [BookingController::class, 'index'])->name('booking.index');
 
 // Route xử lý thanh toán
 Route::get('/checkout/{checkoutID}', [CheckoutController::class, 'show'])->name('checkout.show'); 
@@ -132,3 +133,5 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 Route::get('/admin-report', [ReportController::class, 'index'])-> name('admin.report');
 
+Route::get('/vnpay-pay/{bookingID}', [VnpayController::class, 'createPayment'])->name('vnpay.payment');
+Route::get('/vnpay-return', [VnpayController::class, 'vnpayReturn'])->name('vnpay.return');

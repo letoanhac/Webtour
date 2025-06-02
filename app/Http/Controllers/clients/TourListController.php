@@ -14,23 +14,48 @@ class TourListController extends Controller
     {
         $this->tours = new Tours();
     }
-    public function index()
+    
+    public function index(Request $request)
     {
         $title = "Danh sách Tour";
-        $tours = $this->tours->getAllTours();
+        $page = $request->get('page', 1);
+        $perPage = 4; // Số tour mỗi trang
+        $offset = ($page - 1) * $perPage;
+        
+        // Lấy tours với phân trang
+        $tours = $this->tours->filterTours([], null, $perPage, $offset);
+        
+        // Đếm tổng số tours
+        $totalTours = $this->tours->countFilteredTours([]);
+        $totalPages = ceil($totalTours / $perPage);
+        
         $domain = $this->tours->getDomain();
         $domainsCount = [
             'mien_bac' => optional($domain->firstWhere('domain', 'b'))->count,
             'mien_trung' => optional($domain->firstWhere('domain', 't'))->count,
             'mien_nam' => optional($domain->firstWhere('domain', 'n'))->count,
         ];
-        return view('clients.tourList', compact('title', 'tours', 'domainsCount'));
+        
+        $pagination = [
+            'current_page' => $page,
+            'total_pages' => $totalPages,
+            'per_page' => $perPage,
+            'total' => $totalTours,
+            'has_more' => $page < $totalPages,
+            'prev_page' => $page > 1 ? $page - 1 : null,
+            'next_page' => $page < $totalPages ? $page + 1 : null
+        ];
+        
+        return view('clients.tourList', compact('title', 'tours', 'domainsCount', 'totalTours', 'pagination'));
     }
 
     public function filterTours(Request $req)
     {
         $conditions = [];
         $sorting = [];
+        $page = $req->get('page', 1);
+        $perPage = 4;
+        $offset = ($page - 1) * $perPage;
 
          // Handle domain filter
         if ($req->filled('domain')) {
@@ -38,11 +63,6 @@ class TourListController extends Controller
             $conditions[] = ['domain', '=', $domain];
         }
 
-        // Handle star rating filter
-        if ($req->filled('star')) {
-            $star = (int) $req->star;
-            $conditions[] = ['averageRating', '=', $star];
-        }
 
         // Handle duration filter
         if ($req->filled('time')) {
@@ -69,7 +89,8 @@ class TourListController extends Controller
                 $sorting = ['priceAdult', 'asc']; // Sort by price in ascending order
             }
         }
-        // Handle price filter
+        
+        // Xử lý bộ lọc giá
         if ($req->filled('minPrice') && $req->filled('maxPrice')) {
             $minPrice = $req->minPrice;
             $maxPrice = $req->maxPrice;
@@ -77,9 +98,23 @@ class TourListController extends Controller
             $conditions[] = ['priceAdult', '<=', $maxPrice];
         }
 
-        //dd($conditions);
-
-        $tours = $this->tours->filterTours($conditions, $sorting);
-        return view('clients.partials.filter-tour', compact('tours'));
+        // Lấy tours với điều kiện filter và phân trang
+        $tours = $this->tours->filterTours($conditions, $sorting, $perPage, $offset);
+        
+        // Đếm tổng số tours với điều kiện filter
+        $totalTours = $this->tours->countFilteredTours($conditions);
+        $totalPages = ceil($totalTours / $perPage);
+        
+        $pagination = [
+            'current_page' => $page,
+            'total_pages' => $totalPages,
+            'per_page' => $perPage,
+            'total' => $totalTours,
+            'has_more' => $page < $totalPages,
+            'prev_page' => $page > 1 ? $page - 1 : null,
+            'next_page' => $page < $totalPages ? $page + 1 : null
+        ];
+        
+        return view('clients.partials.filter-tour', compact('tours', 'pagination'));
     }
 }

@@ -1,84 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ asset('clients/css/style.css') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
-    <title>Document</title>
-</head>
-
-<body>
-    <div class="category-search">
-        <div class="search-filter-inner container mt-30">
-            <div class="filter-item">
-                <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
-                <div class="title">Điểm đến</div>
-                <select name="city" id="city" style="display: none">
-                    <option value="0">Hồ Chí Minh</option>
-                    <option value="1">Hà Nội</option>
-                    <option value="2">Đà Nẵng</option>
-                </select>
-                <div class="nice-select">
-                    <span>Hồ Chí Minh</span>
-                    <ul class="list">
-                        <li class="option selected">Hồ Chí Minh</li>
-                        <li class="option">Hà Nội</li>
-                        <li class="option">Đà Nẵng</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="filter-item">
-                <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
-                <div class="title">Điểm đến</div>
-                <select name="city" id="city" style="display: none">
-                    <option value="0">Hồ Chí Minh</option>
-                    <option value="1">Hà Nội</option>
-                    <option value="2">Đà Nẵng</option>
-                </select>
-                <div class="nice-select">
-                    <span>Hồ Chí Minh</span>
-                    <ul class="list">
-                        <li class="option selected">Hồ Chí Minh</li>
-                        <li class="option">Hà Nội</li>
-                        <li class="option">Đà Nẵng</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="filter-item">
-                <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
-                <div class="title">Điểm đến</div>
-                <select name="city" id="city" style="display: none">
-                    <option value="0">Hồ Chí Minh</option>
-                    <option value="1">Hà Nội</option>
-                    <option value="2">Đà Nẵng</option>
-                </select>
-                <div class="nice-select">
-                    <span>Hồ Chí Minh</span>
-                    <ul class="list">
-                        <li class="option selected">Hồ Chí Minh</li>
-                        <li class="option">Hà Nội</li>
-                        <li class="option">Đà Nẵng</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="search-button">
-                <button class="theme-btn">
-                    <span>Tìm Kiếm</span>
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
+@include('clients.blocks.header')
     <ul class="ls-tour-groups">
         <li class="wrap-backgroup" style="background-color: #EBF0F2;">
             <div class="container">
                 <section class="content">
                     <div class="tourHomeContainer">
-                        <h2 class="title-group" style="color: #3f3b3b;">Tour Ưu Đãi Tốt Nhất Hôm Nay</h2>
-                        <span class="title-group-sub">Nhanh Tay Đặt Ngay.Để Mai Sẽ Lỡ</span>
+                        <h2 class="title-group" style="color: #3f3b3b;">Trang tìm kiếm tour</h2>
+                        <span class="title-group-sub">Kết quả tìm kiếm tour</span>
                         <div class="row item-m">
                             @if ($tours->isEmpty())
                                 <h4 class="alert alert-danger">Không có tour nào liên quan đến tìm kiếm của bạn. Thử tìm
@@ -87,7 +14,7 @@
                                 @foreach ($tours as $tour)
                                     <div class="card">
                                         <div class="cardItem">
-                                            <a href="#">
+                                            <a href="{{ route('tour.show', ['id' => $tour->tourID]) }}">
                                                 <div class="cardItemContainer">
                                                     <div class="cardItemImage">
                                                         <div class="ribbonContainerOuter">
@@ -115,13 +42,25 @@
                                                         </div>
                                                         <div class="cardItemTourDetailDiv">
                                                             <span class="score-container__inner">
-                                                                <div class="score">9.7</div>
-                                                                <div class="score-description">Tuyệt vời</div>
-                                                                <span> | 7 đánh giá</span>
-                                                            </span>
+                                                            <span class="score-description"><b>Ngày bắt đầu:</b>
+                                                                {{ \Carbon\Carbon::parse($tour->startDate)->format('d-m-Y') }}</span>
+                                                            <span class="score-description"><b>Ngày kết thúc:</b>
+                                                                {{ \Carbon\Carbon::parse($tour->endDate)->format('d-m-Y') }}</span>
+                                                        </span>
+                                                        <span >
+                                                            <div class="tourTime" style="margin: 4px 0px 0px 15px;">
+                                                                <i class="fa-regular fa-clock"></i>
+                                                                {{ $tour->time }}
+                                                            </div>
+                                                        </span>
                                                             <div class="cardItemDepartDiv">
                                                                 <ul class="tourListPros">
-                                                                    <li>{{ $tour->destination }}</li>
+                                                                    @php
+                                                                    $destinations = explode('-', $tour->destination);
+                                                                @endphp
+                                                                @foreach ($destinations as $dest)
+                                                                    <li>{{ trim($dest) }}</li>
+                                                                @endforeach
                                                                 </ul>
                                                             </div>
                                                             <div class="cardItemPrice">
@@ -141,9 +80,6 @@
                             @endif
                         </div>
 
-                        <div class="text-center" style="display: block; text-align: center">
-                            <a href="{{ route('tourList') }}" class="btn-readmore">Xem thêm tours</a>
-                        </div>
                     </div>
                 </section>
             </div>

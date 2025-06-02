@@ -115,6 +115,9 @@
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
   </style>
 </head>
@@ -123,50 +126,27 @@
 <div class="booking-container">
   <h2>Đặt Tour Du Lịch</h2>
   <div class="info-section">
-    <div class="info-box">
-      <strong>Khách hàng:</strong>
-      {{ $user->fullName??'Tên khách hàng nờ un nun' }}
-    </div>
-    <div class="info-box">
-      <strong>Số điện thoại:</strong>
-      {{ $user->phoneNumber??'Khách hàng chưa đăng ký số điện thoại' }}
-    </div>
-    <div class="info-box">
-      <strong>Email khách hàng:</strong>
-      {{ $user->email }}
-    </div>
-    <div class="info-box">
-      <strong>Tên Tour:</strong>
-      {{ $tour->title }}
-      <br>
-      <strong>Địa điểm:</strong>
-      {{ $tour->destination }}
-    </div>
+    <div class="info-box"><strong>Khách hàng:</strong>{{ $user->fullName??'Tên khách hàng nờ un nun' }}</div>
+    <div class="info-box"><strong>Số điện thoại:</strong>{{ $user->phoneNumber??'Chưa đăng ký số' }}</div>
+    <div class="info-box"><strong>Email:</strong>{{ $user->email }}</div>
+    <div class="info-box"><strong>Tên Tour:</strong>{{ $tour->title }}<br><strong>Địa điểm:</strong>{{ $tour->destination }}</div>
   </div>
+
   <div class="info-section" style="margin-top: 20px;">
-    <div class="info-box">
-      <strong>Giá người lớn:</strong>
-      {{ number_format($tour->priceAdult, 0, ',', '.') }} đ
-    </div>
-    <div class="info-box">
-      <strong>Giá trẻ em:</strong>
-      {{ number_format($tour->priceChild, 0, ',', '.') }} đ
-    </div>
+    <div class="info-box"><strong>Giá người lớn:</strong>{{ number_format($tour->priceAdult, 0, ',', '.') }} đ</div>
+    <div class="info-box"><strong>Giá trẻ em:</strong>{{ number_format($tour->priceChild, 0, ',', '.') }} đ</div>
   </div>
 
   @if(session('success'))
     <div style="color: green; margin-top: 20px;">{{ session('success') }}</div>
   @endif
 
-  {{-- Form đặt tour --}}
-  <form action="{{ route('booking.submit') }}" method="POST">
+  <form action="{{ route('booking.submit') }}" method="POST" id="bookingForm">
     @csrf
     <input type="hidden" name="tourID" value="{{ $tour->tourID }}">
 
     <div class="item-row">
-      <div>
-        <strong>Người lớn</strong> <span style="color: #ff9800;">x {{ number_format($tour->priceAdult, 0, ',', '.') }}</span>
-      </div>
+      <div><strong>Người lớn</strong> <span style="color: #ff9800;">x {{ number_format($tour->priceAdult, 0, ',', '.') }}</span></div>
       <div class="qty-control">
         <button type="button" onclick="changeQty('adult', -1)">−</button>
         <span id="qty-adult">0</span>
@@ -176,9 +156,7 @@
     </div>
 
     <div class="item-row">
-      <div>
-        <strong>Trẻ em</strong> <span style="color: #ff9800;">x {{ number_format($tour->priceChild, 0, ',', '.') }}</span>
-      </div>
+      <div><strong>Trẻ em</strong> <span style="color: #ff9800;">x {{ number_format($tour->priceChild, 0, ',', '.') }}</span></div>
       <div class="qty-control">
         <button type="button" onclick="changeQty('child', -1)">−</button>
         <span id="qty-child">0</span>
@@ -200,20 +178,22 @@
     <div class="form-group">
       <label for="paymentMethod">Phương thức thanh toán:</label>
       <select name="paymentMethod" id="paymentMethod" required>
-        <option value="Tiền mặt">💵 Tiền mặt</option>
-        <option value="Chuyển khoản">🏦 Chuyển khoản</option>
-        <option value="Thẻ tín dụng">💳 Thẻ tín dụng</option>
-        <option value="Momo">📱 Momo</option>
+        <option value="Tiền mặt">Tiền mặt</option>
+        <option value="Chuyển khoản">Chuyển khoản</option>
+        <option value="vnpay">Thanh toán bằng vnpay</option>
+        <option value="Momo">Momo</option>
       </select>
     </div>
 
     <div class="total-price" id="totalPriceDisplay">Tổng giá tour: 0 đ</div>
     <input type="hidden" name="totalPrice" id="totalPrice" value="0">
 
-    <button type="submit" class="submit-btn">Đặt Tour</button>
+    <button type="submit" class="submit-btn" id="submitBtn">
+      Đặt Tour
+    </button>
   </form>
 </div>
-
+@include('User.blocks.overlay')
 <script>
   const adultPrice = {{ $tour->priceAdult }};
   const childPrice = {{ $tour->priceChild }};
@@ -236,13 +216,21 @@
     document.getElementById("totalPriceDisplay").textContent = `Tổng giá tour: ${total.toLocaleString('vi-VN')} đ`;
     document.getElementById("totalPrice").value = total;
   }
-  document.querySelector("form").addEventListener("submit", function(e) {
-  const total = parseInt(document.getElementById("totalPrice").value);
-  if (total === 0) {
-    alert("Bạn cần chọn ít nhất 1 người để đặt tour.");
-    e.preventDefault();
-  }
-});
+
+  const form = document.getElementById('bookingForm');
+  const submitBtn = document.getElementById('submitBtn');
+
+  form.addEventListener("submit", function(e) {
+    const total = parseInt(document.getElementById("totalPrice").value);
+    if (total === 0) {
+      alert("Bạn cần chọn ít nhất 1 người để đặt tour.");
+      e.preventDefault();
+      return;
+    }
+
+    document.getElementById('formOverlay').style.display = 'block';
+    submitBtn.disabled = true;
+  });
 </script>
 
 </body>

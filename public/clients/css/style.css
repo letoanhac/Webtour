@@ -7,7 +7,7 @@
 
 .nav-bar {
   border: 0px solid transparent;
-  background-color: #1d231f;
+  background: linear-gradient(135deg,rgb(64, 79, 94),rgb(89, 46, 110));
 }
 
 .container {
@@ -449,22 +449,15 @@ textarea,
 
 .score-container__inner {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   padding: 0 15px;
 }
 
-.score-container__inner .score {
-  padding: 3px 5px;
-  border-radius: 6px;
-  background: #43a047;
-  color: #fff;
-  font-weight: 600;
-}
+
 
 .score-container__inner .score-description {
-  color: #43a047;
-  font-weight: 600;
-  padding: 0px 4px;
+  font-size: 16px;
+  margin: 4px 0;
 }
 
 .tourListPros > li {

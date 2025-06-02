@@ -138,20 +138,21 @@
       <p><span class="highlight">Điểm đến cụ thể:</span> {{ $tour->destination }}</p>
       <p><span class="highlight">Số chỗ đặt tour còn lại: </span> {{ $tour->quantityleft}}</p>
       <div class="Itinerary">
-      <h1>Dưới đây là lịch trình của tour: {{ $tour->title }}</h1>
-      @include('User.blocks.itinerary')
-    </div>
+        <h1>Dưới đây là lịch trình của tour: {{ $tour->title }}</h1>
+        @include('User.blocks.itinerary')
+      </div>
     <div>
     <br>
     @include('User.Review')
     <br>
   </div>
   <div class="button-group">
-    <a href="{{ route('booking.index', ['tourID' => $tour->tourID]) }}">
-      <button>Đặt Tour</button>
-    </a>
+    <a href="{{ route('booking.index', ['tourID' => $tour->tourID]) }}" onclick="showOverlayThenGo(this.href); return false;">
+    <button>Đặt Tour</button>
+  </a>
   </div>
 </div>
+@include('User.blocks.progress-bar')
 <script>
   function changeImage(el) {
     const mainImg = document.getElementById('mainImg');

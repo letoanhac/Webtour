@@ -11,15 +11,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
+        .body {
+            background: linear-gradient(135deg,rgb(64, 79, 94),rgb(89, 46, 110));
+        }
         .admin-layout {
             display: flex;
             min-height: 100vh;
             background-color: #f8f9fa;
         }
-
         .sidebar {
             width: 250px;
-            background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+            background: linear-gradient(135deg,rgb(64, 79, 94),rgb(89, 46, 110));
             box-shadow: 3px 0 10px rgba(0,0,0,0.1);
             border-radius: 0 15px 15px 0;
             padding: 30px 20px;
@@ -91,18 +93,17 @@
 
         <main class="admin-content">
             @include('Admin.blocks.manage-top')
+            <br>
             <h2 class="text-center mb-4">Quản lý Thanh toán Đặt tour</h2>
 
             @if (session('success'))
                 <div class="alert alert-success text-center">{{ session('success') }}</div>
             @endif
-
-            <!-- Search box -->
             <div style="margin-bottom: 15px; text-align: right;">
                 <input type="text" id="searchInput" placeholder="Tìm kiếm..." style="padding: 5px 10px; width: 250px;" onkeyup="filterTable()">
             </div>
             @if($bookings->count()>0)
-            <div class="table-responsive">
+            <div class="table-responsive" style="border-top-left-radius: 50px;border-top-right-radius: 50px">
                 <table id="bookingTable" class="table table-bordered text-center align-middle">
                     <thead class="table-dark">
                         <tr>
@@ -163,14 +164,13 @@
             @else 
             <div>
                 <h1>Xin lỗi khách nghèo quá nên không có tiền để đặt tour</h1>
-                <a href="https://one88.pro/livecasino/tai-xiu?a=e92debaeca8ca0c1462fd8388e7a12cd&utm_campaign=ospum&utm_medium=t%C3%A0i+x%E1%BB%89u">bấm vào đây để chơi tài xỉu trong khi chờ khách tới</a>
             </div>
             @endif
             <!-- Pagination controls -->
             <div id="pagination" style="margin-top: 15px; text-align: center;"></div>
         </main>
     </div>
-
+    @include('Admin.blocks.overlay')
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -182,28 +182,25 @@
         function setupPagination() {
             const tbody = document.querySelector('#bookingTable tbody');
             filteredRows = Array.from(tbody.querySelectorAll('tr'));
-            currentPage = 1;
+            currentPage = parseInt(localStorage.getItem('bookingCurrentPage')) || 1;
+            const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
+            if(currentPage > totalPages) currentPage = 1;
             showPage(currentPage);
             renderPagination();
+            localStorage.removeItem('bookingCurrentPage');
         }
-
         function showPage(page) {
             const start = (page - 1) * rowsPerPage;
             const end = start + rowsPerPage;
-
             filteredRows.forEach((row, i) => {
                 row.style.display = (i >= start && i < end) ? '' : 'none';
             });
         }
-
         function renderPagination() {
             const totalPages = Math.ceil(filteredRows.length / rowsPerPage);
             const paginationDiv = document.getElementById('pagination');
             paginationDiv.innerHTML = '';
-
-            if (totalPages <= 1) return; // Nếu chỉ 1 trang, ẩn phân trang
-
-            // Prev button
+            if (totalPages <= 1) return;
             const prevBtn = document.createElement('button');
             prevBtn.textContent = 'Prev';
             prevBtn.disabled = currentPage === 1;
@@ -216,8 +213,6 @@
                 }
             };
             paginationDiv.appendChild(prevBtn);
-
-            // Các nút số trang
             for (let i = 1; i <= totalPages; i++) {
                 const btn = document.createElement('button');
                 btn.textContent = i;
@@ -234,8 +229,6 @@
                 };
                 paginationDiv.appendChild(btn);
             }
-
-            // Next button
             const nextBtn = document.createElement('button');
             nextBtn.textContent = 'Next';
             nextBtn.disabled = currentPage === totalPages;
@@ -249,7 +242,6 @@
             };
             paginationDiv.appendChild(nextBtn);
         }
-
         function filterTable() {
             const input = document.getElementById('searchInput').value.toLowerCase();
             const tbody = document.querySelector('#bookingTable tbody');
@@ -258,13 +250,17 @@
                 return row.textContent.toLowerCase().includes(input);
             });
 
-            // Ẩn tất cả dòng trước khi show lại
             tbody.querySelectorAll('tr').forEach(r => r.style.display = 'none');
 
             currentPage = 1;
             showPage(currentPage);
             renderPagination();
         }
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', () => {
+                localStorage.setItem('bookingCurrentPage', currentPage);
+            });
+        });
 
         window.onload = setupPagination;
     </script>

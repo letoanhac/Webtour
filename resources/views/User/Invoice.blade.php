@@ -131,8 +131,11 @@
     @endif
 
     <p><strong>Trạng thái thanh toán:</strong> {{ $booking->paymentStatus }}</p>
+    @if($booking->paymentStatus == 'Đã thanh toán')
+    <a style="color:green;" href="{{ route('home') }}">Tiếp tục chọn tour</a>
+    @else
     <a style="color:green;" href="{{ route('checkout.show',$booking->checkout->checkoutID)}}">Tới trang chọn phương thức thanh toán </a>
-
+    @endif
     <button class="btn-print" onclick="window.print()">In hóa đơn</button>
 </div>
 

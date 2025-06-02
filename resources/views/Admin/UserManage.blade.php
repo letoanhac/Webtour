@@ -18,7 +18,7 @@
         }
         .sidebar {
             width: 250px;
-            background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+            background: linear-gradient(135deg,rgb(64, 79, 94),rgb(89, 46, 110));
             box-shadow: 3px 0 10px rgba(0,0,0,0.1);
             border-radius: 0 15px 15px 0;
             padding: 30px 20px;
@@ -142,6 +142,7 @@
                                     <td><input name="status" class="form-control" value="active"></td>
                                     <td colspan="2"><input name="password" type="password" class="form-control" placeholder="Mật khẩu" required></td>
                                     <td><button class="btn btn-primary btn-sm" title="Thêm"><i class="fas fa-plus-circle"></i></button></td>
+                                    <td>____</td>
                                 </form>
                             </tr>
                         </tbody>
@@ -150,7 +151,7 @@
             </div>
         </main>
     </div>
-
+@include('Admin.blocks.overlay')
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

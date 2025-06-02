@@ -45,7 +45,14 @@
                     </div>
                     <div class="navbar-custom-menu">
                         <ul>
-
+                            <div class="nav-search">
+                                <button class="fa-solid fa-magnifying-glass" style="color: #fff; font-size: 20px;" id="searchToggle"></button>
+                                <form action="{{ route('search') }}" class="hide" method="GET" id="searchForm">
+                                    <input type="text" name="keyword" placeholder="Search" required>
+                                    <i class="fa fa-microphone" aria-hidden="true" id="voice-search"></i>
+                                    <button type="submit" class="searchbutton fa-solid fa-magnifying-glass"></button>
+                                </form>
+                            </div>
                             <div class="menu-sidebar">
                                 <li class="user-login drop-down">
                                     <div>
@@ -55,13 +62,12 @@
                                                 $avatar = session('avatar');
                                                 $isLoggedIn = session()->has('username');
                                             @endphp
-                                            @if ($isLoggedIn)
+                                            @if ($isLoggedIn && $avatar)
                                                 <img id="avatarPreview" class="img-account-profile rounded-circle mb-2"
                                                     src="{{ asset('admin/assets/img/user-profile/' . $avatar) }}"
                                                     alt="Avatar người dùng"
                                                     style="width: 40px; height: 40px;">
                                             @else
-                                                <!-- User chưa đăng nhập hoặc không có avatar -->
                                                 <img id="avatarPreview" class="img-account-profile rounded-circle mb-2"
                                                     src="https://www.ivivu.com/du-lich/content/img/avatars/avatar-default-white.svg"
                                                     alt="Avatar mặc định"
@@ -83,9 +89,6 @@
                                         </ul>
                                 </li>
                             </div>
-
-
-
                             <li>
                                 <div class="hotline">
                                     <div class="hotline-item1" style="margin-bottom: 10px">
