@@ -13,7 +13,7 @@
 
     <style>
         body {
-            margin: 0;
+            margin: 30px;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg,rgb(64, 79, 94),rgb(89, 46, 110));
         }
@@ -103,7 +103,7 @@
     </style>
 </head>
 <body>
-    @include('Admin.blocks.manage-top')
+        @include('Admin.blocks.manage-top')
     <div class="container">
         <div class="main-content">
             <div class="header-title">Thống kê tổng quan hệ thống</div>

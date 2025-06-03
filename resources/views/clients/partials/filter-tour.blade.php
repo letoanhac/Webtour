@@ -22,7 +22,7 @@
                     <div class="tourItemContentPrice">
                         <span class="tourItemDateTime">
                             <i class="fa-regular fa-calendar"></i>
-                            {{ $tour->startDate }}
+                            {{ $tour->endDate}}
                         </span>
                     </div>
                     <div class="tourNote">

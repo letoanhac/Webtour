@@ -49,7 +49,7 @@
                                                         <span class="score-container__inner">
                                                             <span class="score-description"><b>Mở bán:</b>
                                                                 {{ \Carbon\Carbon::parse($tour->startDate)->format('d-m-Y') }}</span>
-                                                            <span class="score-description"><b>Kết thúc bán:</b>
+                                                            <span class="score-description"><b>Ngày bắt đầu:</b>
                                                                 {{ \Carbon\Carbon::parse($tour->endDate)->format('d-m-Y') }}</span>
                                                         </span>
                                                         <span >

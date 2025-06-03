@@ -68,7 +68,8 @@ class BookingController extends Controller
             'paymentMethod' => 'required|string',
             'specialRequests' => 'nullable|string',
         ]);
-
+        try{
+            DB::BeginTransaction() ;
         $tour = Tour::findOrFail($request->tourID);
 
         $totalPrice = ($request->numAdults * $tour->priceAdult) + ($request->numChildren * $tour->priceChild);
@@ -105,7 +106,11 @@ class BookingController extends Controller
         $invoice->dateIssued = now();
         $invoice->details = 'Đặt tour #' . $booking->bookingID;
         $invoice->save();
-        
+        DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return back()->with('error', 'Đã có lỗi xảy ra: ' . $e->getMessage());
+        }
         switch ($request->paymentMethod) {
             case 'Tiền mặt':
                 return redirect()->route('checkout.cash', ['bookingID' => $booking->bookingID]);

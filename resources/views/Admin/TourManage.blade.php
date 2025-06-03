@@ -104,8 +104,8 @@
                                 <th>Giá TE</th>
                                 <th>Thời gian</th>
                                 <th>Điểm đến cụ thể</th>
+                                <th>Ngày mở bán</th>
                                 <th>Ngày bắt đầu</th>
-                                <th>Ngày kết thúc</th>
                                 <th>Chỗ trống</th>
                                 <th>Lịch trình</th>
                                 <th>Ảnh</th>

@@ -44,7 +44,11 @@ class InvoiceController extends Controller
 
         return view('User.invoice', compact('booking', 'invoice'));
     }
-
+    public function viewInvoiceAdmin($bookingID) {
+        $bookingCheck = Booking::findOrFail($bookingID);
+        $invoiceCheck = Invoice::where('bookingID',$bookingID)->first();
+        return view('Admin.InvoiceCheck',compact('bookingCheck','invoiceCheck'));
+    }
     protected function notLoggedInResponse()
     {
         return response('

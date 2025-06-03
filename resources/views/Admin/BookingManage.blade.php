@@ -148,6 +148,7 @@
                             <th>Tổng tiền</th>
                             <th>Yêu cầu đặc biệt</th>
                             <th>Hành động</th>
+                            <th>In hóa đơn</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -190,6 +191,11 @@
                                             <button type="submit" class="button-accept">Xác nhận thanh toán</button>
                                         @endif
                                     </form>
+                                </td>
+                                <td>
+                                    <a href="{{ route('invoice.admin.view',['bookingID'=>$item->bookingID]) }}">
+                                        <button style="border-radius: 30px;background:linear-gradient(100deg,white,blue);">In Hóa đơn</button>
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

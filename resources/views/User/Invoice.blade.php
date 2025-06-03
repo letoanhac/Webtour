@@ -97,10 +97,9 @@
         </tr>
         <tr>
             <td>Ngày xuất hóa đơn:</td>
-            <td>{{ \Carbon\Carbon::now()->format('d/m/Y') }}</td>
+            <td>{{ \Carbon\Carbon::parse($booking->dateIssued)->format('d/m/Y') }}</td>
         </tr>
     </table>
-
     <table class="price-table">
         <tr>
             <th>Hạng mục</th>

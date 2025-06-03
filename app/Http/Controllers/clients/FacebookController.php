@@ -20,7 +20,9 @@ class FacebookController extends Controller
     {
         $this->user = new Login();
     }
-
+    public function handle(){
+        return redirect()->back()->with('error','Tính năng đang phát triển');
+    }
     public function redirectToFacebook()
     {
         return Socialite::driver('facebook')->redirect();

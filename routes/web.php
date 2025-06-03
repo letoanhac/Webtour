@@ -53,6 +53,7 @@ Route::post('/change-avatar-profile', [InformationController::class, 'changeAvat
 
 Route::controller(FacebookController::class)->group(function(){
     Route::get('auth/facebook', 'redirectToFacebook')->name('auth.facebook');
+    Route::get('auth/facebook/handle', 'handle')->name('facebook.return');
     Route::get('auth/facebook/callback', 'handleFacebookCallback');
 });
 
@@ -95,6 +96,7 @@ Route::get('/invoice/generate/{bookingID}', [InvoiceController::class, 'generate
 
 // Route xem hóa đơn
 Route::get('/invoice/view/{bookingID}', [InvoiceController::class, 'viewInvoice'])->name('invoice.view');
+Route::get('/invoice/viewadmin/{bookingID}',[InvoiceController::class,'viewInvoiceAdmin'])->name('invoice.admin.view');
 
 Route::prefix('admin/tour')->name('admin.tour.')->group(function () {
     Route::get('/', [TourManageController::class, 'index'])->name('index');

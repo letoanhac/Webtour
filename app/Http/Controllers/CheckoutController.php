@@ -99,7 +99,7 @@ class CheckoutController extends Controller
             return redirect()->route('booking.index', ['tourID' => $booking->tourID])
                              ->with('info', 'Đơn này đã thanh toán rồi.');
         }
-
+        
         $checkout = new Checkout();
         $checkout->bookingID = $bookingID;
         $checkout->paymentMethod = $request->paymentMethod;
