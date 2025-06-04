@@ -7,23 +7,24 @@
             <li><a href="{{ route('admin.admins.index') }}">Quản lý tài khoản quản trị viên</a></li>  
             <li><a href="{{ route('admin.report') }}">Quản lý báo cáo và thống kê</a></li>
             <li><a href="{{ route('admin.tour.index') }}">Quản lý tour</a></li>
+            <li><a href="{{ route('list-chat')}}">Quản lý chat</a></li>
             <li><a href="{{ route('admin.logout') }}">Đăng xuất</a></li>
         </ul>
     </div>
 </div>
 <style>
 .admin-header {
-    display: flex;
-    border-radius:20px;
-    margin-top:-20px;
-    margin-left:10px;
-    margin-right: -10px;
-    justify-content: flex-end;
-    align-items: center;
-    padding: 20px 30px;
-    background: linear-gradient(135deg,rgb(65, 124, 183),rgb(128, 90, 90));
-    position: relative;
-    z-index: 10;
+  position: relative !important; /* bắt buộc để z-index có hiệu lực */
+  z-index: 9999 !important;      /* ưu tiên nằm trên cùng */
+  margin-top: 0 !important;      /* bỏ margin âm */
+  background: linear-gradient(135deg, rgb(65, 124, 183), rgb(128, 90, 90));
+  border-radius: 20px;
+  margin-left: 10px;
+  margin-right: -10px;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 20px 30px;
+  display: flex;
 }
 
 .admin-user-menu {

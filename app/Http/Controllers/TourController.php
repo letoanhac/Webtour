@@ -27,6 +27,7 @@ class TourController extends Controller
     }
     public function index()
     {
+        $tours = Tour::all();
         return view('clients.home', compact('tours'));
     }
 }

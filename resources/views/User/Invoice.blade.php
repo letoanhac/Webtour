@@ -130,6 +130,7 @@
     @endif
 
     <p><strong>Trạng thái thanh toán:</strong> {{ $booking->paymentStatus }}</p>
+    <a style="color:green;" href="{{ route('select-admin') }}">Bạn cần hỗ trợ? Liên hệ với admin</a><br>
     @if($booking->paymentStatus == 'Đã thanh toán')
     <a style="color:green;" href="{{ route('home') }}">Tiếp tục chọn tour</a>
     @else

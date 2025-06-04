@@ -6,28 +6,42 @@
     <style>
         body {
             font-family: "Segoe UI", sans-serif;
-            background-color: #f0f2f5;
+            background-color: #111;
             padding: 30px;
+            color: #eee;
         }
+
         a {
+            color: #00d5d5;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid #00d5d5;
+            padding: 6px 12px;
             border-radius: 10px;
-            color: green;
-            background-color:rgb(176, 198, 231);
             display: inline-block;
+            transition: all 0.3s ease;
         }
+
+        a:hover {
+            background-color: #00d5d5;
+            color: #111;
+        }
+
         .review-card {
             max-width: 600px;
             margin: auto;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            background-color: #222;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 213, 213, 0.5);
             padding: 30px;
         }
 
         .review-card h2 {
-            color: #28a745;
-            margin-bottom: 20px;
+            color: #00d5d5;
+            margin-bottom: 25px;
             text-align: center;
+            font-weight: 700;
+            letter-spacing: 1.5px;
         }
 
         .form-group {
@@ -35,70 +49,84 @@
         }
 
         label {
-            font-weight: bold;
+            font-weight: 600;
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
+            color: #00d5d5;
         }
 
         select, textarea {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 15px;
+            padding: 12px;
+            border: 1px solid #00d5d5;
+            border-radius: 10px;
+            font-size: 16px;
+            background-color: #111;
+            color: #eee;
+            transition: border-color 0.3s ease;
+        }
+
+        select:focus, textarea:focus {
+            outline: none;
+            border-color: #00fff7;
+            box-shadow: 0 0 8px #00fff7;
         }
 
         textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
         }
 
         .btn-submit {
-            background-color: #28a745;
-            color: white;
+            background-color: #00d5d5;
+            color: #111;
             border: none;
-            padding: 12px;
+            padding: 15px;
             width: 100%;
-            font-size: 16px;
-            border-radius: 6px;
+            font-size: 18px;
+            font-weight: 700;
+            border-radius: 12px;
             cursor: pointer;
             transition: background-color 0.3s ease;
+            box-shadow: 0 0 10px #00d5d5;
         }
 
         .btn-submit:hover {
-            background-color: #218838;
+            background-color: #00b3b3;
+            box-shadow: 0 0 15px #00b3b3;
         }
 
         .alert {
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
 
         .alert-success {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: #004d40;
+            color: #a5d6a7;
+            box-shadow: 0 0 10px #a5d6a7;
         }
 
         .alert-error {
-            background-color: #f8d7da;
-            color: #721c24;
+            background-color: #5d2120;
+            color: #ef9a9a;
+            box-shadow: 0 0 10px #ef9a9a;
         }
 
         .alert-info {
-            background-color: #cce5ff;
-            color: #004085;
+            background-color: #003366;
+            color: #90caf9;
+            box-shadow: 0 0 10px #90caf9;
         }
 
         .alert-warning {
-            background-color: #fff3cd;
-            color: #856404;
+            background-color: #665c00;
+            color: #fff59d;
+            box-shadow: 0 0 10px #fff59d;
         }
 
-        a {
-            color: #007bff;
-            text-decoration: underline;
-        }
     </style>
 </head>
 <body>

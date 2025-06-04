@@ -41,9 +41,9 @@
                                                     </div>
                                                     <div class="cardItemTourDetailDiv">
                                                         <span class="score-container__inner">
-                                                            <span class="score-description"><b>Ngày bắt đầu:</b>
+                                                            <span class="score-description"><b>Ngày bắt đầu đặt tour:</b>
                                                                 {{ \Carbon\Carbon::parse($tour->startDate)->format('d-m-Y') }}</span>
-                                                            <span class="score-description"><b>Ngày kết thúc:</b>
+                                                            <span class="score-description"><b>Ngày khởi hành:</b>
                                                                 {{ \Carbon\Carbon::parse($tour->endDate)->format('d-m-Y') }}</span>
                                                         </span>
                                                         <span >

@@ -143,6 +143,7 @@
       <p><span class="highlight">Thời lượng:</span> {{ $tour->time }}</p>
       <p><span class="highlight">Điểm đến cụ thể:</span> {{ $tour->destination }}</p>
       <p><span class="highlight">Số chỗ đặt tour còn lại: </span> {{ $tour->quantityleft}}</p>
+      <p><span class="highlight">Box chat cộng đồng của {{ $tour->title }} là: </span> <a style="color:green;" href="{{ route('chat.show', ['tourID' => $tour->tourID]) }}">Boxchat</a></p>
       <div class="Itinerary">
         <h1>Dưới đây là lịch trình của tour: {{ $tour->title }}</h1>
         @include('User.blocks.itinerary')

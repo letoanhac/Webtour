@@ -508,7 +508,7 @@ $(document).ready(function () {
 
             if (startDateFormatted > endDateFormatted) {
                 event.preventDefault();
-                toastr.error('Ngày khởi hành không thể lớn hơn ngày kết thúc.');
+                toastr.error('Ngày đặt không thể lớn hơn ngày bắt đầu.');
                 return;
             }
         }

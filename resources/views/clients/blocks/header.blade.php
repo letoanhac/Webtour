@@ -79,8 +79,9 @@
 
                                         <ul class="dropdown-menu" id="dropdownMenu">
                                             @if (session()->has('username'))
-                                                <li>{{ session()->get('username') }}</li>
+                                                <li><a>{{ session()->get('username') }}</a></li>
                                                 <li><a href="{{ route('user-profile') }}">Thông tin cá nhân</a></li>
+                                                <li><a href="{{ route('select-admin') }}">Chat hỗ trợ</a></li>
                                                 <li><a href="{{ route('logout') }}">Đăng Xuất</a></li>
                                             @else
                                                 <li><a href="{{ route('login') }}">Đăng nhập</a></li>

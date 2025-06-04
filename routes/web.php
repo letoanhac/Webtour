@@ -20,7 +20,7 @@ use App\Http\Controllers\clients\LoginGoogleController;
 use App\Http\Controllers\clients\SearchController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\VnpayController;
-
+use App\Http\Controllers\ChatController;
 
 // Route::get('/', function () {
 //     return view('home');
@@ -137,3 +137,34 @@ Route::get('/admin-report', [ReportController::class, 'index'])-> name('admin.re
 
 Route::get('/vnpay-pay/{bookingID}', [VnpayController::class, 'createPayment'])->name('vnpay.payment');
 Route::get('/vnpay-return', [VnpayController::class, 'vnpayReturn'])->name('vnpay.return');
+
+Route::get('/chatmode', function (\Illuminate\Http\Request $request) {
+    if (!session()->has('userID') && !session()->has('adminID')) {
+        return redirect('/user-login')->with('error', 'Bạn chưa đăng nhập.');
+    }
+
+    $peerID = $request->query('peer'); // adminID
+    if (!$peerID) {
+        return redirect('/chat/select-admin')->with('error', 'Vui lòng chọn người hỗ trợ.');
+    }
+
+    return view('chatmode', compact('peerID'));
+});
+
+Route::get('/chat-users', function () {
+    $adminID = session('adminID');
+
+    if (!$adminID) {
+        return redirect('/login')->with('error', 'Chỉ admin mới có quyền xem danh sách này.');
+    }
+    $path = base_path('node-chat/profilechat.json');
+    if (!file_exists($path)) {
+        return view('chatuserlist', ['users' => []]);
+    }
+
+    $json = json_decode(file_get_contents($path), true);
+    $users = $json[$adminID] ?? [];
+    return view('chatuserlist', compact('users'));
+})->name('list-chat');
+Route::get('/chat/select-admin', [ChatController::class, 'selectAdmin'])->name('select-admin');
+Route::get('/chat/{tourID}', [ChatController::class, 'show'])->name('chat.show');

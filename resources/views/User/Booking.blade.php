@@ -166,10 +166,10 @@
     </div>
 
     <div class="form-group">
-      <label for="bookingDate">Ngày khởi hành:</label>
-      <input type="date" name="bookingDate" id="bookingDate" required
-      min="{{ \Carbon\Carbon::parse($tour->startDate)->format('Y-m-d') }}"
-      max="{{ \Carbon\Carbon::parse($tour->endDate)->format('Y-m-d') }}">
+      <label for="bookingDate">Thời điểm đặt tour:</label>
+      <input type="date" name="bookingDate" id="bookingDate" value="{{ \Carbon\Carbon::today()->format('Y-m-d') }}"
+      min="{{ \Carbon\Carbon::today()->format('Y-m-d') }}"
+      max="{{ \Carbon\Carbon::today()->format('Y-m-d') }}">
     </div>
 
     <div class="form-group">
