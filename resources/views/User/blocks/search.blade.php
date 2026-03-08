@@ -18,13 +18,13 @@
     </div>
     <div class="filter-item">
         <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
-        <div class="title">Ngày khởi hành</div>
+        <div class="title">Ngày bắt đầu đặt tour</div>
         <input type="text" placeholder="Chọn ngày đi" id="start_date" name="start_date" class="datetimepicker datetimepicker-custom">
 
     </div>
     <div class="filter-item">
         <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
-        <div class="title">Ngày kết thúc</div>
+        <div class="title">Ngày khởi hành</div>
         <input type="text" placeholder="Chọn ngày về" id="end_date" name="end_date" class="datetimepicker datetimepicker-custom">
 
     </div>

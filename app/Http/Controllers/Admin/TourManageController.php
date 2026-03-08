@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Tour;
 use App\Models\Image;
+use App\Models\Booking;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class TourManageController extends Controller
 {
@@ -17,18 +19,22 @@ class TourManageController extends Controller
 
     public function store(Request $request)
     {
-        Tour::create($request->all());
+        $data = $request->all();
+        $data['quantityleft'] = $request->quantity;
+        Tour::create($data);
         return redirect()->route('admin.tour.index')->with('success', 'Đã thêm tour mới!');
     }
-
     public function update(Request $request, $id)
     {
         $tour = Tour::findOrFail($id);
-        $tour->update($request->all());
-        
+        $data = $request->all();
+        $paidBookings = Booking::where('tourID', $id)
+            ->where('paymentStatus', 'Đã thanh toán')
+            ->count();
+        $data['quantityleft'] = max(0, $request->quantity - $paidBookings);
+        $tour->update($data);
         return redirect()->route('admin.tour.index')->with('success', 'Đã cập nhật tour!');
     }
-
     public function destroy($id)
     {
         $tour = Tour::findOrFail($id);
@@ -44,7 +50,7 @@ class TourManageController extends Controller
             'description' => $request->description,
             'uploadDate' => now()
         ]);
-        return redirect()->route('admin.tour.index')->with('success', 'Đã thêm ảnh cho tour!');
+        return redirect()->back()->with('success', 'Đã thêm ảnh cho tour!');
     }
 
     public function updateImage(Request $request, $id)
@@ -54,13 +60,13 @@ class TourManageController extends Controller
             'imageURL' => $request->imageURL,
             'description' => $request->description
         ]);
-        return redirect()->route('admin.tour.index')->with('success', 'Đã cập nhật ảnh!');
+        return redirect()->back()->with('success', 'Đã cập nhật ảnh!');
     }
 
     public function deleteImage($id)
     {
         Image::destroy($id);
-        return redirect()->route('admin.tour.index')->with('success', 'Đã xoá ảnh!');
+        return redirect()->back()->with('success', 'Đã xoá ảnh!');
     }
     public function manageImage($tourID)
     {

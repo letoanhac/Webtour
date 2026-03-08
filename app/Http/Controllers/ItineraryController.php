@@ -36,6 +36,7 @@ class ItineraryController extends Controller
             'tourID' => $tourID,
             'day' => $request->day,
             'title' => $request->title,
+            'itineraryImageURL' => $request->itineraryImageURL,
             'description' => $request->description,
             'information' => $request->information,
         ]);
@@ -57,6 +58,7 @@ class ItineraryController extends Controller
         $item->update([
             'day' => $request->day,
             'title' => $request->title,
+            'itineraryImageURL' => $request->itineraryImageURL,
             'description' => $request->description,
             'information' => $request->information,
         ]);

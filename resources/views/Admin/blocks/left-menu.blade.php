@@ -1,13 +1,8 @@
-<!-- resources/views/Admin/left-menu.blade.php -->
-
 <style>
     .admin-sidebar {
-        width: 250px;
-        min-height: 100vh;
-        background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
-        box-shadow: 3px 0 10px rgba(0,0,0,0.1);
-        border-radius: 0 15px 15px 0;
-        padding: 30px 20px;
+        width: 200px;
+        height: 750px;
+        padding: 30px 0px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         user-select: none;
     }
@@ -35,11 +30,10 @@
     .admin-sidebar a {
         display: block;
         text-decoration: none;
-        color: #334155;
+        color: white;
         font-weight: 600;
         font-size: 16px;
         padding: 12px 20px;
-        border-radius: 12px;
         box-shadow: inset 0 0 0 0 transparent;
         transition: 
             background-color 0.3s ease, 
@@ -57,13 +51,11 @@
     }
 
     .admin-sidebar a.active {
-        background-color: #1e40af;
         color: #f8fafc;
         box-shadow: inset 5px 0 0 0 #1e40af;
         transform: translateX(8px);
     }
 </style>
-
 <div class="admin-sidebar">
     <h4>Trang quản trị</h4>
     <ul>
@@ -83,8 +75,23 @@
             </a>
         </li>
         <li>
-            <a href="">
-                Theo dõi báo cáo và thống kê
+            <a href="{{ route('admin.admins.index') }}">
+                Quản lý tài khoản admin
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('list-chat') }}">
+                Quản lý chat
+            </a>
+        </li>
+        <li>
+            <a href="{{ route('admin.report') }}">
+                Quản lý báo cáo và thống kê
+            </a>    
+        </li>
+        <li>
+            <a href="{{ route('admin.logout') }}">
+                Đăng xuất
             </a>
         </li>
     </ul>

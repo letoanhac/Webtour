@@ -19,12 +19,16 @@ class Tour extends Model
         'tourID',
         'title',
         'description',
+        'domain',
         'quantity',
+        'quantityleft',
         'priceAdult',
         'priceChild',
-        'duration',
+        'time',
         'destination',
-        'availability'
+        'availability',
+        'startDate',
+        'endDate'
     ];
     public function getAllTours() {
         $allTours = DB::table($this->table)->get();

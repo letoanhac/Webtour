@@ -1,4 +1,4 @@
-@include('User.blocks.header')
+@include('clients.blocks.header')
 <style>
     body {
         background-color: lightblue;
@@ -97,10 +97,9 @@
         </tr>
         <tr>
             <td>Ngày xuất hóa đơn:</td>
-            <td>{{ \Carbon\Carbon::now()->format('d/m/Y') }}</td>
+            <td>{{ \Carbon\Carbon::parse($booking->dateIssued)->format('d/m/Y') }}</td>
         </tr>
     </table>
-
     <table class="price-table">
         <tr>
             <th>Hạng mục</th>
@@ -131,8 +130,12 @@
     @endif
 
     <p><strong>Trạng thái thanh toán:</strong> {{ $booking->paymentStatus }}</p>
+    <a style="color:green;" href="{{ route('select-admin') }}">Bạn cần hỗ trợ? Liên hệ với admin</a><br>
+    @if($booking->paymentStatus == 'Đã thanh toán')
+    <a style="color:green;" href="{{ route('home') }}">Tiếp tục chọn tour</a>
+    @else
     <a style="color:green;" href="{{ route('checkout.show',$booking->checkout->checkoutID)}}">Tới trang chọn phương thức thanh toán </a>
-
+    @endif
     <button class="btn-print" onclick="window.print()">In hóa đơn</button>
 </div>
 

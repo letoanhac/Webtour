@@ -1,4 +1,4 @@
-@include('User.blocks.header')
+@include('clients.blocks.header')
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -8,13 +8,6 @@
   <style>
     * {
       box-sizing: border-box;
-    }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-image: url('https://media.hanamtv.vn/upload/image/201708/medium/49848_Du-Lich_2.jpg');
-      background-size: cover;
-      margin: 0;
-      padding: 20px;
     }
     .tour-detail {
       background: #fff;
@@ -34,8 +27,11 @@
       color: #333;
     }
     .highlight {
-      font-weight: 600;
-      color: #2d3748;
+      font-weight: 700;
+      color:rgb(0, 94, 255);
+    }
+    p {
+      font-size: 20px;
     }
     .tour-image {
       display: block;
@@ -70,7 +66,7 @@
     .main-image {
       position: relative;
       width: 100%;
-      height: 500px;
+      height: 700px;
       border-radius: 10px;
       overflow: hidden;
     }
@@ -98,46 +94,74 @@
       opacity: 1;
       border-color: #ff9800;
     }
-    table {
-
+    .a-expired {
+      color: black;
+      font-size: 20px;
+    }
+    .a-expired:hover {
+      color: green;
+      font-size: 21px;
     }
   </style>
 </head>
 <body>
+@include('User.blocks.progress-bar')
 
 <div class="tour-detail">
   <h1>{{ $tour->title }}</h1>
-  <div class="main-image">
-    <img id="mainImg" src="{{ $images->isNotEmpty() ? $images[0]->imageURL : 'default-image.jpg' }}" alt="Ảnh chính">
-  </div>
-  <div class="thumbnails">
-    @foreach ($images as $image)
-      <img src="{{ $image->imageURL }}" onclick="changeImage(this)" class="{{ $loop->first ? 'active' : '' }}">
-    @endforeach
-  </div>
-  <p><span class="highlight">Mã tour:</span> {{ $tour->tourID }}</p>
-  <p><span class="highlight">Tiêu đề tour:</span> {{ $tour->title }}</p>
-  <p><span class="highlight">Mô tả:</span> {{ $tour->description }}</p>  
-  <p><span class="highlight">Số lượng:</span> {{ $tour->quantity }} khách</p>
-  <p><span class="highlight">Giá người lớn:</span> {{ number_format($tour->priceAdult) }} VND</p>
-  <p><span class="highlight">Giá trẻ em:</span> {{ number_format($tour->priceChild) }} VND</p>
-  <p><span class="highlight">Thời lượng:</span> {{ $tour->duration }}</p>
-  <p><span class="highlight">Điểm đến:</span> {{ $tour->destination }}</p>
-  <p><span class="highlight">Tình trạng:</span> {{ $tour->availability ? 'Còn chỗ' : 'Hết chỗ' }}</p>
-  <div class="Itinerary">
-    <h1>Dưới đây là lịch trình của tour: {{ $tour->title }}</h1>
-    @include('User.blocks.itinerary')
-  </div>
-  <div>
+      <div class="main-image">
+        <img id="mainImg" src="{{ $images->isNotEmpty() ? $images[0]->imageURL : 'default-image.jpg' }}" alt="Ảnh chính">
+      </div>
+      <div class="thumbnails">
+      @foreach ($images as $image)
+        <img src="{{ $image->imageURL }}" onclick="changeImage(this)" class="{{ $loop->first ? 'active' : '' }}">
+      @endforeach
+      </div>
+      <p><span class="highlight">Mã tour:</span> {{ 'CTVTOAN-'.$tour->tourID }}</p>
+      <p><span class="highlight">Tiêu đề tour:</span> {{ $tour->title }}</p>
+      <p><span class="highlight">Du lịch tới miền:</span> 
+        @php
+          switch ($tour->domain) {
+              case 'b':
+                  echo 'Bắc';
+                  break;
+              case 't':
+                  echo 'Trung';
+                  break;
+              case 'n':
+                  echo 'Nam';
+                  break;
+              default:
+                  echo 'Không xác định';
+          }
+        @endphp
+      </p>
+      <p><span class="highlight">Mô tả:</span> {{ $tour->description }}</p>  
+      <p><span class="highlight">Số lượng:</span> {{ $tour->quantity }} khách</p>
+      <p><span class="highlight">Giá người lớn:</span> {{ number_format($tour->priceAdult) }} VND</p>
+      <p><span class="highlight">Giá trẻ em:</span> {{ number_format($tour->priceChild) }} VND</p>
+      <p><span class="highlight">Thời lượng:</span> {{ $tour->time }}</p>
+      <p><span class="highlight">Điểm đến cụ thể:</span> {{ $tour->destination }}</p>
+      <p><span class="highlight">Số chỗ đặt tour còn lại: </span> {{ $tour->quantityleft}}</p>
+      <p><span class="highlight">Box chat cộng đồng của {{ $tour->title }} là: </span> <a style="color:green;" href="{{ route('chat.show', ['tourID' => $tour->tourID]) }}">Boxchat</a></p>
+      <div class="Itinerary">
+        <h1>Dưới đây là lịch trình của tour: {{ $tour->title }}</h1>
+        @include('User.blocks.itinerary')
+      </div>
+    <div>
     <br>
     @include('User.Review')
     <br>
   </div>
+  @if($tour->availability == 1)
   <div class="button-group">
-    <a href="{{ route('booking.index', ['tourID' => $tour->tourID]) }}">
-      <button>Đặt Tour</button>
-    </a>
+    <a href="{{ route('booking.index', ['tourID' => $tour->tourID]) }}" onclick="showOverlayThenGo(this.href); return false;">
+    <button>Đặt Tour</button>
+  </a>
   </div>
+  @else
+  <p style="text-align: center;">Tour đã hết hạn hoặc chưa mở bán! Vui lòng chọn <a class="a-expired" href="{{ route('tourList') }}">Tour Khác</a></p>
+  @endif
 </div>
 <script>
   function changeImage(el) {

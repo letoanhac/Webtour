@@ -15,6 +15,7 @@ class Itinerary extends Model
         'tourID',
         'day',
         'title',
+        'itineraryImageURL',
         'description',
         'information'
     ];

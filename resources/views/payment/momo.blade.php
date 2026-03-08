@@ -1,4 +1,4 @@
-@include('User.blocks.header')
+@include('clients.blocks.header')
 
 <style>
     body {

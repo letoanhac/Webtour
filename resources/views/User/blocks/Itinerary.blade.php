@@ -11,6 +11,9 @@
         border-bottom: 3px solid #3498db;
         padding-bottom: 8px;
     }
+    .container-itinerary {
+        margin-left: 10px;
+    }
     .images-day {
         width: 140px;
         height: 100px;
@@ -31,7 +34,6 @@
         display: block;
         border-radius: 8px;
     }
-    /* Tour Day Box */
     .tour-day {
         background: white;
         border-radius: 10px;
@@ -79,8 +81,6 @@
         font-size: 14px;
         color: #7f8c8d;
     }
-
-    /* Arrow */
     .arrow {
         font-size: 18px;
         color: #95a5a6;
@@ -111,27 +111,8 @@
         line-height: 1.5;
         margin-bottom: 12px;
     }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-        .day-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-        .day-img {
-            width: 100%;
-            height: auto;
-            margin-bottom: 12px;
-        }
-        .arrow {
-            position: absolute;
-            right: 20px;
-            top: 18px;
-        }
-    }
-
 </style>
-<div class="container">
+<div class="container-itinerary">
     <h2>Lịch trình cho tour: {{ $tour->title }}</h2>
 
     @if($itineraries->count())
@@ -139,11 +120,7 @@
         <div class="tour-day">
             <div class="day-header" tabindex="0" role="button" aria-expanded="false" aria-controls="day-content-{{ $item->day }}" onclick="toggleDay(this)">
                 <figure class="images-day">
-                    @if($tour->firstImage)
-                        <img src="{{ $tour->firstImage->imageURL }}" alt="{{ $tour->title }}">
-                    @else
-                        <img src="{{ asset('clients/img/default-image.jpg') }}" alt="No image">
-                    @endif
+                    <img src="{{ $item->itineraryImageURL ?? 'https://statictuoitre.mediacdn.vn/thumb_w/640/2017/7-1512755474943.jpg' }}" alt="Ảnh lịch trình tour">
                 </figure>
                 <div class="day-title">
                     <div class="day-num">Ngày {{ $item->day }}</div>

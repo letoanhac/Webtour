@@ -1,10 +1,8 @@
-<div style="background: #fff; padding: 20px; max-width: 800px; margin: 0 auto; font-family: Arial, sans-serif; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
+<div style="background: #fff; padding: 20px; max-width: 2500px; font-family: Arial, sans-serif; border-radius: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
 
     <h4 style="font-weight: bold; color: #333;">
         Đánh giá khách hàng về: {{ $tour->title }}
     </h4>
-
-    {{-- Tính trung bình --}}
     @php
         $totalReviews = $reviews->count();
         $avgRating = $totalReviews > 0 ? number_format($reviews->avg('rating'), 1) : '0.0';
@@ -14,7 +12,15 @@
         <div style="background: #4caf50; color: white; font-weight: bold; font-size: 20px; padding: 5px 12px; border-radius: 6px;">
             {{ $avgRating }}/10
         </div>
-        <div style="margin-left: 10px; font-weight: 600; color: #4caf50;">Tuyệt vời</div>
+        @if ($avgRating >= 9)
+            <div style="margin-left: 10px; font-weight: 600; color: #4caf50;">Tuyệt vời</div>
+        @elseif ($avgRating >= 7)
+            <div style="margin-left: 10px; font-weight: 600; color: #4caf50;">Rất Tốt</div>
+        @elseif ($avgRating >= 5)
+            <div style="margin-left: 10px; font-weight: 600; color: #4caf50;">Bình Thường</div>
+        @else
+            <div style="margin-left: 10px; font-weight: 600; color: #4caf50;">Cần cải Thiện</div>
+        @endif
         <div style="margin-left: auto; color: #666;">{{ $totalReviews }} đánh giá</div>
     </div>
 
@@ -25,8 +31,6 @@
     @forelse ($reviews as $review)
         <div style="border-bottom: 1px solid #ddd; padding: 15px 0;">
             <strong style="font-size: 16px;">{{ $review->user->username ?? 'Ẩn danh' }}</strong>
-
-            {{-- Điểm và mức độ --}}
             <div style="display: flex; align-items: center; margin: 5px 0;">
                 <span style="background: #4caf50; color: white; font-weight: bold; padding: 3px 10px; border-radius: 4px;">
                     {{ number_format($review->rating, 1) }}
@@ -42,8 +46,6 @@
                         Cần cải thiện
                     @endif
                 </span>
-
-                {{-- Ngày đánh giá --}}
                 <span style="margin-left: auto; color: #999;">
                     {{ \Carbon\Carbon::parse($review->timestamp)->format('d-m-Y') }}
                 </span>
@@ -55,8 +57,6 @@
     @empty
         <p style="color: #888; font-style: italic;">Chưa có đánh giá nào.</p>
     @endforelse
-
-    {{-- Nút xem thêm --}}
     @if ($totalReviews > 3)
         <div style="text-align: center; margin-top: 20px;">
             <a href="#" class="btn btn-outline-success">

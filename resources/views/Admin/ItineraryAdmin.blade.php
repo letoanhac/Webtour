@@ -98,7 +98,9 @@
             @include('Admin.blocks.manage-top')
             <div class="container-fluid">
                 <h2 class="text-center mb-4">Quản lý Tour</h2>
-
+                <a href="{{ route('admin.tour.index') }}">
+                    <button style="margin-bottom:30px;border-radius:20px;height:30px;width:180px;background: linear-gradient(135deg,rgb(195, 197, 200),rgb(89, 46, 110));">Quay lại</button>
+                </a>
                 @if (session('success'))
                     <div class="alert alert-success text-center">{{ session('success') }}</div>
                 @endif
@@ -109,49 +111,56 @@
                             <tr style="background-color: black;">
                                 <th>Ngày</th>
                                 <th>Tiêu đề</th>
+                                <th>Thêm URL cho ngày</th>
                                 <th>Mô tả</th>
-                                <th>Thông tin</th>
+                                <th>Lưu ý</th>
                                 <th style="width: 150px;">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($itineraries as $item)
-                            <tr>
-                                <form method="POST" action="{{ route('admin.tour.itineraries.update', [$tour->tourID, $item->itineraryID]) }}">
-                                    @csrf
-                                    <td><input type="number" name="day" class="form-control" value="{{ $item->day }}" required min="1" /></td>
-                                    <td><input type="text" name="title" class="form-control" value="{{ $item->title }}" required /></td>
-                                    <td><input type="text" name="description" class="form-control" value="{{ $item->description }}" /></td>
-                                    <td><input type="text" name="information" class="form-control" value="{{ $item->information }}" /></td>
-                                    <td>
-                                        <div class="d-grid gap-1">
-                                            <button type="submit" class="btn btn-success btn-sm">Lưu</button>
-                                </form>
-                                <form method="POST" action="{{ route('admin.tour.itineraries.delete', [$tour->tourID, $item->itineraryID]) }}" onsubmit="return confirm('Bạn chắc chắn muốn xóa?')">
-                                    @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
-                                </form>
-                                        </div>
-                                    </td>
-                            </tr>
+                                <tr>
+                                    <form method="POST" action="{{ route('admin.tour.itineraries.update', [$tour->tourID, $item->itineraryID]) }}">
+                                        @csrf
+                                        <td><input type="number" name="day" class="form-control" value="{{ $item->day }}" required min="1" /></td>
+                                        <td><input type="text" name="title" class="form-control" value="{{ $item->title }}" required /></td>
+                                        <td><input type="text" name="itineraryImageURL" class="form-control" value="{{ $item->itineraryImageURL }}" /></td>
+                                        <td><input type="text" name="description" class="form-control" value="{{ $item->description }}" /></td>
+                                        <td><input type="text" name="information" class="form-control" value="{{ $item->information }}" /></td>
+                                        <td>
+                                            <div class="d-flex flex-column gap-1">
+                                                <button type="submit" class="btn btn-success btn-sm">Lưu</button>
+                                    </form>
+
+                                    <form method="POST" action="{{ route('admin.tour.itineraries.delete', [$tour->tourID, $item->itineraryID]) }}" onsubmit="return confirm('Bạn chắc chắn muốn xóa?')">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                                    </form>
+                                            </div>
+                                        </td>
+                                </tr>
                             @empty
-                            <tr>
-                                <td colspan="5" class="text-center text-muted py-4">Chưa có lịch trình nào cho tour này.</td>
-                            </tr>
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted py-4">Chưa có lịch trình nào cho tour này.</td>
+                                </tr>
                             @endforelse
-                            <tr>
-                                <form method="POST" action="{{ route('admin.tour.itineraries.store', $tour->tourID) }}">
-                                    @csrf
+
+                            {{-- Hàng thêm mới --}}
+                            <form method="POST" action="{{ route('admin.tour.itineraries.store', $tour->tourID) }}">
+                                @csrf
+                                <tr>
                                     <td><input type="number" name="day" class="form-control" placeholder="Ngày" required min="1" /></td>
                                     <td><input type="text" name="title" class="form-control" placeholder="Tiêu đề" required /></td>
+                                    <td><input type="text" name="itineraryImageURL" class="form-control" placeholder="Lịch trình" /></td>
                                     <td><input type="text" name="description" class="form-control" placeholder="Mô tả" /></td>
                                     <td><input type="text" name="information" class="form-control" placeholder="Thông tin" /></td>
                                     <td>
                                         <button type="submit" class="btn btn-primary btn-sm w-100">Thêm</button>
                                     </td>
-                                </form>
-                            </tr>
+                                </tr>
+                            </form>
                         </tbody>
+
                     </table>
                 </div>
             </div>
