@@ -12,7 +12,7 @@
         padding-bottom: 8px;
     }
     .container-itinerary {
-        margin-left: 10px;
+        margin-top: 20px;
     }
     .images-day {
         width: 140px;
@@ -113,7 +113,6 @@
     }
 </style>
 <div class="container-itinerary">
-    <h2>Lịch trình cho tour: {{ $tour->title }}</h2>
 
     @if($itineraries->count())
         @foreach($itineraries as $item)
@@ -130,7 +129,6 @@
             </div>
             <div class="day-content" id="day-content-{{ $item->day }}" aria-hidden="true">
                 <div class="content-inner">
-                    <h3>{{ $item->title }}</h3>
                     <p>{{ $item->description }}</p>
                     @if($item->information)
                         <div class="highlight">

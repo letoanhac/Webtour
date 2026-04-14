@@ -13,12 +13,16 @@ class ReviewController extends Controller
     public function index(Request $request)
     {
         $tourID = $request->input('tourID');
+        $tour = Tour::findOrFail($tourID);
+        $allReviews = Review::where('tourID', $tourID);
+        $totalReviews = $allReviews->count();
+        $avgRating = $totalReviews > 0 ? number_format($allReviews->avg('rating'), 1) : '0.0';
         $reviews = Review::with('user')
             ->where('tourID', $tourID)
             ->orderBy('created_at', 'desc')
-            ->get();
+            ->paginate(4);
 
-        return view('User.Review', compact('reviews', 'tourID'));
+        return view('User.Review', compact('reviews', 'tourID', 'tour', 'totalReviews', 'avgRating'));
     }
 
     public function store(Request $request)
@@ -39,7 +43,7 @@ class ReviewController extends Controller
         if (!$hasPaidBooking) {
             return redirect()->back()->with('error', 'Chỉ người dùng đã thanh toán mới được đánh giá.');
         }
-        $pointMap = [5 => 10, 4 => 8, 3 => 6, 2 => 4, 1 => 2];
+        $pointMap = [5 => 5, 4 => 4, 3 => 3, 2 => 2, 1 => 1];
         $point = $pointMap[(int)$request->rating] ?? 0;
 
         Review::create([

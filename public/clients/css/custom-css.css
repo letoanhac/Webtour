@@ -3,7 +3,7 @@
 }
 
 .active-1 {
-    background: #63ab45;
+    background: #3aafa9;
 }
 
 .menu-sidebar {
@@ -57,7 +57,7 @@
 }
 
 .dropdown-menu li:hover {
-    background: #63ab45;
+    background: #3aafa9;
     color: white;
 }
 
@@ -75,7 +75,7 @@
 
 .clear_filter {
     color: #fff;
-    background-color: #63ab45;
+    background-color: #2b7a78;
     padding: 8px 12px;
     border: none;
     cursor: pointer;
@@ -165,7 +165,7 @@
       padding: 15px 20px 15px 20px; 
     }
     .nav-search form button:hover {
-        background-color: #63ab45;
+        background-color: #3aafa9;
     }
 
 
@@ -208,8 +208,8 @@
 /* Hover Effect */
 .pagination-tours .page-link:hover {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #3aafa9;
+    border-color: #3aafa9;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
@@ -217,8 +217,8 @@
 /* Active Page */
 .pagination-tours .page-item.active .page-link {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #3aafa9;
+    border-color: #3aafa9;
     box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4);
     transform: translateY(-1px);
 }
@@ -285,13 +285,13 @@
 
 .pagination-tours.pagination-minimal .page-link:hover {
     background-color: #f8f9fa;
-    color: #007bff;
+    color: #3aafa9;
     transform: none;
     box-shadow: none;
 }
 
 .pagination-tours.pagination-minimal .page-item.active .page-link {
-    background-color: #007bff;
+    background-color: #3aafa9;
     color: #fff;
     border-radius: 6px;
 }
@@ -309,8 +309,8 @@
 }
 
 .pagination-tours.pagination-dark .page-item.active .page-link {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #3aafa9;
+    border-color: #3aafa9;
 }
 
 /* Gradient Style */

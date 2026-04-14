@@ -7,7 +7,7 @@
 
 .nav-bar {
   border: 0px solid transparent;
-  background: linear-gradient(135deg,rgb(64, 79, 94),rgb(89, 46, 110));
+  background: #2b7a78;
 }
 
 .container {
@@ -66,18 +66,13 @@ header {
   font-size: 20px;
 }
 .nav-bar2 .navbar-collapse ul > li > a {
-  padding: 20px 12px;
+  padding: 16px 12px;
   margin-right:5px;
-  border: 2px solid black;
-  border-radius: 30px;
   color: rgb(255, 255, 255);
   text-decoration: none;
   transition: background-color 0.3s ease, color 0.3s ease;
 }
-.nav-bar2 .navbar-collapse ul > li > a:hover {
-  background: linear-gradient(120deg,green,rgb(213, 7, 7));
-  color: #fff;
-}
+
 
 .navbar-custom-menu ul {
   display: flex;
@@ -121,7 +116,7 @@ header {
 
 /* slider */
 .content-wrapper {
-  background-color: #1d231f;
+  background-color: white;
 }
 
 .content-wrapper .container-fluid h1 {
@@ -135,10 +130,9 @@ header {
 }
 
 .main-hero-image {
-  height: 790px;
-  margin-top: -8%;
+  height: 550px;
+  margin-top: -10%;
   position: relative;
-  border-radius: 20px;
   background-size: cover;
   background-position: center;
 }
@@ -160,6 +154,7 @@ header {
   position: relative;
   margin-top: -50px;
   background: white;
+  border: 1px solid rgb(58, 58, 58);
   border-radius: 12px;
   padding: 28px 55px 10px;
   box-shadow: 10px 4px 60px rgba(197, 197, 197, 0.25);
@@ -284,7 +279,7 @@ textarea,
 .theme-btn {
   color: white;
   cursor: pointer;
-  background: #63ab45;
+  background: #2b7a78;
   border: none;
   outline: none;
   padding: 11px 36px;
@@ -423,7 +418,7 @@ textarea,
   .cardItemContent
   .cardItemTourNameDiv
   .cardItemTourName {
-  color: #003c71;
+  color: #2b7a78;
   font-size: 25px;
   font-weight: 600;
   line-height: 1.4;
@@ -436,7 +431,7 @@ textarea,
 }
 
 .cardItem .cardItemContainer .cardItemContent .cardItemDepartDiv .tourListPros {
-  color: #26bed6;
+  color: #2b7a78;
   margin-bottom: 0px;
   margin-top: 10px;
 }
@@ -502,11 +497,11 @@ textarea,
 
 .tourHomeContainer .btn-readmore {
   display: inline-block;
-  color: #26bed6;
+  color: #2b7a78;
   font-size: 18px;
   font-weight: 600;
   border-radius: 6px;
-  border: solid 1px #26bed6;
+  border: solid 1px #2b7a78;
   background-color: #fff;
   padding: 12px 20px;
   margin-bottom: 32px;
@@ -635,7 +630,7 @@ footer {
 .wrap-right p:nth-child(2) a {
   font-size: 18px;
   font-weight: 600;
-  color: #003c71;
+  color: #2b7a78;
   vertical-align: middle;
 }
 
@@ -765,7 +760,7 @@ body {
 
 /* Phần thanh màu xanh lá trong khoảng giá được chọn */
 .ui-slider-range.ui-corner-all.ui-widget-header {
-    background: #4CAF50 !important;
+    background: #3aafa9 !important;
     border-radius: 2px !important;
     height: 4px !important;
 }
@@ -775,7 +770,7 @@ body {
     width: 14px !important;
     height: 14px !important;
     background: #fff !important;
-    border: 2px solid #4CAF50 !important;
+    border: 2px solid #3aafa9 !important;
     border-radius: 50% !important;
     cursor: pointer !important;
     top: -5px !important;
@@ -885,7 +880,7 @@ body {
 }
 
 .page-title {
-  color: #003c71;
+  color: #2b7a78;
   margin-top: 0px;
   margin-bottom: 15px;
   font-weight: 500;
@@ -1014,7 +1009,7 @@ body {
 .tourList .tourItem:hover {
   transition: all 0.2s ease-in-out;
   box-shadow: 0 0 16px 0 rgba(38, 190, 214, 0.8);
-  border: solid 1px #26bed6;
+  border: solid 1px #2b7a78;
 }
 
 
@@ -1129,7 +1124,7 @@ body {
   .wrapItemPrice
   .tourItemPrice {
   font-size: 24px;
-  color: #ff8c00;
+  color: #3aafa9;
   font-weight: 600;
   display: block;
   margin-bottom: 10px;
@@ -1160,8 +1155,8 @@ body {
   border-radius: 4px;
   transition: all 0.2s linear;
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  background: #ff8c00;
-  border: 1px solid #ff8c00;
+  background: #2b7a78;
+  border: 1px solid #2b7a78;
   color: #fff;
   font-weight: bold;
   margin-bottom: 10px;
@@ -1171,7 +1166,7 @@ body {
 .card .cardItem .cardItemContainer:hover {
   transition: all 0.2s ease-in-out;
   box-shadow: 0 0 16px 0 rgba(38, 190, 214, 0.8);
-  border: solid 1px #26bed6;
+  border: solid 1px #2b7a78;
 }
 
 .destinations-grid {
@@ -1250,7 +1245,7 @@ body {
     font-size: 24px;
     line-height: 1.4;
     font-weight: 700;
-    color: #003c71;
+    color: #2b7a78;
 }
 
 .alh__header-back {
@@ -1323,7 +1318,7 @@ body {
 .auth-login__button:hover {
   transition: all 0.2s ease-in-out;
   box-shadow: 0 0 16px 0 rgba(38, 190, 214, 0.8);
-  border: solid 1px #26bed6;
+  border: solid 1px #2b7a78;
 }
 
 

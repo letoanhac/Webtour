@@ -3,4 +3,4 @@
 <button>
     <a href="{{ $link }}">Kích hoạt tài khoản</a>
 </button>
-<p>Trân trọng,<br>Trần Mạnh Cường</p>
+<p>Trân trọng!</p>

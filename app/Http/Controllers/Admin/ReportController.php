@@ -13,32 +13,33 @@ class ReportController extends Controller {
         $totalRevenue = DB::table('booking')->where('paymentStatus', 'Đã thanh toán')->sum('totalPrice');
         $totalTours = DB::table('tour')->count();
 
-        // 1. Lượt đặt tour có số tiền lớn nhất (full row)
+        // 1. Danh sách các lượt đặt tour có số tiền lớn nhất (lấy top 10)
         $highestBooking = DB::table('booking')
             ->where('paymentStatus', 'Đã thanh toán')
             ->orderByDesc('totalPrice')
-            ->first();
+            ->limit(10)
+            ->get();
 
-        // 2. Người dùng có lượt đặt tour thành công nhiều nhất
+        // 2. Danh sách người dùng có lượt đặt tour thành công nhiều nhất
         $topUser = DB::table('booking')
             ->select('userID', DB::raw('COUNT(*) as total'))
             ->where('paymentStatus', 'Đã thanh toán')
             ->groupBy('userID')
             ->orderByDesc('total')
-            ->first();
+            ->get();
 
         // 3. Danh sách các booking đã thanh toán
         $bookingDetails = DB::table('booking')
             ->where('paymentStatus', 'Đã thanh toán')
             ->get();
 
-        // 4. Tour có lượt đặt nhiều nhất
+        // 4. Danh sách các tour được đặt nhiều nhất
         $mostBookedTour = DB::table('booking')
             ->select('tourID', DB::raw('COUNT(*) as total'))
             ->where('paymentStatus', 'Đã thanh toán')
             ->groupBy('tourID')
             ->orderByDesc('total')
-            ->first();
+            ->get();
 
         // 5. Lấy danh sách users và tours để map hiển thị tên
         $users = DB::table('user')->get()->keyBy('userID');

@@ -18,6 +18,7 @@ class Tour extends Model
     protected $fillable = [
         'tourID',
         'title',
+        'tag',
         'description',
         'domain',
         'quantity',

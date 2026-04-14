@@ -10,62 +10,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <style>
-        .admin-layout {
-            display: flex;
-            min-height: 100vh;
-            background-color: #f8f9fa;
-        }
-        .sidebar {
-            width: 250px;
-            background: linear-gradient(135deg,rgb(64, 79, 94),rgb(89, 46, 110));
-            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
-            border-radius: 0 15px 15px 0;
-            padding: 30px 20px;
-        }
-        .sidebar h4 {
-            color: #1e40af;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 40px;
-            text-align: center;
-            font-size: 18px;
-        }
-        .sidebar ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 0;
-        }
-        .sidebar li {
-            margin-bottom: 18px;
-        }
-        .sidebar a {
-            display: block;
-            text-decoration: none;
-            color: #334155;
-            font-weight: 600;
-            font-size: 16px;
-            padding: 12px 20px;
-            border-radius: 12px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .sidebar a:hover {
-            background-color: #cbd5e1;
-            color: #1e40af;
-        }
-        .sidebar a.active {
-            background-color: #1e40af;
-            color: #f8fafc;
-        }
-
-        .admin-content {
-            flex-grow: 1;
-            padding: 30px;
-            background-color: #fff;
-            overflow-x: auto;
-        }
-
+    <style>        
         table th, table td {
             vertical-align: middle !important;
         }
@@ -73,7 +18,7 @@
             min-width: 120px;
         }
         .btn {
-            padding: 4px 10px;
+            padding: 5px 10px;
         }
     </style>
 </head>
@@ -83,13 +28,16 @@
             @include('Admin.blocks.left-menu')
         </nav>
 
-        <main class="admin-content">
-            @include('Admin.blocks.manage-top')
+        <main class="admin-content"> 
             <div class="container-fluid">
                 <h2 class="text-center mb-4">Quản lý Người dùng</h2>
 
                 @if (session('success'))
                     <div class="alert alert-success text-center">{{ session('success') }}</div>
+                @endif
+                
+                @if (session('error'))
+                    <div class="alert alert-danger text-center">{{ session('error') }}</div>
                 @endif
 
                 <div class="table-responsive">
@@ -109,7 +57,7 @@
                         <tbody>
                             @foreach($users as $user)
                             <tr>
-                                <form action="{{ route('admin.usermanage.user.update', $user->userID) }}" method="POST">
+                                <form action="{{ route('admin.usermanage.user.update', $user->userID) }}" method="POST" style="display: contents;">
                                     @csrf
                                     <td><input name="username" value="{{ $user->username }}" class="form-control"></td>
                                     <td><input name="email" value="{{ $user->email }}" class="form-control"></td>
@@ -118,16 +66,13 @@
                                     <td><input name="status" value="{{ $user->status }}" class="form-control"></td>
                                     <td>{{ $user->createDate }}</td>
                                     <td>{{ $user->updateDate }}</td>
-                                    <td>
+                                        <td style="display: flex; gap: 5px; justify-content: center; align-items:center;">
                                         <button class="btn btn-sm btn-success" title="Lưu"><i class="fas fa-save"></i></button>
-                                    </td>
                                 </form>
-                                <td>
-                                    <form action="{{ route('admin.usermanage.user.delete', $user->userID) }}" method="POST" onsubmit="return confirm('Bạn có chắc xoá không?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn btn-sm btn-danger" title="Xoá"><i class="fas fa-trash"></i></button>
-                                    </form>
-                                </td>
+                                <form action="{{ route('admin.usermanage.user.delete', $user->userID) }}" method="POST" onsubmit="return confirm('Bạn có chắc xoá không?')">
+                                    @csrf @method('DELETE')
+                                    <button class="btn btn-sm btn-danger" title="Xoá"><i class="fas fa-trash"></i></button>
+                                </form>
                             </tr>
                             @endforeach
 
@@ -142,7 +87,6 @@
                                     <td><input name="status" class="form-control" value="active"></td>
                                     <td colspan="2"><input name="password" type="password" class="form-control" placeholder="Mật khẩu" required></td>
                                     <td><button class="btn btn-primary btn-sm" title="Thêm"><i class="fas fa-plus-circle"></i></button></td>
-                                    <td>____</td>
                                 </form>
                             </tr>
                         </tbody>

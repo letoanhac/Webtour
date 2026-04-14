@@ -111,6 +111,8 @@ Route::prefix('admin/tour')->name('admin.tour.')->group(function () {
     Route::post('/itinerary/{tourID}/store', [ItineraryController::class, 'store'])->name('itineraries.store');
     Route::post('/itinerary/{tourID}/update/{itineraryID}', [ItineraryController::class, 'update'])->name('itineraries.update');
     Route::post('/itinerary/{tourID}/delete/{itineraryID}', [ItineraryController::class, 'delete'])->name('itineraries.delete');
+    Route::get('/info/manage/{tourID}', [TourManageController::class, 'manageInfo'])->name('info.manage');
+    Route::post('/info/manage/{tourID}', [TourManageController::class, 'updateInfo'])->name('info.update');
 });
 Route::prefix('admin/usermanage')->name('admin.usermanage.')->group(function () {
     Route::get('/user', [UserController::class, 'index'])->name('user.index');

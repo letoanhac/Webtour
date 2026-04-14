@@ -21,9 +21,12 @@ class TourController extends Controller
         $tour->availability = ($now->between($tour->startDate, $tour->endDate)) ? 1 : 0;
         $tour->save();
         $images = Image::where('tourID', $id)->get();
-        $reviews = Review::where('tourID', $id)->with('user')->orderBy('timestamp', 'desc')->get();
+        $allReviews = Review::where('tourID', $id)->with('user');
+        $totalReviews = $allReviews->count();
+        $avgRating = $totalReviews > 0 ? number_format($allReviews->avg('rating'), 1) : '0.0';
+        $reviews = Review::where('tourID', $id)->with('user')->orderBy('timestamp', 'desc')->paginate(4);
         $itineraries = Itinerary::where('tourID', $id)->orderBy('day', 'asc')->get();
-        return view('User.Tour_Detail', compact('tour', 'images','itineraries','reviews'));
+        return view('User.Tour_Detail', compact('tour', 'images', 'itineraries', 'reviews', 'totalReviews', 'avgRating'));
     }
     public function index()
     {

@@ -45,7 +45,7 @@
                                                         </span>
                                                         <div class="cardItemDepartDiv">
                                                             <ul class="tourListPros">
-                                                                <li>{{ $tour->description}}</li>
+                                                                <li>{{ $tour->tag}}</li>
                                                                 <li>{{ $tour->destination}}</li>
                                                             </ul>
                                                         </div>

@@ -16,12 +16,27 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
             'username' => 'required|unique:user,username',
             'password' => 'required|min:6',
             'email' => 'required|email|unique:user,email',
             'phoneNumber' => 'required',
+        ], [
+            'username.required' => 'Tên đăng nhập không được bỏ trống.',
+            'username.unique'   => 'Tên đăng nhập đã có người sử dụng.',
+            'password.required' => 'Mật khẩu không được để trống.',
+            'password.min'      => 'Mật khẩu phải chứa ít nhất 6 ký tự.',
+            'email.required'    => 'Email không được bỏ trống.',
+            'email.email'       => 'Email không hợp lệ.',
+            'email.unique'      => 'Email đã được dùng.',
+            'phoneNumber.required' => 'Số điện thoại là bắt buộc.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('error', implode(' ', $validator->errors()->all()))
+                ->withInput();
+        }
 
         User::create([
             'username' => $request->username,
@@ -34,12 +49,31 @@ class UserController extends Controller
             'updateDate' => now(),
         ]);
 
-    return redirect()->route('admin.usermanage.user.index')->with('success', 'Thêm người dùng thành công!');
+        return redirect()->route('admin.usermanage.user.index')->with('success', 'Thêm người dùng thành công!');
     }
 
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
+            'username' => "required|unique:user,username,$id,userID",
+            'email'    => "required|email|unique:user,email,$id,userID",
+            'phoneNumber' => 'required',
+        ], [
+            'username.required' => 'Tên đăng nhập không được bỏ trống.',
+            'username.unique'   => 'Tên đăng nhập đã có người sử dụng.',
+            'email.required'    => 'Email không được bỏ trống.',
+            'email.email'       => 'Email không hợp lệ.',
+            'email.unique'      => 'Email đã được dùng.',
+            'phoneNumber.required' => 'Số điện thoại là bắt buộc.',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('error', implode(' ', $validator->errors()->all()))
+                ->withInput();
+        }
 
         $user->update([
             'username' => $request->username,

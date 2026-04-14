@@ -11,106 +11,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
     <style>
-        .body {
-            background: linear-gradient(135deg,rgb(64, 79, 94),rgb(89, 46, 110));
-        }
-        .admin-layout {
-            display: flex;
-            min-height: 100vh;
-            background-color: #f8f9fa;
-        }
-        .sidebar {
-            width: 250px;
-            background: linear-gradient(135deg,rgb(64, 79, 94),rgb(89, 46, 110));
-            box-shadow: 3px 0 10px rgba(0,0,0,0.1);
-            border-radius: 0 15px 15px 0;
-            padding: 30px 20px;
-            user-select: none;
-        }
-
-        .sidebar h4 {
-            color: #1e40af;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 40px;
-            text-align: center;
-            font-size: 18px;
-        }
-
-        .sidebar ul {
-            list-style: none;
-            padding-left: 0;
-            margin: 0;
-        }
-
-        .sidebar li {
-            margin-bottom: 18px;
-        }
-
-        .sidebar a {
-            display: block;
-            text-decoration: none;
-            color: #334155;
-            font-weight: 600;
-            font-size: 16px;
-            padding: 12px 20px;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .sidebar a:hover {
-            background-color: #cbd5e1;
-            color: #1e40af;
-            box-shadow: inset 5px 0 0 0 #1e40af;
-            transform: translateX(8px);
-        }
-
-        .sidebar a.active {
-            background-color: #1e40af;
-            color: #f8fafc;
-            box-shadow: inset 5px 0 0 0 #1e40af;
-            transform: translateX(8px);
-        }
-
-        .admin-content {
-            flex-grow: 1;
-            padding: 30px;
-            background-color: #fff;
-            overflow-x: auto;
-        }
-
         table th, table td {
             vertical-align: middle !important;
+            white-space: nowrap;
         }
         .button-cancel {
             height: 30px;
             width: 170px;
             margin:5px;
             text-align: center;
-            background: linear-gradient(120deg,white,red);
+            background: rgba(255, 0, 0, 0.858);
+            color: white;
             border-radius: 20px;
-
         }
         .button-accept {
             height: 30px;
             width: 170px;
             margin:5px;
             text-align: center;
-            background: linear-gradient(120deg,white,green);
+            background: green;
+            color: white;
             border-radius: 20px;
         }
         .check-status .success-status {
-            background: linear-gradient(310deg,rgb(196, 248, 210),rgb(162, 218, 8));
-            border-radius: 30px;
-            height: 25px;
-            width: 200px;
+            background: green;
+            padding: 2px 8px;
+            border-radius: 10px;
+            color: white;
         }
         .wait-status {
-            background: linear-gradient(150deg,rgb(188, 188, 183),rgb(229, 225, 15));
-            border-radius: 30px;
-            height: 25px;
-            width: 200px;
+            background: yellow;
+            padding: 2px 8px;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -121,7 +53,6 @@
         </nav>
 
         <main class="admin-content">
-            @include('Admin.blocks.manage-top')
             <br>
             <h2 class="text-center mb-4">Quản lý Thanh toán Đặt tour</h2>
 
@@ -129,19 +60,19 @@
                 <div class="alert alert-success text-center">{{ session('success') }}</div>
             @endif
             <div style="margin-bottom: 15px; text-align: right;">
-                <input type="text" id="searchInput" placeholder="Tìm kiếm..." style=" border-radius: 120px;background: linear-gradient(120deg,white,lightgreen); padding: 5px 10px; width: 250px;" onkeyup="filterTable()">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm..." style=" border-radius: 120px; padding: 5px 10px; width: 250px;" onkeyup="filterTable()">
             </div>
             @if($bookings->count()>0)
-            <div class="table-responsive" style="border-top-left-radius: 20px;border-top-right-radius: 20px">
-                <table id="bookingTable" class="table table-bordered text-center align-middle">
+            <div class="table-responsive" style="max-width: 100%; overflow-x: auto;">
+                <table id="bookingTable" class="table table-bordered table-striped align-middle text-center">
                     <thead class="table-dark">
                         <tr>
                             <th>Checkout ID</th>
                             <th>Booking ID</th>
+                            <th>Mã tour</th>
                             <th>Phương thức thanh toán</th>
                             <th>Ngày thanh toán</th>
-                            <th>Trạng thái thanh toán</th>
-                            <th>Mã tour</th>
+                            <th>Trạng thái thanh toán</th>                   
                             <th>Ngày đặt</th>
                             <th>Số người lớn</th>
                             <th>Số trẻ em</th>
@@ -156,6 +87,7 @@
                             <tr>
                                 <td>{{'CE-'.$item->checkoutID }}</td>
                                 <td>{{'BKID-'.$item->bookingID }}</td>
+                                <td>{{ 'CTVTOAN-'.$item->tourID }}</td>
                                 <td>{{ $item->paymentMethod }}</td>
                                 <td>{{ $item->paymentDate }}</td>
                                 <td>
@@ -173,12 +105,19 @@
                                     </div>
                                     @endif
                                 </td>
-                                <td>{{ 'CTVTOAN-'.$item->tourID }}</td>
                                 <td>{{ $item->bookingDate }}</td>
                                 <td>{{ $item->numAdults }}</td>
                                 <td>{{ $item->numChildren }}</td>
                                 <td>{{ number_format($item->totalPrice, 0, ',', '.') }}đ</td>
-                                <td>{{ $item->specialRequests }}</td>
+                                <td>
+                                    @if($item->specialRequests)
+                                        <button class="btn btn-info btn-sm" onclick="showSpecialRequests('{{ $item->bookingID }}', '{{ addslashes($item->specialRequests) }}')" title="Xem yêu cầu đặc biệt">
+                                            <i class="fas fa-eye"></i> Xem
+                                        </button>
+                                    @else
+                                        <span class="text-muted">-</span>
+                                    @endif
+                                </td>
                                 <td>
                                     <form action="{{ route('admin.booking.updateStatus', $item->bookingID) }}" method="POST">
                                         @csrf
@@ -194,7 +133,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('invoice.admin.view',['bookingID'=>$item->bookingID]) }}">
-                                        <button style="border-radius: 30px;background:linear-gradient(100deg,white,blue);">In Hóa đơn</button>
+                                        <button style="border-radius: 30px; color:white; background:linear-gradient(rgb(63, 63, 255));">In Hóa đơn</button>
                                     </a>
                                 </td>
                             </tr>
@@ -209,6 +148,23 @@
             @endif
             <!-- Pagination controls -->
             <div id="pagination" style="margin-top: 15px; text-align: center;"></div>
+
+            <div class="modal fade" id="specialRequestsModal" tabindex="-1" aria-labelledby="specialRequestsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="specialRequestsModalLabel">Yêu cầu đặc biệt - Booking ID: <span id="modalBookingId"></span></h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="modalSpecialRequests"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
     @include('Admin.blocks.overlay')
@@ -304,6 +260,13 @@
         });
 
         window.onload = setupPagination;
+
+        function showSpecialRequests(bookingId, specialRequests) {
+            document.getElementById('modalBookingId').textContent = bookingId;
+            document.getElementById('modalSpecialRequests').textContent = specialRequests;
+            const modal = new bootstrap.Modal(document.getElementById('specialRequestsModal'));
+            modal.show();
+        }
     </script>
 </body>
 </html>

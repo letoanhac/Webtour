@@ -3,23 +3,19 @@
     <h4 style="font-weight: bold; color: #333;">
         Đánh giá khách hàng về: {{ $tour->title }}
     </h4>
-    @php
-        $totalReviews = $reviews->count();
-        $avgRating = $totalReviews > 0 ? number_format($reviews->avg('rating'), 1) : '0.0';
-    @endphp
 
     <div style="margin-top: 10px; display: flex; align-items: center;">
-        <div style="background: #4caf50; color: white; font-weight: bold; font-size: 20px; padding: 5px 12px; border-radius: 6px;">
-            {{ $avgRating }}/10
+        <div style="background: #2b7a78; color: white; font-weight: bold; font-size: 20px; padding: 5px 12px; border-radius: 6px;">
+            {{ $avgRating }}/5
         </div>
-        @if ($avgRating >= 9)
-            <div style="margin-left: 10px; font-weight: 600; color: #4caf50;">Tuyệt vời</div>
-        @elseif ($avgRating >= 7)
-            <div style="margin-left: 10px; font-weight: 600; color: #4caf50;">Rất Tốt</div>
-        @elseif ($avgRating >= 5)
-            <div style="margin-left: 10px; font-weight: 600; color: #4caf50;">Bình Thường</div>
-        @else
-            <div style="margin-left: 10px; font-weight: 600; color: #4caf50;">Cần cải Thiện</div>
+        @if ($avgRating >= 5)
+            <div style="margin-left: 10px; font-weight: 600; color: #3aafa9;">Tuyệt vời</div>
+        @elseif ($avgRating >= 4)
+            <div style="margin-left: 10px; font-weight: 600; color: #3aafa9;">Rất Tốt</div>
+        @elseif ($avgRating >= 3)
+            <div style="margin-left: 10px; font-weight: 600; color: #3aafa9;">Bình Thường</div>
+        @elseif ($avgRating >= 2)
+            <div style="margin-left: 10px; font-weight: 600; color: #3aafa9;">Cần cải Thiện</div>
         @endif
         <div style="margin-left: auto; color: #666;">{{ $totalReviews }} đánh giá</div>
     </div>
@@ -32,15 +28,15 @@
         <div style="border-bottom: 1px solid #ddd; padding: 15px 0;">
             <strong style="font-size: 16px;">{{ $review->user->username ?? 'Ẩn danh' }}</strong>
             <div style="display: flex; align-items: center; margin: 5px 0;">
-                <span style="background: #4caf50; color: white; font-weight: bold; padding: 3px 10px; border-radius: 4px;">
+                <span style="background: #2b7a78; color: white; font-weight: bold; padding: 3px 10px; border-radius: 4px;">
                     {{ number_format($review->rating, 1) }}
                 </span>
-                <span style="margin-left: 8px; color: #4caf50; font-weight: 600;">
-                    @if ($review->rating >= 9)
+                <span style="margin-left: 8px; color: #3aafa9; font-weight: 600;">
+                    @if ($review->rating >= 5)
                         Tuyệt vời
-                    @elseif ($review->rating >= 7)
+                    @elseif ($review->rating >= 4)
                         Rất tốt
-                    @elseif ($review->rating >= 5)
+                    @elseif ($review->rating >= 3)
                         Bình thường
                     @else
                         Cần cải thiện
@@ -57,11 +53,62 @@
     @empty
         <p style="color: #888; font-style: italic;">Chưa có đánh giá nào.</p>
     @endforelse
-    @if ($totalReviews > 3)
-        <div style="text-align: center; margin-top: 20px;">
-            <a href="#" class="btn btn-outline-success">
-                {{ $totalReviews - 3 }} nhận xét
-            </a>
+
+    @if ($reviews->hasPages())
+        <div class="review-pagination">
+            @if ($reviews->onFirstPage())
+                <span class="review-page-btn review-page-disabled">&laquo;</span>
+            @else
+                <a class="review-page-btn" href="{{ $reviews->previousPageUrl() }}#reviews">&laquo;</a>
+            @endif
+
+            @foreach ($reviews->getUrlRange(1, $reviews->lastPage()) as $page => $url)
+                @if ($page == $reviews->currentPage())
+                    <span class="review-page-btn review-page-active">{{ $page }}</span>
+                @else
+                    <a class="review-page-btn" href="{{ $url }}#reviews">{{ $page }}</a>
+                @endif
+            @endforeach
+
+            @if ($reviews->hasMorePages())
+                <a class="review-page-btn" href="{{ $reviews->nextPageUrl() }}#reviews">&raquo;</a>
+            @else
+                <span class="review-page-btn review-page-disabled">&raquo;</span>
+            @endif
         </div>
     @endif
 </div>
+
+<style>
+    .review-pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        gap: 5px;
+    }
+    .review-page-btn {
+        display: inline-block;
+        padding: 5px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        color: #333;
+        text-decoration: none;
+        transition: background-color 0.2s, border-color 0.2s;
+    }
+    .review-page-btn:hover {
+        background-color: #f1f1f1;
+        text-decoration: none;
+        color: #333;
+    }
+    .review-page-active {
+        background-color: #2b7a78;
+        color: white;
+        border-color: #2b7a78;
+    }
+    .review-page-disabled {
+        color: #aaa;
+        border-color: #eee;
+        cursor: not-allowed;
+    }
+</style>

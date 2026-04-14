@@ -11,7 +11,7 @@
 </div>
 
 <ul class="ls-tour-groups">
-    <li class="wrap-backgroup">
+    <li class="wrap-backgroup" style="background-color: #feffff;">
         <div class="container">
             <section class="content">
                 <div class="tourHomeContainer">
@@ -28,7 +28,7 @@
                                                     <div class="ribbonContainerOuter">
                                                         <div class="ribbonContainerInner">
                                                             <div class="v-ribbon">
-                                                                <span>{{ $tour->description }}</span>
+                                                                <span>{{ $tour->tag }}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -95,7 +95,7 @@
             </section>
         </div>
     </li>
-    <li class="wrap-backgroup" style="background-color: #EBF0F2;">
+    <li class="wrap-backgroup" style="background-color: #feffff;">
         <div class="container">
             <section class="content">
                 <div class="tourHomeContainer">
@@ -112,7 +112,7 @@
                                                     <div class="ribbonContainerOuter">
                                                         <div class="ribbonContainerInner">
                                                             <div class="v-ribbon">
-                                                                <span>{{ $tour->description }}</span>
+                                                                <span>{{ $tour->tag }}</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -178,7 +178,7 @@
             </section>
         </div>
     </li>
-    <li class="wrap-backgroup" style="background-color: #FFF3E0">
+    <li class="wrap-backgroup" style="background-color: #feffff">
         <div class="container">
             <section class="content">
                 <div class="tourHomeContainer">
@@ -195,7 +195,7 @@
                                                     <div class="ribbonContainerOuter">
                                                         <div class="ribbonContainerInner">
                                                             <div class="v-ribbon">
-                                                                <span>{{ $tour->description }}</span>
+                                                                <span>{{ $tour->tag }}</span>
                                                             </div>
                                                         </div>
                                                     </div>

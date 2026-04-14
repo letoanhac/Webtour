@@ -20,11 +20,25 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
             'username' => 'required|unique:admin,username',
             'password' => 'required|min:6',
             'email' => 'required|email|unique:admin,email',
+        ], [
+            'username.required' => 'Tên đăng nhập không được bỏ trống.',
+            'username.unique'   => 'Tên đăng nhập đã có người sử dụng.',
+            'password.required' => 'Mật khẩu không được để trống.',
+            'password.min'      => 'Mật khẩu phải chứa ít nhất 6 ký tự.',
+            'email.required'    => 'Email không được bỏ trống.',
+            'email.email'       => 'Email không hợp lệ.',
+            'email.unique'      => 'Email đã được dùng.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('error', implode(' ', $validator->errors()->all()))
+                ->withInput();
+        }
 
         DB::table($this->table)->insert([
             'username' => $request->username,
@@ -44,11 +58,24 @@ class AdminController extends Controller
             return redirect()->route('admin.admins.index')->with('error', 'Admin không tồn tại.');
         }
 
-        $request->validate([
+        $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
             'username' => 'required|unique:admin,username,' . $id . ',adminID',
             'email' => 'required|email|unique:admin,email,' . $id . ',adminID',
             'password' => 'nullable|min:6',
+        ], [
+            'username.required' => 'Tên đăng nhập không được bỏ trống.',
+            'username.unique'   => 'Tên đăng nhập đã có người sử dụng.',
+            'email.required'    => 'Email không được bỏ trống.',
+            'email.email'       => 'Email không hợp lệ.',
+            'email.unique'      => 'Email đã được dùng.',
+            'password.min'      => 'Mật khẩu phải chứa ít nhất 6 ký tự khi thay đổi.',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->with('error', implode(' ', $validator->errors()->all()))
+                ->withInput();
+        }
 
         $data = [
             'username' => $request->username,

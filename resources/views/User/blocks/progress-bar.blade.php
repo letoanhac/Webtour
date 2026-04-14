@@ -1,4 +1,4 @@
-<style>
+{{-- <style>
   #formOverlay {
     position: fixed;
     top: 0; left: 0;
@@ -85,4 +85,4 @@ audio.play();
     }, 10);
 }, 10
 );
-</script>
+</script> --}}

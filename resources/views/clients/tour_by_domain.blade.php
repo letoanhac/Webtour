@@ -19,7 +19,7 @@
                                                     <div class="ribbonContainerOuter">
                                                         <div class="ribbonContainerInner">
                                                             <div class="v-ribbon">
-                                                                <span>{{ $tour->description }}</span>
+                                                                <span>{{ $tour->tag }}</span>
                                                             </div>
                                                         </div>
                                                     </div>
