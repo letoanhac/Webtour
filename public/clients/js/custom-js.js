@@ -9,10 +9,10 @@ $(document).ready(function () {
             slide: function (event, ui) {
                 $("#price1").val(
                     ui.values[0].toLocaleString("vi-VN") +
-                        " vnđ" +
-                        " - " +
-                        ui.values[1].toLocaleString("vi-VN") +
-                        " vnđ"
+                    " vnđ" +
+                    " - " +
+                    ui.values[1].toLocaleString("vi-VN") +
+                    " vnđ"
                 );
             },
         });
@@ -22,12 +22,12 @@ $(document).ready(function () {
             $(".price-slider-range")
                 .slider("values", 0)
                 .toLocaleString("vi-VN") +
-                " vnđ" +
-                " - " +
-                $(".price-slider-range")
-                    .slider("values", 1)
-                    .toLocaleString("vi-VN") +
-                " vnđ"
+            " vnđ" +
+            " - " +
+            $(".price-slider-range")
+                .slider("values", 1)
+                .toLocaleString("vi-VN") +
+            " vnđ"
         );
 
         // Đảm bảo hiển thị đúng UI
@@ -187,26 +187,29 @@ $(document).ready(function () {
     // ===== LOGIN FORM =====
     $("#login-form").on("submit", function (e) {
         e.preventDefault();
-        var userName = $("#username_login").val().trim();
-        var password = $("#password_login").val().trim();
+        var userName = $("#username_login").val();
+        var password = $("#password_login").val();
 
         $("#validate_username").hide().text("");
         $("#validate_password").hide().text("");
 
         var isValid = true;
 
+        if (userName === "") {
+            isValid = false;
+            $("#validate_username").show().text("Tên đăng nhập không được để trống.");
+        } else if (sqlInjectionPattern.test(userName)) {
+            isValid = false;
+            $("#validate_username")
+                .show()
+                .text("Tên đăng nhập không được chứa ký tự đặc biệt.");
+        }
+
         if (password.length < 6) {
             isValid = false;
             $("#validate_password")
                 .show()
                 .text("Mật khẩu phải có ít nhất 6 ký tự.");
-        }
-
-        if (sqlInjectionPattern.test(userName)) {
-            isValid = false;
-            $("#validate_username")
-                .show()
-                .text("Tên đăng nhập không được chứa ký tự đặc biệt.");
         }
 
         if (sqlInjectionPattern.test(password)) {
@@ -250,10 +253,10 @@ $(document).ready(function () {
         $(".loader").show();
         $("#register-form").addClass("hident-content");
 
-        var userName = $("#username_register").val().trim();
+        var userName = $("#username_register").val();
         var email = $("#email_register").val().trim();
-        var password = $("#password_register").val().trim();
-        var rePass = $("#re_pass").val().trim();
+        var password = $("#password_register").val();
+        var rePass = $("#re_pass").val();
 
         $("#validate_username_regis").hide().text("");
         $("#validate_email_regis").hide().text("");
@@ -392,7 +395,15 @@ $(document).ready(function () {
         var fullName = $("#inputFullName").val();
         var address = $("#inputLocation").val();
         var email = $("#inputEmailAddress").val();
-        var phone = $("#inputPhone").val();
+        var phone = $("#inputPhone").val().trim();
+
+        if (phone !== "") {
+            var phonePattern = /^(0|\+84)[35789][0-9]{8}$/;
+            if (!phonePattern.test(phone)) {
+                toastr.error("Số điện thoại không hợp lệ.");
+                return;
+            }
+        }
 
         var dataUpdate = {
             fullName: fullName,

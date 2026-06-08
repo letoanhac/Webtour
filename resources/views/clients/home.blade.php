@@ -15,7 +15,7 @@
         <div class="container">
             <section class="content">
                 <div class="tourHomeContainer">
-                    <h2 class="title-group">Tour Du lịch Miền Nam</h2>
+                    <h2 class="title-group" style="color: #3f3b3b;">Tour Du lịch Miền Nam</h2>
                     <span class="title-group-sub">Nhanh Tay Đặt Ngay. Để Mai Sẽ Lỡ</span>
                     <div class="row item-m">
                         @foreach ($toursN as $tour)

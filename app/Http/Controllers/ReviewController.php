@@ -19,7 +19,7 @@ class ReviewController extends Controller
         $avgRating = $totalReviews > 0 ? number_format($allReviews->avg('rating'), 1) : '0.0';
         $reviews = Review::with('user')
             ->where('tourID', $tourID)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('timestamp', 'desc')
             ->paginate(4);
 
         return view('User.Review', compact('reviews', 'tourID', 'tour', 'totalReviews', 'avgRating'));

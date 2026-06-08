@@ -22,12 +22,16 @@ class InformationController extends Controller
         return view('clients.infor', compact('title', 'user'));
     }
 
-     public function update(Request $req)
+    public function update(Request $req)
     {
         $fullName = $req->fullName;
         $address = $req->address;
         $email = $req->email;
-        $phone = $req->phone;
+        $phone = $req->phone ? trim($req->phone) : null;
+
+        if (!empty($phone) && !preg_match('/^(0|\+84)[35789][0-9]{8}$/', $phone)) {
+            return response()->json(['error' => true, 'message' => 'Số điện thoại không hợp lệ!']);
+        }
 
         $dataUpdate = [
             'fullName' => $fullName,

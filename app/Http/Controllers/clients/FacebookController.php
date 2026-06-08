@@ -25,7 +25,7 @@ class FacebookController extends Controller
     }
     public function redirectToFacebook()
     {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('facebook')->stateless()->redirect();
     }
 
     /**
@@ -36,7 +36,7 @@ class FacebookController extends Controller
     public function handleFacebookCallback(Request $request) 
     {
         try {
-            $user = Socialite::driver('facebook')->user();
+            $user = Socialite::driver('facebook')->stateless()->user();
             $finduser = $this->user->checkUserExistFacebook($user->id);
                      
             // Nếu tìm thấy user với facebook_id này

@@ -25,7 +25,10 @@ class LoginGoogleController extends Controller
     public function redirectToGoogle()
     {
         Log::info('=== REDIRECT TO GOOGLE ===');
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')
+            ->stateless()
+            ->with(['prompt' => 'select_account'])
+            ->redirect();
     }
 
 
@@ -34,7 +37,7 @@ class LoginGoogleController extends Controller
         try {
             Log::info('=== BẮT ĐẦU CALLBACK ===');
             
-            $user = Socialite::driver('google')->user();
+            $user = Socialite::driver('google')->stateless()->user();
             Log::info('=== GOOGLE USER DATA ===', [
                 'google_id' => $user->id,
                 'email' => $user->email,
@@ -140,13 +143,13 @@ class LoginGoogleController extends Controller
                 $data_google = [
                     'google_id' => $user->id,
                     'avatar' => $user->avatar ?? '',
-                    'fullname' => $user->name ?? '',
+                    'fullName' => $user->name ?? '',
                     'username' => $username,
                     'password' => md5('12345678'),
                     'email' => $user->email,
                     'isActive' => 'y',
-                    'created_at' => now(),
-                    'updated_at' => now()
+                    'createDate' => now(),
+                    'updateDate' => now()
                 ];
 
                 Log::info('Data to insert:', $data_google);

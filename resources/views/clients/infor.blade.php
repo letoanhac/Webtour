@@ -69,7 +69,7 @@
                                     <div class="col-md-12">
                                         <label class="small mb-1" for="inputFullName">Họ và tên</label>
                                         <input class="form-control" id="inputFullName" type="text"
-                                            placeholder="Nhập họ và tên" value="{{ $user->fullName }}" required>
+                                            placeholder="Nhập họ và tên" value="{{ $user->fullName }}">
                                     </div>
                                 </div>
                                 @csrf
@@ -78,14 +78,14 @@
                                     <div class="col-md-12">
                                         <label class="small mb-1" for="inputLocation">Địa chỉ</label>
                                         <input class="form-control" id="inputLocation" type="text"
-                                            placeholder="Nhập địa chỉ" value="{{ $user->address }}" required>
+                                            placeholder="Nhập địa chỉ" value="{{ $user->address }}">
                                     </div>
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="small mb-1" for="inputEmailAddress">Địa chỉ Email</label>
                                     <input class="form-control" id="inputEmailAddress" type="email"
-                                        placeholder="Nhập địa chỉ email" value="{{ $user->email }}" required>
+                                        placeholder="Nhập địa chỉ email" value="{{ $user->email }}" readonly>
                                 </div>
 
                                 <div class="row gx-3 mb-3">
@@ -93,8 +93,7 @@
                                     <div class="col-md-12">
                                         <label class="small mb-1" for="inputPhone">Số điện thoại</label>
                                         <input class="form-control" id="inputPhone" type="tel"
-                                            placeholder="Nhập số điện thoại" value="{{ $user->phoneNumber }}"
-                                            required>
+                                            placeholder="Nhập số điện thoại" value="{{ $user->phoneNumber }}">
                                     </div>
                                 </div>
 

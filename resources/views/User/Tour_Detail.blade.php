@@ -129,12 +129,12 @@
 
 <div class="tour-detail">
 
-  <div style="display: flex; justify-content: space-between; align-items: center;">
-    <div style="margin-bottom: 20px;">
-      <h1 style="margin-bottom: 0;">{{ $tour->title }}</h1>
-      <p><span style="color: grey; font-size: 16px">Số chỗ đặt tour còn lại: {{ $tour->quantityleft}}/{{ $tour->quantity}}</span></p>
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 20px;">
+    <div style="flex: 1; min-width: 0;">
+      <h1 style="margin-bottom: 0; word-wrap: break-word;">{{ $tour->title }}</h1>
+      <p style="margin: 5px 0 0 0;"><span style="color: grey; font-size: 16px">Số chỗ đặt tour còn lại: {{ $tour->quantityleft}}/{{ $tour->quantity}}</span></p>
     </div>
-    <div style="font-size: 20px; color: #ff9800;">
+    <div style="flex-shrink: 0; font-size: 20px; color: #ff9800; white-space: nowrap; text-align: right;">
       <span class="highlight">Đánh giá: &nbsp; &nbsp; {{ $avgRating }}/5 &nbsp;</span>
       @for ($i = 1; $i <= 5; $i++)
         @if ($i <= $avgRating)

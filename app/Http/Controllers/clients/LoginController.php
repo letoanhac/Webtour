@@ -97,6 +97,12 @@ public function login(Request $request)
     $user_login = $this->login->login($data_login);
     
     if ($user_login != null) {
+        if ($user_login->isActive !== 'y') {
+            return response()->json([
+                'success' => false,
+                'message' => 'Tài khoản chưa được kích hoạt! Vui lòng kiểm tra email để kích hoạt.'
+            ]);
+        }
         $userId = $this->user->getUserId($username);
         $user = $this->user->getUser($userId);
         
