@@ -23,39 +23,18 @@ class SearchController extends Controller
     {
         $title = 'Tìm kiếm';
 
-        $destinationMap = [
-            'dn' => 'Đà Nẵng',
-            'cd' => 'Côn Đảo',
-            'hn' => 'Hà Nội',
-            'hcm' => 'TP. Hồ Chí Minh',
-            'hl' => 'Hạ Long',
-            'nb' => 'Ninh Bình',
-            'pq' => 'Phú Quốc',
-            'dl' => 'Đà Lạt',
-            'qt' => 'Quảng Trị',
-            'kh' => 'Khánh Hòa',
-            'ct' => 'Cần Thơ',
-            'vt' => 'Vũng Tàu',
-            'qn' => 'Quảng Ninh',
-            'la' => 'Lào Cai',
-            'bd' => 'Bình Định',
-        ];
-
         $destination = $request->input('destination');
-        $startDate = $request->input('start_date');
+        $inDate = $request->input('in_date');
         $endDate = $request->input('end_date');
         $keyword = $request->input('keyword'); 
 
         // Chuyển đổi định dạng ngày tháng
-        $formattedStartDate = $startDate ? Carbon::createFromFormat('d/m/Y', $startDate)->format('Y-m-d') : null;
+        $formattedInDate = $inDate ? Carbon::createFromFormat('d/m/Y', $inDate)->format('Y-m-d') : null;
         $formattedEndDate = $endDate ? Carbon::createFromFormat('d/m/Y', $endDate)->format('Y-m-d') : null;
 
-        // Chuyển đổi giá trị sang tên chi tiết nếu có trong mảng
-        $destinationName = isset($destinationMap[$destination]) ? $destinationMap[$destination] : $destination;
-
         $dataSearch = [
-            'destination' => $destinationName,
-            'startDate' => $formattedStartDate,
+            'destination' => $destination,
+            'inDate' => $formattedInDate,
             'endDate' => $formattedEndDate,
             'keyword' => $keyword, 
         ];

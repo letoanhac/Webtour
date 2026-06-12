@@ -32,6 +32,12 @@ class TourManageController extends Controller
         $data['startDate'] = $data['startDate'] ?? now();
         $data['endDate'] = $data['endDate'] ?? now()->addDays(1);
         
+        // Calculate availability
+        $now = \Carbon\Carbon::now();
+        $startDate = \Carbon\Carbon::parse($data['startDate']);
+        $endDate = \Carbon\Carbon::parse($data['endDate']);
+        $data['availability'] = ($now->between($startDate, $endDate)) ? 1 : 0;
+
         Tour::create($data);
         return redirect()->route('admin.tour.index')->with('success', 'Đã thêm tour mới! Vui lòng cập nhật Chi tiết Tour.');
     }
@@ -43,6 +49,15 @@ class TourManageController extends Controller
             ->where('paymentStatus', 'Đã thanh toán')
             ->count();
         $data['quantityleft'] = max(0, $request->quantity - $paidBookings);
+        
+        // Calculate availability
+        if (isset($data['startDate']) && isset($data['endDate'])) {
+            $now = \Carbon\Carbon::now();
+            $startDate = \Carbon\Carbon::parse($data['startDate']);
+            $endDate = \Carbon\Carbon::parse($data['endDate']);
+            $data['availability'] = ($now->between($startDate, $endDate)) ? 1 : 0;
+        }
+
         $tour->update($data);
         return redirect()->route('admin.tour.index')->with('success', 'Đã cập nhật tour!');
     }
@@ -107,6 +122,15 @@ class TourManageController extends Controller
             ->count();
             
         $data['quantityleft'] = max(0, $request->quantity - $paidBookings);
+        
+        // Calculate availability
+        if (isset($data['startDate']) && isset($data['endDate'])) {
+            $now = \Carbon\Carbon::now();
+            $startDate = \Carbon\Carbon::parse($data['startDate']);
+            $endDate = \Carbon\Carbon::parse($data['endDate']);
+            $data['availability'] = ($now->between($startDate, $endDate)) ? 1 : 0;
+        }
+
         $tour->update($data);
         
         return redirect()->route('admin.tour.index')->with('success', 'Đã cập nhật thông tin tour!');

@@ -3,29 +3,12 @@
         <div class="filter-item">
             <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
             <div class="title">Điểm đến</div>
-             <select name="destination" id="destination" style="padding: 8px">
-                        <option value="">Chọn điểm đến</option>
-                        <option value="dn">Đà Nẵng</option>
-                        <option value="cd">Côn Đảo</option>
-                        <option value="hn">Hà Nội</option>
-                        <option value="hcm">TP. Hồ Chí Minh</option>
-                        <option value="hl">Hạ Long</option>
-                        <option value="nb">Ninh Bình</option>
-                        <option value="pq">Phú Quốc</option>
-                        <option value="dl">Đà Lạt</option>
-                        <option value="qt">Quảng Trị</option>
-                        <option value="kh">Khánh Hòa (Nha Trang)</option>
-                        <option value="ct">Cần Thơ</option>
-                        <option value="vt">Vũng Tàu</option>
-                        <option value="qn">Quảng Ninh</option>
-                        <option value="la">Lào Cai (Sa Pa)</option>
-                        <option value="bd">Bình Định (Quy Nhơn)</option>
-                    </select>
+            <input type="text" placeholder="Nhập điểm đến..." name="destination" id="destination" class="datetimepicker-custom" value="{{ request('destination') }}" style="width: 100%; border: none; outline: none; background: transparent; padding: 10px 0; color: #333; font-size: 14px;">
         </div>
         <div class="filter-item">
             <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
             <div class="title">Ngày bắt đầu đặt tour</div>
-            <input type="text" placeholder="Chọn ngày" id="start_date" name="start_date" class="datetimepicker datetimepicker-custom">
+            <input type="text" placeholder="Chọn ngày" id="in_date" name="in_date" class="datetimepicker datetimepicker-custom">
     
         </div>
         <div class="filter-item">

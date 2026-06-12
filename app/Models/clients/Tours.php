@@ -93,9 +93,10 @@ class Tours extends Model
             $tours->where('destination', 'LIKE', '%' . $data['destination'] . '%');
         }
 
-        // Thêm điều kiện cho startDate và endDate nếu cần so sánh
-        if (!empty($data['startDate'])) {
-            $tours->whereDate('startDate', '>=', $data['startDate']);
+        // Thêm điều kiện cho inDate
+        if (!empty($data['inDate'])) {
+             $tours->whereDate('startDate', '<=', $data['inDate'])
+                  ->whereDate('endDate', '>=', $data['inDate']);
         }
         if (!empty($data['endDate'])) {
             $tours->whereDate('endDate', '<=', $data['endDate']);
@@ -108,7 +109,9 @@ class Tours extends Model
             });
         }
 
-        $tours = $tours->where('availability', 1);
+        $nowDate = now()->format('Y-m-d');
+        $tours = $tours->whereDate('startDate', '<=', $nowDate)
+                       ->whereDate('endDate', '>=', $nowDate);
         $tours = $tours->limit(12)->get();
 
         foreach ($tours as $tour) {

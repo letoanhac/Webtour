@@ -1,25 +1,14 @@
+<form action="{{ route('search') }}" method="GET" id="search_form">
 <div class="search-filter-inner container">
     <div class="filter-item">
         <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
         <div class="title">Điểm đến</div>
-        <select name="city" id="city" style="display: none">
-            <option value="0">Hồ Chí Minh</option>
-            <option value="1">Hà Nội</option>
-            <option value="2">Đà Nẵng</option>
-        </select>
-        <div class="nice-select">
-            <span>Hồ Chí Minh</span>
-            <ul class="list">
-                <li class="option selected">Hồ Chí Minh</li>
-                <li class="option">Hà Nội</li>
-                <li class="option">Đà Nẵng</li>
-            </ul>
-        </div>
+        <input type="text" placeholder="Nhập điểm đến..." name="destination" id="destination" class="datetimepicker-custom" style="width: 100%; border: none; outline: none; background: transparent; padding: 10px 0; color: #333; font-size: 14px;">
     </div>
     <div class="filter-item">
         <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
         <div class="title">Ngày bắt đầu đặt tour</div>
-        <input type="text" placeholder="Chọn ngày đi" id="start_date" name="start_date" class="datetimepicker datetimepicker-custom">
+        <input type="text" placeholder="Chọn ngày đi" id="in_date" name="in_date" class="datetimepicker datetimepicker-custom">
 
     </div>
     <div class="filter-item">
@@ -29,11 +18,12 @@
 
     </div>
     <div class="search-button">
-        <button class="theme-btn">
+        <button class="theme-btn" type="submit">
             <span>Tìm Kiếm</span>
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </div>
 </div>
+</form>
 
 

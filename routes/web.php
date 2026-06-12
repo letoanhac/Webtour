@@ -98,44 +98,53 @@ Route::get('/invoice/generate/{bookingID}', [InvoiceController::class, 'generate
 Route::get('/invoice/view/{bookingID}', [InvoiceController::class, 'viewInvoice'])->name('invoice.view');
 Route::get('/invoice/viewadmin/{bookingID}',[InvoiceController::class,'viewInvoiceAdmin'])->name('invoice.admin.view');
 
-Route::prefix('admin/tour')->name('admin.tour.')->group(function () {
-    Route::get('/', [TourManageController::class, 'index'])->name('index');
-    Route::post('/store', [TourManageController::class, 'store'])->name('store');
-    Route::post('/update/{id}', [TourManageController::class, 'update'])->name('update');
-    Route::delete('/delete/{id}', [TourManageController::class, 'destroy'])->name('destroy');
-    Route::post('/image/add', [TourManageController::class, 'addImage'])->name('image.add');
-    Route::post('/image/update/{id}', [TourManageController::class, 'updateImage'])->name('image.update');
-    Route::delete('/image/delete/{id}', [TourManageController::class, 'deleteImage'])->name('image.delete');
-    Route::get('/image/manage/{tourID}', [TourManageController::class, 'manageImage'])->name('image.manage');
-    Route::get('/itinerary/{tourID}', [ItineraryController::class, 'index'])->name('itineraries.index');
-    Route::post('/itinerary/{tourID}/store', [ItineraryController::class, 'store'])->name('itineraries.store');
-    Route::post('/itinerary/{tourID}/update/{itineraryID}', [ItineraryController::class, 'update'])->name('itineraries.update');
-    Route::post('/itinerary/{tourID}/delete/{itineraryID}', [ItineraryController::class, 'delete'])->name('itineraries.delete');
-    Route::get('/info/manage/{tourID}', [TourManageController::class, 'manageInfo'])->name('info.manage');
-    Route::post('/info/manage/{tourID}', [TourManageController::class, 'updateInfo'])->name('info.update');
-});
-Route::prefix('admin/usermanage')->name('admin.usermanage.')->group(function () {
-    Route::get('/user', [UserController::class, 'index'])->name('user.index');
-    Route::post('/user', [UserController::class, 'store'])->name('user.store');
-    Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
-});
-Route::prefix('admin')->group(function () {
-    Route::get('/booking-manage', [BookingController::class, 'manage'])->name('admin.booking.manage');
-    Route::put('/booking/update-status/{bookingID}', [BookingController::class, 'updateStatus'])->name('admin.booking.updateStatus');
-});
-
+// Admin routes that do not require authentication
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::get('admins', [AdminController::class, 'index'])->name('admins.index');
-    Route::post('admins', [AdminController::class, 'store'])->name('admins.store');
-    Route::put('admins/{id}', [AdminController::class, 'update'])->name('admins.update');
-    Route::delete('admins/{id}', [AdminController::class, 'destroy'])->name('admins.destroy');
     Route::get('login', [AdminController::class, 'showLogin'])->name('login.form');
     Route::post('login', [AdminController::class, 'login'])->name('login');
-    Route::get('logout', [AdminController::class, 'logout'])->name('logout');
 });
 
-Route::get('/admin-report', [ReportController::class, 'index'])-> name('admin.report');
+// Admin routes that require authentication
+Route::middleware('admin')->group(function () {
+    Route::prefix('admin/tour')->name('admin.tour.')->group(function () {
+        Route::get('/', [TourManageController::class, 'index'])->name('index');
+        Route::post('/store', [TourManageController::class, 'store'])->name('store');
+        Route::post('/update/{id}', [TourManageController::class, 'update'])->name('update');
+        Route::delete('/delete/{id}', [TourManageController::class, 'destroy'])->name('destroy');
+        Route::post('/image/add', [TourManageController::class, 'addImage'])->name('image.add');
+        Route::post('/image/update/{id}', [TourManageController::class, 'updateImage'])->name('image.update');
+        Route::delete('/image/delete/{id}', [TourManageController::class, 'deleteImage'])->name('image.delete');
+        Route::get('/image/manage/{tourID}', [TourManageController::class, 'manageImage'])->name('image.manage');
+        Route::get('/itinerary/{tourID}', [ItineraryController::class, 'index'])->name('itineraries.index');
+        Route::post('/itinerary/{tourID}/store', [ItineraryController::class, 'store'])->name('itineraries.store');
+        Route::post('/itinerary/{tourID}/update/{itineraryID}', [ItineraryController::class, 'update'])->name('itineraries.update');
+        Route::post('/itinerary/{tourID}/delete/{itineraryID}', [ItineraryController::class, 'delete'])->name('itineraries.delete');
+        Route::get('/info/manage/{tourID}', [TourManageController::class, 'manageInfo'])->name('info.manage');
+        Route::post('/info/manage/{tourID}', [TourManageController::class, 'updateInfo'])->name('info.update');
+    });
+
+    Route::prefix('admin/usermanage')->name('admin.usermanage.')->group(function () {
+        Route::get('/user', [UserController::class, 'index'])->name('user.index');
+        Route::post('/user', [UserController::class, 'store'])->name('user.store');
+        Route::post('/user/update/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.delete');
+    });
+
+    Route::prefix('admin')->group(function () {
+        Route::get('/booking-manage', [BookingController::class, 'manage'])->name('admin.booking.manage');
+        Route::put('/booking/update-status/{bookingID}', [BookingController::class, 'updateStatus'])->name('admin.booking.updateStatus');
+    });
+
+    Route::prefix('admin')->name('admin.')->group(function () {
+        Route::get('admins', [AdminController::class, 'index'])->name('admins.index');
+        Route::post('admins', [AdminController::class, 'store'])->name('admins.store');
+        Route::put('admins/{id}', [AdminController::class, 'update'])->name('admins.update');
+        Route::delete('admins/{id}', [AdminController::class, 'destroy'])->name('admins.destroy');
+        Route::get('logout', [AdminController::class, 'logout'])->name('logout');
+    });
+
+    Route::get('/admin-report', [ReportController::class, 'index'])->name('admin.report');
+});
 
 Route::get('/vnpay-pay/{bookingID}', [VnpayController::class, 'createPayment'])->name('vnpay.payment');
 Route::get('/vnpay-return', [VnpayController::class, 'vnpayReturn'])->name('vnpay.return');

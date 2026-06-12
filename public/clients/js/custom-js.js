@@ -48,7 +48,7 @@ $(document).ready(function () {
     });
 
     // ===== DATE PICKER =====
-    $("#start_date, #end_date").datetimepicker({
+    $("#in_date, #end_date").datetimepicker({
         format: "d/m/Y",
         timepicker: false,
     });
@@ -535,12 +535,12 @@ $(document).ready(function () {
     // ===== SEARCH FUNCTIONALITY =====
     $("#search_form").on("submit", function (event) {
         var destination = $("#destination").val();
-        var startDate = $("#start_date").val();
+        var inDate = $("#in_date").val();
         var endDate = $("#end_date").val();
 
         if (destination === "") {
             event.preventDefault();
-            toastr.error("Vui lòng chọn điểm đến.");
+            toastr.error("Vui lòng nhập điểm đến.");
             return;
         }
 
@@ -549,11 +549,11 @@ $(document).ready(function () {
             return parts[2] + "-" + parts[1] + "-" + parts[0];
         }
 
-        if (startDate && endDate) {
-            var startDateFormatted = new Date(convertDateFormat(startDate));
+        if (inDate && endDate) {
+            var inDateFormatted = new Date(convertDateFormat(inDate));
             var endDateFormatted = new Date(convertDateFormat(endDate));
 
-            if (startDateFormatted > endDateFormatted) {
+            if (inDateFormatted > endDateFormatted) {
                 event.preventDefault();
                 toastr.error("Ngày khởi hành không thể lớn hơn ngày kết thúc.");
                 return;
